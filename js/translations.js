@@ -128,19 +128,19 @@ using UnityEngine;
 using System.Collections.Generic;
 public class QuestManager : MonoBehaviour
 {
-    // Парсер найдет это поле и создаст для него ключ
+    // The parser will find this field and create a key for it
     [LocalizableField]
     private string defaultQuestFailedMessage = "You have failed the quest.";
     
-    // Можно задать собственный ключ
+    // You can set a custom key
     [LocalizableField("custom_quest_start_dialog")]
     public string startDialog = "Are you ready for an adventure?";
     
-    // Работает со списками
+    // Works with lists
     [LocalizableField]
     private List<string> missionObjectives = new List<string> { "Find the treasure" };
     
-    // И даже с вложенными классами!
+    // And even with nested classes!
     [System.Serializable]
     public class ItemInfo
     {
@@ -153,7 +153,7 @@ public class QuestManager : MonoBehaviour
 }`,
         'h2_example_function': '6.3. Функция _() и атрибут [OnLanguageChange]',
         'p_example_function_1': 'Используйте функцию <code>_()</code> для динамического текста, который меняется в ходе игры. Метод, обновляющий UI, следует пометить атрибутом <code>[OnLanguageChange]</code>, чтобы он вызывался автоматически при смене языка. Для этого на объект будет автоматически добавлен компонент <code>LocalizedBehaviour</code>.',
-        'code_example_function': `// Чтобы использовать короткий вызов _(), добавьте эти строки
+        'code_example_function': `// To use the short _() call, add these lines
 using static Ankonoanko.Localization.LocalizationManager;
 using Ankonoanko.Localization; // Required for [OnLanguageChange]
 using UnityEngine;
@@ -167,22 +167,22 @@ public class PlayerHUD : MonoBehaviour
     
     void Start()
     {
-        UpdateUI(); // Первоначальное обновление
+        UpdateUI(); // Initial update
     }
     
-    // Этот метод будет вызван автоматически при смене языка
+    // This method will be called automatically when the language changes
     [OnLanguageChange]
     void UpdateUI()
     {
-        // 1. Индексные плейсхолдеры (как в string.Format)
-        // Ключ: "score_label", Текст в файле: "Score: {0}"
-        scoreText.text = _("score_label", score); // Результат: "Score: 100"
+        // 1. Indexed placeholders (like in string.Format)
+        // Key: "score_label", Text in file: "Score: {0}"
+        scoreText.text = _("score_label", score); // Result: "Score: 100"
         
-        // 2. Именованные плейсхолдеры (рекомендуется для читаемости)
-        // Ключ: "welcome_message", Текст: "Welcome, {username}!"
+        // 2. Named placeholders (recommended for readability)
+        // Key: "welcome_message", Text: "Welcome, {username}!"
         string welcomeText = _("welcome_message", new { username = playerName });
         
-        // Для сложных случаев или высокой производительности
+        // For complex cases or high performance
         var args = new Dictionary<string, object> { { "username", playerName } };
         string welcomeText2 = _("welcome_message", args);
     }
@@ -196,16 +196,16 @@ public class ItemCounter : MonoBehaviour
 {
     void DisplayItemCount(int count)
     {
-        // Ключи: "apple_count_one", "apple_count_few", "apple_count_many"
-        // Тексты: "{0} яблоко", "{0} яблока", "{0} яблок"
+        // Keys: "apple_count_one", "apple_count_few", "apple_count_many"
+        // Texts: "{0} яблоко", "{0} яблока", "{0} яблок"
         string appleText = _("apple_count", count); 
-        Debug.Log(appleText); // Автоматически выберет правильную форму
+        Debug.Log(appleText); // Automatically selects the correct form
     }
     
     void GreetUser(Gender userGender)
     {
-        // Ключи: "user_greeted_male", "user_greeted_female"
-        // Тексты: "Он пришел.", "Она пришла."
+        // Keys: "user_greeted_male", "user_greeted_female"
+        // Texts: "Он пришел.", "Она пришла."
         string greeting = _("user_greeted", userGender);
         Debug.Log(greeting);
     }
@@ -228,36 +228,36 @@ public class ItemCounter : MonoBehaviour
 using System.Collections.Generic;
 using UnityEngine;
 using Ankonoanko.Localization;
-// ШАБЛОН для создания парсера для кастомного компонента.
+// TEMPLATE for creating a parser for a custom component.
 public class CustomComponentParser_Template : ITextComponentParser
 {
     public IEnumerable<(string text, string key, string source)> Parse(
         GameObject gameObject,
         LocalizationSettings settings)
     {
-        // 1. Проверяем, есть ли на объекте нужный нам кастомный компонент.
+        // 1. Check if the object has the custom component we need.
         var component = gameObject.GetComponent<AwesomeComponentFromAssetStore>();
         if (component == null)
         {
-            yield break; // Выходим, если компонента нет
+            yield break; // Exit if the component is not found
         }
         
-        // 2. Получаем текст из полей кастомного компонента.
+        // 2. Get the text from the custom component's fields.
         string titleText = component.Title;
         
-        // 3. Проверяем, является ли текст валидным для локализации.
+        // 3. Check if the text is valid for localization.
         if (TextParser.IsValidLocalizableText(titleText))
         {
-            // 4. Генерируем ключ и источник, используя хелперы из TextParser.
+            // 4. Generate a key and source using helpers from TextParser.
             string key = TextParser.GenerateKeyForObject(gameObject, titleText, settings.keyGenerationMode);
             string source = TextParser.GetSourceStringForObject(gameObject);
             
-            // 5. Возвращаем результат.
+            // 5. Return the result.
             yield return (titleText, key, source);
         }
         
-        // 6. Повторяем для других полей...
-        // (можно добавить суффикс, чтобы ключи были уникальными)
+        // 6. Repeat for other fields...
+        // (you can add a suffix to make keys unique)
         string descriptionText = component.Description;
         if (TextParser.IsValidLocalizableText(descriptionText))
         {
@@ -272,10 +272,331 @@ public class CustomComponentParser_Template : ITextComponentParser
     'en': {
         'page_title': 'Unity Localization Tool Documentation',
         'toc_title': 'Table of Contents',
-        // ... ЗАПОЛНИТЕ ПЕРЕВОДЫ ЗДЕСЬ ...
-        // Пример:
-        // 'nav_introduction': '1. Introduction',
-        // 'h1_introduction': '<span class="emoji">🚀</span> Introduction',
-        // 'p_intro_1': 'This tool is a comprehensive solution for localizing games and applications...',
+        'nav_introduction': '1. Introduction',
+        'nav_quick_start': '2. Quick Start and Setup',
+        'nav_components': '3. Core Components',
+        'nav_loc_tool_window': '4. "Localization Tool" Window',
+        'nav_translation_editor': '5. Translation Editor',
+        'nav_usage_examples': '6. Usage Examples',
+        'nav_important_notes': '7. Important Notes and Warnings',
+        'nav_extending': '8. Extending Functionality',
+        'h1_introduction': '<span class="emoji">🚀</span> Introduction',
+        'p_intro_1': 'This tool is a comprehensive solution for localizing games and applications in Unity. It allows for the automation of text and asset collection, management of translations through a powerful interface, integration with machine translation services, and dynamic updating of localized content in-game.',
+        'h2_key_features': 'Key Features',
+        'li_feature_1': '<strong>Advanced Parsing:</strong> Automatic scanning of scenes, prefabs, UI Toolkit (UXML), and C# scripts, including fields marked with the <code>[LocalizableField]</code> attribute, as well as nested classes and lists.',
+        'li_feature_2': '<strong>Localization of Any Asset:</strong> Manage sprites, audio, prefabs, materials, etc.',
+        'li_feature_3': '<strong>Powerful Translation Editor:</strong> A centralized interface with auto-saving, full Undo/Redo support, and smart key grouping.',
+        'li_feature_4': '<strong>Machine Translation:</strong> Integration with DeepL, Google Translate, and Microsoft Translator with flexible settings (batch size, retry count) for each service.',
+        'li_feature_5': '<strong>Flexible Import/Export:</strong> Support for CSV, XML, YAML, XLIFF, and direct import from Google Sheets.',
+        'li_feature_6': '<strong>Live Preview in Editor:</strong> Preview any language without running the game.',
+        'li_feature_7': '<strong>Plural & Gender Support:</strong> Correct handling of plural forms (with rules for Slavic, Arabic, and other languages) and gender.',
+        'li_feature_8': '<strong>Full RTL Support:</strong> Correct display of right-to-left languages.',
+        'li_feature_9': '<strong>Live Updates:</strong> Download the latest translations from a remote server at game start.',
+        'li_feature_10': '<strong>Backup Manager:</strong> An integrated tool for creating and restoring backups.',
+        'placeholder_gif_features': '[--- GIF PLACEHOLDER: Demonstration of key features in action ---]',
+        'h1_quick_start': '<span class="emoji">🛠️</span> Quick Start and Setup',
+        'h2_installation': '2.1. Installation',
+        'li_install_1': 'Copy the asset into your Unity project folder.',
+        'li_install_2': 'The tool will automatically check for necessary dependencies. In the installer dialog box that appears, confirm the installation.',
+        'li_install_3': 'Required dependencies (<code>Newtonsoft Json</code>, <code>Editor Coroutines</code>) are necessary for basic functionality.',
+        'li_install_4': 'Optional dependencies (<code>Arabic Support</code>, <code>CsvHelper</code>, <code>YamlDotNet</code>) enable additional features.',
+        'li_install_5': 'Click <strong>Install Selected</strong> to install the recommended packages.',
+        'li_install_6': 'After installation, open the main tool window via the menu <strong>Tools -> Localization Tool</strong>.',
+        'placeholder_img_installer': '[--- IMAGE PLACEHOLDER: Screenshot of the dependency installer window ---]',
+        'h2_initial_setup': '2.2. Initial Setup',
+        'li_setup_1': '<strong>Create Settings:</strong> On first open, the tool will create a <code>LocalizationSettings.asset</code> file in the <code>Assets/Resources</code> folder.',
+        'li_setup_2': '<strong>Configure Languages:</strong> In the <strong>Settings</strong> tab, under the <strong>Language Management</strong> section, ensure your primary language (e.g., <code>en</code> for English) is selected as the <strong>Source Language</strong>. Enable all languages you plan to support.',
+        'li_setup_3': '<strong>Specify Content for Parsing:</strong> In the <strong>Content</strong> tab, add all scenes to be analyzed to the <strong>Scenes to Parse</strong> list. If you use prefabs with text, make sure their folders are added to <strong>Prefab Folders</strong>.',
+        'li_setup_4': '<strong>First Parser Run:</strong> Go to the <strong>Actions</strong> tab and click the <code>Update Keys</code> button. The tool will scan your project, create translation files, and automatically add the necessary components (<code>LocalizedText</code>, <code>LocalizedAsset</code>, etc.) to your game objects.',
+        'placeholder_gif_setup': '[--- GIF PLACEHOLDER: Step-by-step initial setup ---]',
+        'h1_components': '<span class="emoji">🧩</span> Core Components (assigned automatically)',
+        'warning_box_components': '<strong>Important Note:</strong> All components described below are added to game objects automatically during the parsing process (when you click the <code>Update Keys</code> button). You do not need to add them manually.',
+        'p_components_intro': 'These components are the "bridge" between your objects in the scene and the translation database. They "listen" for language changes and automatically substitute the correct text or asset.',
+        'h2_localizedtext': '3.1. LocalizedText',
+        'p_localizedtext_1': 'The main component for displaying translated text. It is placed on objects with <code>Text</code>, <code>TMP_Text</code>, and <code>TextMesh</code>.',
+        'li_localizedtext_1': '<code>localizationKey</code>: The key used to find the translation. Generated automatically.',
+        'li_localizedtext_2': '<code>isStyleOnly</code>: If <code>true</code>, the component will only apply styles (font, RTL) but not change the text itself. Useful for elements whose text is managed by another script (e.g., <code>LanguageSelector</code>).',
+        'li_localizedtext_3': '<code>originalSourceText</code>: The source text in the base language. Used as a fallback.',
+        'h2_localizedasset': '3.2. LocalizedAsset',
+        'p_localizedasset_1': 'Used for swapping assets (<code>Sprite</code>, <code>AudioClip</code>, <code>Material</code>, etc.). It automatically detects the type of the target component on the object (<code>Image</code>, <code>AudioSource</code>) and replaces its resource.',
+        'p_localizedasset_2': 'For components with the <strong>Play on Awake</strong> option (like <code>AudioSource</code>, <code>VideoPlayer</code>), <code>LocalizedAsset</code> correctly intercepts the auto-play, swaps the asset, and then starts playback to avoid playing non-localized content.',
+        'h2_localizedprefab': '3.3. LocalizedPrefab',
+        'p_localizedprefab_1': 'A component for localizing entire prefabs. It operates non-destructively: it does not modify the original prefab but creates an instance of the localized version as a child object, disabling all scripts (<code>MonoBehaviour</code>), renderers (<code>Renderer</code>), and colliders (<code>Collider</code>) on the original object. This prevents duplicate logic execution and visual artifacts. For correct runtime operation, its execution order is set to -100 (<code>[DefaultExecutionOrder(-100)]</code>) to ensure it runs before other scripts.',
+        'h2_uitklocalization': '3.4. UITKLocalization',
+        'p_uitklocalization_1': 'Added to objects with a <code>UIDocument</code> to manage the localization of all text elements within a UI Toolkit document (UXML).',
+        'h2_localizeddropdown': '3.5. LocalizedDropdown',
+        'p_localizeddropdown_1': 'Added to <code>Dropdown</code> and <code>TMP_Dropdown</code> to translate their options.',
+        'h2_localizedbehaviour': '3.6. LocalizedBehaviour',
+        'p_localizedbehaviour_1': 'A utility component that allows your scripts to react to language changes. It automatically finds and calls methods marked with the <code>[OnLanguageChange]</code> attribute.',
+        'h2_context_menu': '3.7. "Analyze for Localization" Context Menu',
+        'p_context_menu_1': 'To quickly add a <code>LocalizedAsset</code> to an object, you can right-click on the desired component (e.g., <code>Image</code>, <code>AudioSource</code>) in the inspector and select <strong>Analyze for Localization</strong>. The tool will add and configure the component for you. (This is optional but can be used for manual addition).',
+        'placeholder_img_context_menu': '[--- IMAGE PLACEHOLDER: "Analyze for Localization" context menu ---]',
+        'h1_loc_tool_window': '<span class="emoji">🖼️</span> "Localization Tool" Window',
+        'h2_in_editor_preview': '4.1. In-Editor Preview',
+        'p_preview_1': 'Directly under the title is the <strong>Preview Language</strong> dropdown list. This powerful feature allows you to see what the localization will look like in any language directly in the <strong>Scene</strong> window, without running the game.',
+        'placeholder_gif_preview': '[--- GIF PLACEHOLDER: Live Preview demonstration ---]',
+        'li_preview_1': '<strong>How it works:</strong> Select a language from the list, and the tool will instantly apply the corresponding translations, fonts, RTL settings, and assets to all localizable objects in the active scene.',
+        'li_preview_2': '<strong>Placeholders:</strong> If a placeholder style (e.g., <strong>Accents</strong> or <strong>Brackets</strong>) is selected in the <strong>Settings</strong> tab, these placeholders will be displayed in preview mode instead of actual translations. This is ideal for testing layout and finding non-localized elements.',
+        'li_preview_3': '<strong>Safety:</strong> All changes made in preview mode are temporary. The tool will automatically revert everything to its original state when you select "<strong>Revert to Original</strong>", close the window, change scenes, or before saving a scene/prefab (thanks to the <code>LocalizationPreviewProtector</code> component).',
+        'li_preview_4': '<strong>Crash Protection:</strong> A built-in <code>PreviewCrashProtector</code> system will automatically restore the original state of objects if the Unity editor closes unexpectedly while a preview is active.',
+        'h2_tab_settings': '4.2. "Settings" Tab',
+        'p_settings_1': 'Your control center. Here, you define the global rules for the entire localization process.',
+        'placeholder_img_settings': '[--- IMAGE PLACEHOLDER: Screenshot of the "Settings" tab ---]',
+        'li_settings_1': '<strong>Key Generation Mode:</strong> Choose how keys are created.<ul><li><code>UseTextAsKey</code>: The text itself becomes the key. Ideal for prototypes. Downside: if you change the source text, the key changes, and all its translations will be lost.</li><li><code>AutoGenerateKeysOnly</code>: The key is generated based on the object\'s hierarchy and name. Reliable for production. Upside: translations do not break when the text changes.</li><li><code>UseTextAsKeyWithCustomPriority</code> and <code>AutoGenerateWithCustomKeys</code>: Hybrid modes that allow you to set custom keys in code via the <code>[LocalizableField("my_custom_key")]</code> attribute.</li><li><strong>Safe Migration:</strong> You can change the mode at any time. The tool will automatically migrate all existing translations to the new key system.</li></ul>',
+        'li_settings_2': '<strong>Language Management:</strong> Configure the list of languages. For languages with special characters, assign a corresponding <strong>Font Asset</strong>. Enable the <strong>RTL</strong> option for right-to-left languages.',
+        'li_settings_3': '<strong>General Settings:</strong><ul><li><code>Parse Prefabs</code>: Enables prefab parsing.</li><li><code>Split files by language</code>: Determines how to store translations (one large file or one file per language).</li><li><code>Translations Path</code>: The path for storing <code>.json</code> translation files. Important: the folder must be inside <code>Assets/StreamingAssets/</code>.</li></ul>',
+        'li_settings_4': '<strong>Debugging & Testing:</strong><ul><li><code>Placeholder Style</code>: Choose the style for displaying placeholders in preview mode.</li></ul>',
+        'li_settings_5': '<strong>Live Updates:</strong> Settings for downloading translations from a remote server.',
+        'li_settings_6': '<strong>Runtime API Key:</strong> A section for securely storing an API key that may be needed in the compiled game (stored in encrypted form).',
+        'h2_tab_content': '4.3. "Content" Tab',
+        'p_content_1': 'Here you tell the tool where exactly to look for text.',
+        'placeholder_img_content': '[--- IMAGE PLACEHOLDER: Screenshot of the "Content" tab ---]',
+        'li_content_1': '<strong>Scenes to Parse:</strong> Drag and drop all scenes for analysis here.',
+        'li_content_2': '<strong>Prefab Folders:</strong> Specify folders containing prefabs.',
+        'li_content_3': '<strong>Dynamic Texts:</strong> Enter strings here that are created exclusively in code (e.g., "Game Over").',
+        'li_content_4': '<strong>Parsing Ignores:</strong> Specify scripts, components, or objects to ignore.',
+        'li_content_5': '<strong>Pin:</strong> This feature allows you to "pin" an object from the scene to the ignore list. Instead of a temporary reference, the tool saves its full path in the hierarchy, making the ignore persistent between sessions (but note that renaming the object or its parent will break this link).',
+        'h2_tab_actions': '4.4. "Actions" Tab',
+        'p_actions_1': 'The main work tab.',
+        'placeholder_img_actions': '[--- IMAGE PLACEHOLDER: Screenshot of the "Actions" tab ---]',
+        'li_actions_1': '<strong>Update Keys:</strong> Runs the parser that updates your translation files.',
+        'li_actions_2': '<strong>Open Translation Editor:</strong> Opens a separate, more convenient window for editing all translations.',
+        'li_actions_3': '<strong>Data Management:</strong> Use for exchanging data with translators (Export/Import to CSV/XML/YAML/XLIFF, import from Google Sheets).',
+        'li_actions_4': '<strong>Auto-Translation:</strong> Automatically fills all empty translation strings. New settings allow you to manage the batch size (<strong>Batch Size</strong>) and retry policy (<strong>Retry Policy</strong>) for each service (DeepL, Google, Microsoft) separately. The tool tracks the number of translated characters and warns about potentially exceeding limits.',
+        'li_actions_5': '<strong>Danger Zone:</strong> Contains buttons for completely removing all localization components from the project. Use with caution!',
+        'h2_tab_assets': '4.5. "Assets" Tab',
+        'p_assets_1': 'This tab is entirely dedicated to localizing non-textual resources.',
+        'placeholder_img_assets': '[--- IMAGE PLACEHOLDER: Screenshot of the "Assets" tab ---]',
+        'li_assets_1': '<strong>Create folder structure (optional):</strong> In section <strong>2. Asset Folder Generation</strong>, click <strong>Create Asset Folders Now</strong>.',
+        'li_assets_2': '<strong>Configure categories and naming rules:</strong> In section <strong>3. Asset Categories & Scanning</strong>, ensure the <strong>Naming Rule</strong> (<code>{key}_{lang}</code>) matches your files (e.g., <code>button_ok_en.png</code>).',
+        'li_assets_3': '<strong>Place your assets:</strong> Put localized assets in the folders.',
+        'li_assets_4': '<strong>Scan assets:</strong> In section <strong>4. Automation</strong>, click <strong>Scan Assets & Update Tables</strong>. The cleanup process is now safer: only old table files (<code>.asset</code>) are deleted, not the entire folder.',
+        'li_assets_5': '<strong>Link assets to objects:</strong> Click <strong>Analyze Project & Attach Components</strong>.',
+        'h2_tab_report': '4.6. "Report" Tab',
+        'p_report_1': 'After each parsing, this report provides a complete picture of your localization status.',
+        'placeholder_img_report': '[--- IMAGE PLACEHOLDER: Screenshot of the "Report" tab ---]',
+        'li_report_1': '<strong>Categories:</strong> All Keys, Added, Updated (text changed), Removed, Duplicates, Migrated, Skipped (unchanged).',
+        'li_report_2': '<strong>Advanced Search:</strong> Click the <strong>Find</strong> button next to any entry to instantly find the corresponding object in the project. The search works asynchronously, without blocking the editor, and searches across all scenes and prefabs. If a key is used in multiple places, a dropdown list with all sources will appear.',
+        'h1_translation_editor': '<span class="emoji">📝</span> Translation Table Editor',
+        'p_editor_1': 'Opened via <strong>Tools -> Localization -> Translation Table Editor</strong>. This is the primary tool for manually editing translations.',
+        'placeholder_gif_editor': '[--- GIF PLACEHOLDER: Working in the translation editor ---]',
+        'li_editor_1': '<strong>Smart Grouping:</strong> Keys for plurals and gender (e.g., <code>apple_count_one</code>, <code>apple_count_few</code>) are automatically combined into collapsible groups.',
+        'li_editor_2': '<strong>Advanced Editing:</strong> Click on a cell to open the <strong>MultiLineEditWindow</strong> popup. It shows the source text for comparison, allows you to quickly copy it, and validates placeholder matching (e.g., <code>{username}</code>) in real-time, highlighting missing or extra ones.',
+        'li_editor_3': '<strong>Placeholder Validation via Comments:</strong> You can explicitly specify which placeholders should be in the translation by adding a special directive in the key\'s comment, for example: <code>@placeholders: {username}, {score}</code>. The <strong>MultiLineEditWindow</strong> will use this list as the primary source of truth.',
+        'li_editor_4': '<strong>Navigation and Management:</strong> Navigate the table with scrollbars or by holding the middle mouse button. Change column widths by dragging the dividers. Save changes with <code>Ctrl+S</code>.',
+        'li_editor_5': '<strong>Full Undo/Redo:</strong> The entire action stack (text changes, adding/deleting keys) is fully supported via <code>Ctrl+Z</code> / <code>Ctrl+Y</code>.',
+        'li_editor_6': '<strong>Backups and Autosave:</strong> Use the <strong>Manage Backups</strong> button. The tool also automatically saves your session every few minutes. In case of a crash, you will be prompted to restore changes.',
+        'h1_usage_examples': '<span class="emoji">💡</span> Usage Examples',
+        'h2_example_components': '6.1. Ready-made components and examples',
+        'p_example_components_1': 'The project includes ready-to-use scripts that serve as excellent examples.',
+        'li_example_components_1': '<strong><code>LanguageSelector.cs</code>:</strong> A ready-made component for creating a UI dropdown list for language switching. It automatically finds all available languages and manages their switching.<br><strong>How to use:</strong> Simply add the <code>LanguageSelector</code> component to your scene (e.g., on an empty GameObject) and specify your <code>TMP_Dropdown</code> in the inspector.',
+        'li_example_components_2': '<strong>Code Examples:</strong> To learn advanced techniques like working with <code>[LocalizableField]</code>, the <code>_()</code> function, plurals, and gender, study the files <code>StatPurchaseTest.cs</code> and <code>TestLocalization.cs</code>. They clearly demonstrate the implementation of all the main features of the tool in code.',
+        'h2_example_attribute': '6.2. [LocalizableField] Attribute',
+        'p_example_attribute_1': 'The preferred method for texts that are part of a component\'s configuration in the inspector. The parser can now work with strings, lists/arrays of strings, and even fields within nested <code>[System.Serializable]</code> classes.',
+        'code_example_attribute': `using Ankonoanko.Localization; // Required for [LocalizableField]
+using UnityEngine;
+using System.Collections.Generic;
+public class QuestManager : MonoBehaviour
+{
+    // The parser will find this field and create a key for it
+    [LocalizableField]
+    private string defaultQuestFailedMessage = "You have failed the quest.";
+    
+    // You can set a custom key
+    [LocalizableField("custom_quest_start_dialog")]
+    public string startDialog = "Are you ready for an adventure?";
+    
+    // Works with lists
+    [LocalizableField]
+    private List<string> missionObjectives = new List<string> { "Find the treasure" };
+    
+    // And even with nested classes!
+    [System.Serializable]
+    public class ItemInfo
+    {
+        [LocalizableField] public string Name;
+        [LocalizableField] public string Description;
+    }
+    
+    [LocalizableField]
+    private ItemInfo magicSword;
+}`,
+        'h2_example_function': '6.3. _() Function and [OnLanguageChange] Attribute',
+        'p_example_function_1': 'Use the <code>_()</code> function for dynamic text that changes during the game. The method that updates the UI should be marked with the <code>[OnLanguageChange]</code> attribute to be called automatically when the language changes. A <code>LocalizedBehaviour</code> component will be added to the object automatically for this purpose.',
+        'code_example_function': `// To use the short _() call, add these lines
+using static Ankonoanko.Localization.LocalizationManager;
+using Ankonoanko.Localization; // Required for [OnLanguageChange]
+using UnityEngine;
+using TMPro;
+using System.Collections.Generic;
+public class PlayerHUD : MonoBehaviour
+{
+    [SerializeField] private TMP_Text scoreText;
+    private int score = 100;
+    private string playerName = "Alex";
+    
+    void Start()
+    {
+        UpdateUI(); // Initial update
+    }
+    
+    // This method will be called automatically when the language changes
+    [OnLanguageChange]
+    void UpdateUI()
+    {
+        // 1. Indexed placeholders (like in string.Format)
+        // Key: "score_label", Text in file: "Score: {0}"
+        scoreText.text = _("score_label", score); // Result: "Score: 100"
+        
+        // 2. Named placeholders (recommended for readability)
+        // Key: "welcome_message", Text: "Welcome, {username}!"
+        string welcomeText = _("welcome_message", new { username = playerName });
+        
+        // For complex cases or high performance
+        var args = new Dictionary<string, object> { { "username", playerName } };
+        string welcomeText2 = _("welcome_message", args);
+    }
+}`,
+        'h2_example_plurals': '6.4. Plurals and Gender',
+        'p_example_plurals_1': 'The tool now uses more precise rules for different language groups.',
+        'code_example_plurals': `using static Ankonoanko.Localization.LocalizationManager;
+using Ankonoanko.Localization;
+using UnityEngine;
+public class ItemCounter : MonoBehaviour
+{
+    void DisplayItemCount(int count)
+    {
+        // Keys: "apple_count_one", "apple_count_few", "apple_count_many"
+        // Texts: "{0} apple", "{0} apples", "{0} apples"
+        string appleText = _("apple_count", count); 
+        Debug.Log(appleText); // Automatically selects the correct form
+    }
+    
+    void GreetUser(Gender userGender)
+    {
+        // Keys: "user_greeted_male", "user_greeted_female"
+        // Texts: "He has arrived.", "She has arrived."
+        string greeting = _("user_greeted", userGender);
+        Debug.Log(greeting);
+    }
+}`,
+        'h1_important_notes': '<span class="emoji">⚠️</span> Important Notes and Warnings',
+        'li_notes_1': '<strong>Backups:</strong> Before global operations (<code>Update Keys</code>, data import), always create a backup via <strong>Translation Table Editor -> Manage Backups</strong>.',
+        'li_notes_2': '<strong>API Key Security:</strong> The API key for editor use is stored locally on your machine (in <code>EditorPrefs</code>) and is not committed to the repository. For keys needed in the game build, use the <strong>Runtime API Key</strong> section.',
+        'li_notes_3': '<strong><code>StreamingAssets</code> Folder:</strong> Translation files must be located in a subfolder of <code>Assets/StreamingAssets/</code> to be included in the game build.',
+        'li_notes_4': '<strong>"Foolproof" Protection:</strong> The tool automatically protects you from accidentally saving temporary data from preview mode into a scene or prefab.',
+        'li_notes_5': '<strong>Performance:</strong> The <code>_()</code> call is fast, but in loops that run every frame (e.g., in <code>Update</code>), try to cache the result in a variable.',
+        'li_notes_6': '<strong>Excluding <code>LanguageSelector</code> from Parsing:</strong> The object with the <code>LanguageSelector</code> component and its <code>TMP_Dropdown</code> must be added to the <strong>Ignore Specific Objects</strong> list in the <strong>Content</strong> tab. This is necessary to prevent the parser from creating unnecessary keys for the dropdown options, as the <code>LanguageSelector</code> script populates them dynamically at runtime. Ignoring them prevents conflicts and keeps the translation files clean.',
+        'li_notes_7': '<strong>Fonts for <code>LanguageSelector</code>:</strong> To ensure the selected language in the <code>TMP_Dropdown</code> correctly updates its font, manually add an empty <code>LocalizedText</code> component to the child <strong>Label</strong> object of the Dropdown and check the <code>isStyleOnly</code> box.',
+        'h1_extending': '<span class="emoji">🧬</span> Extending Functionality',
+        'h2_custom_parser': '8.1. Creating a Custom Parser',
+        'p_custom_parser_1': 'You can easily extend the system to support custom components by creating your own parser class.',
+        'li_custom_parser_1': 'Create a new C# script in the <strong>Editor</strong> folder of your project.',
+        'li_custom_parser_2': 'Copy the template below into it.',
+        'li_custom_parser_3': 'Modify the logic to match your component.',
+        'code_custom_parser': `#if UNITY_EDITOR
+using System.Collections.Generic;
+using UnityEngine;
+using Ankonoanko.Localization;
+// TEMPLATE for creating a parser for a custom component.
+public class CustomComponentParser_Template : ITextComponentParser
+{
+    public IEnumerable<(string text, string key, string source)> Parse(
+        GameObject gameObject,
+        LocalizationSettings settings)
+    {
+        // 1. Check if the object has the custom component we need.
+        var component = gameObject.GetComponent<AwesomeComponentFromAssetStore>();
+        if (component == null)
+        {
+            yield break; // Exit if the component is not found
+        }
+        
+        // 2. Get the text from the custom component's fields.
+        string titleText = component.Title;
+        
+        // 3. Check if the text is valid for localization.
+        if (TextParser.IsValidLocalizableText(titleText))
+        {
+            // 4. Generate a key and source using helpers from TextParser.
+            string key = TextParser.GenerateKeyForObject(gameObject, titleText, settings.keyGenerationMode);
+            string source = TextParser.GetSourceStringForObject(gameObject);
+            
+            // 5. Return the result.
+            yield return (titleText, key, source);
+        }
+        
+        // 6. Repeat for other fields...
+        // (you can add a suffix to make keys unique)
+        string descriptionText = component.Description;
+        if (TextParser.IsValidLocalizableText(descriptionText))
+        {
+            string key = TextParser.GenerateKeyForObject(gameObject, descriptionText, settings.keyGenerationMode) + "_description";
+            string source = TextParser.GetSourceStringForObject(gameObject);
+            yield return (descriptionText, key, source);
+        }
+    }
+}
+#endif`
+    },
+    'de': {
+        'page_title': 'Unity Lokalisierungs-Tool Dokumentation',
+        'toc_title': 'Inhaltsverzeichnis',
+        'nav_introduction': '1. Einleitung',
+        'nav_quick_start': '2. Schnellstart und Einrichtung',
+        'nav_components': '3. Kernkomponenten',
+        'nav_loc_tool_window': '4. "Localization Tool" Fenster',
+        'nav_translation_editor': '5. Übersetzungs-Editor',
+        'nav_usage_examples': '6. Anwendungsbeispiele',
+        'nav_important_notes': '7. Wichtige Hinweise und Warnungen',
+        'nav_extending': '8. Funktionalität erweitern',
+        'h1_introduction': '<span class="emoji">🚀</span> Einleitung',
+        'p_intro_1': 'Dieses Tool ist eine umfassende Lösung zur Lokalisierung von Spielen und Anwendungen in Unity. Es ermöglicht die Automatisierung der Text- und Asset-Sammlung, die Verwaltung von Übersetzungen über eine leistungsstarke Benutzeroberfläche, die Integration mit maschinellen Übersetzungsdiensten und die dynamische Aktualisierung lokalisierter Inhalte im Spiel.',
+        'h2_key_features': 'Hauptmerkmale'
+    },
+    'es': {
+        'page_title': 'Documentación de la Herramienta de Localización de Unity',
+        'toc_title': 'Tabla de Contenidos',
+        'nav_introduction': '1. Introducción',
+        'nav_quick_start': '2. Inicio Rápido y Configuración',
+        'nav_components': '3. Componentes Principales',
+        'nav_loc_tool_window': '4. Ventana "Localization Tool"',
+        'nav_translation_editor': '5. Editor de Traducciones',
+        'nav_usage_examples': '6. Ejemplos de Uso',
+        'nav_important_notes': '7. Notas y Advertencias Importantes',
+        'nav_extending': '8. Ampliar Funcionalidad',
+        'h1_introduction': '<span class="emoji">🚀</span> Introducción',
+        'p_intro_1': 'Esta herramienta es una solución integral para localizar juegos y aplicaciones en Unity. Permite automatizar el proceso de recopilación de texto y assets, gestionar traducciones a través de una potente interfaz, integrarse con servicios de traducción automática y actualizar dinámicamente el contenido localizado en el juego.',
+        'h2_key_features': 'Características Clave'
+    },
+    'zh': {
+        'page_title': 'Unity 本地化工具文档',
+        'toc_title': '目录',
+        'nav_introduction': '1. 简介',
+        'nav_quick_start': '2. 快速入门和设置',
+        'nav_components': '3. 核心组件',
+        'nav_loc_tool_window': '4. "Localization Tool" 窗口',
+        'nav_translation_editor': '5. 翻译编辑器',
+        'nav_usage_examples': '6. 使用示例',
+        'nav_important_notes': '7. 重要说明和警告',
+        'nav_extending': '8. 扩展功能',
+        'h1_introduction': '<span class="emoji">🚀</span> 简介',
+        'p_intro_1': '该工具是 Unity 中用于本地化游戏和应用程序的综合解决方案。它允许自动化文本和资产的收集过程，通过强大的界面管理翻译，与机器翻译服务集成，并在游戏中动态更新本地化内容。',
+        'h2_key_features': '主要特点'
+    },
+     'hi': {
+        'page_title': 'Unity स्थानीयकरण उपकरण दस्तावेज़ीकरण',
+        'toc_title': 'विषय-सूची',
+        'nav_introduction': '1. परिचय',
+        'nav_quick_start': '2. त्वरित आरंभ और सेटअप',
+        'nav_components': '3. मुख्य घटक',
+        'nav_loc_tool_window': '4. "Localization Tool" विंडो',
+        'nav_translation_editor': '5. अनुवाद संपादक',
+        'nav_usage_examples': '6. उपयोग के उदाहरण',
+        'nav_important_notes': '7. महत्वपूर्ण नोट्स और चेतावनियाँ',
+        'nav_extending': '8. कार्यक्षमता का विस्तार',
+        'h1_introduction': '<span class="emoji">🚀</span> परिचय',
+        'p_intro_1': 'यह उपकरण Unity में गेम और एप्लिकेशन को स्थानीय बनाने के लिए एक व्यापक समाधान है। यह टेक्स्ट और एसेट संग्रह की प्रक्रिया को स्वचालित करने, एक शक्तिशाली इंटरफ़ेस के माध्यम से अनुवादों का प्रबंधन करने, मशीन अनुवाद सेवाओं के साथ एकीकृत करने और गेम में स्थानीयकृत सामग्री को गतिशील रूप से अपडेट करने की अनुमति देता है।',
+        'h2_key_features': 'मुख्य विशेषताएं'
     }
 };
