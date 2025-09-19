@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="light">
+<!-- ИЗМЕНЕНО: Язык по умолчанию теперь 'en' (английский) -->
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,9 @@
     
     <link rel="stylesheet" href="style.css">
 
-    <script src="js/translations.js" defer></script>
-    <script src="js/script.js" defer></script>
+    <!-- ИЗМЕНЕНО: Пути к скриптам исправлены, чтобы соответствовать стандартной структуре -->
+    <script src="translations.js" defer></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
 
@@ -17,17 +19,18 @@
     <aside class="sidebar">
         <div class="sidebar-content">
             <h3 data-key="toc_title">Оглавление</h3>
-            <!-- ИЗМЕНЕНО: Поле поиска обернуто в контейнер для стилизации с иконкой -->
             <div class="toc-search-container">
                 <svg class="toc-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18ZM10,4a6,6,0,1,0,6,6A6.007,6.007,0,0,0,10,4Z"/><path d="M21,22a1,1,0,0,1-.707-0.293l-4-4a1,1,0,0,1,1.414-1.414l4,4A1,1,0,0,1,21,22Z"/></svg>
-                <input type="search" id="toc-search" placeholder="Поиск...">
+                <!-- ИЗМЕНЕНО: data-key добавлен для перевода плейсхолдера -->
+                <input type="search" id="toc-search" placeholder="Поиск..." data-key="toc_search_placeholder">
             </div>
             <nav id="table-of-contents"></nav>
         </div>
         <div class="sidebar-controls">
             <div class="lang-switcher-dropdown">
                 <button id="current-lang-btn" class="lang-btn">
-                    <span id="current-lang-flag">🇷🇺</span>
+                    <!-- ИЗМЕНЕНО: Содержимое будет вставляться скриптом, чтобы избежать отображения неправильного флага при загрузке -->
+                    <span id="current-lang-flag"></span>
                 </button>
                 <div id="lang-options" class="dropdown-content">
                     <!-- Опции языка будут добавлены скриптом -->
@@ -39,6 +42,7 @@
 
     <main class="main-content">
         <div class="content-wrapper">
+            <!-- Все data-key остаются без изменений, их перевод будет осуществляться из обновленного файла translations.js -->
             <h1 id="vvedenie" data-key="h1_introduction"><span class="emoji">🚀</span> Введение</h1>
             <p data-key="p_intro_1"></p>
             
@@ -55,7 +59,7 @@
                 <li data-key="li_feature_9"></li>
                 <li data-key="li_feature_10"></li>
             </ul>
-            <img src="img/intro_key_features.gif" alt="Демонстрация ключевых возможностей" class="doc-image">
+            <img src="https://placehold.co/800x400/e1e4e8/24292e?text=Key+Features+Demo+(GIF)" alt="Демонстрация ключевых возможностей" class="doc-image">
 
             <h1 id="bystryj-start" data-key="h1_quick_start"><span class="emoji">🛠️</span></h1>
             
@@ -68,7 +72,7 @@
                 <li data-key="li_install_5"></li>
                 <li data-key="li_install_6"></li>
             </ol>
-            <img src="img/quickstart_installer.jpg" alt="Окно установщика зависимостей" class="doc-image">
+            <img src="https://placehold.co/800x400/e1e4e8/24292e?text=Installer+Window+(JPG)" alt="Окно установщика зависимостей" class="doc-image">
             
             <h2 id="pervonachalnaya-nastrojka" data-key="h2_initial_setup"></h2>
             <ol>
@@ -77,7 +81,7 @@
                 <li data-key="li_setup_3"></li>
                 <li data-key="li_setup_4"></li>
             </ol>
-            <img src="img/quickstart_initial_setup.gif" alt="Пошаговая первоначальная настройка" class="doc-image">
+            <img src="https://placehold.co/800x400/e1e4e8/24292e?text=Initial+Setup+Steps+(GIF)" alt="Пошаговая первоначальная настройка" class="doc-image">
 
             <h1 id="osnovnye-komponenty" data-key="h1_components"><span class="emoji">🧩</span></h1>
             <div class="warning-box" data-key="warning_box_components"></div>
@@ -85,7 +89,7 @@
             
             <h2 id="localizedtext" data-key="h2_localizedtext"></h2>
             <p data-key="p_localizedtext_1"></p>
-            <img src="img/components_localized_text.jpg" alt="Компонент LocalizedText в инспекторе" class="doc-image">
+            <img src="https://placehold.co/800x200/e1e4e8/24292e?text=LocalizedText+Component+(JPG)" alt="Компонент LocalizedText в инспекторе" class="doc-image">
             <ul>
                 <li data-key="li_localizedtext_1"></li>
                 <li data-key="li_localizedtext_2"></li>
@@ -94,34 +98,34 @@
 
             <h2 id="localizedasset" data-key="h2_localizedasset"></h2>
             <p data-key="p_localizedasset_1"></p>
-            <img src="img/components_localized_asset.jpg" alt="Компонент LocalizedAsset в инспекторе" class="doc-image">
+            <img src="https://placehold.co/800x200/e1e4e8/24292e?text=LocalizedAsset+Component+(JPG)" alt="Компонент LocalizedAsset в инспекторе" class="doc-image">
             <p data-key="p_localizedasset_2"></p>
 
             <h2 id="localizedprefab" data-key="h2_localizedprefab"></h2>
             <p data-key="p_localizedprefab_1"></p>
-            <img src="img/components_localized_prefab.gif" alt="Демонстрация работы LocalizedPrefab" class="doc-image">
+            <img src="https://placehold.co/800x400/e1e4e8/24292e?text=LocalizedPrefab+Demo+(GIF)" alt="Демонстрация работы LocalizedPrefab" class="doc-image">
 
             <h2 id="uitklocalization" data-key="h2_uitklocalization"></h2>
             <p data-key="p_uitklocalization_1"></p>
-            <img src="img/components_uitk_localization.jpg" alt="Компонент UITKLocalization в инспекторе" class="doc-image">
+            <img src="https://placehold.co/800x200/e1e4e8/24292e?text=UITKLocalization+Component+(JPG)" alt="Компонент UITKLocalization в инспекторе" class="doc-image">
             
             <h2 id="localizeddropdown" data-key="h2_localizeddropdown"></h2>
             <p data-key="p_localizeddropdown_1"></p>
-            <img src="img/components_localized_dropdown.jpg" alt="Компонент LocalizedDropdown в инспекторе" class="doc-image">
+            <img src="https://placehold.co/800x200/e1e4e8/24292e?text=LocalizedDropdown+Component+(JPG)" alt="Компонент LocalizedDropdown в инспекторе" class="doc-image">
 
             <h2 id="localizedbehaviour" data-key="h2_localizedbehaviour"></h2>
             <p data-key="p_localizedbehaviour_1"></p>
-            <img src="img/components_localized_behaviour.jpg" alt="Компонент LocalizedBehaviour в инспекторе" class="doc-image">
+            <img src="https://placehold.co/800x200/e1e4e8/24292e?text=LocalizedBehaviour+Component+(JPG)" alt="Компонент LocalizedBehaviour в инспекторе" class="doc-image">
 
             <h2 id="kontekstnoe-menyu" data-key="h2_context_menu"></h2>
             <p data-key="p_context_menu_1"></p>
-            <img src="img/components_context_menu.jpg" alt="Контекстное меню Analyze for Localization" class="doc-image">
+            <img src="https://placehold.co/800x200/e1e4e8/24292e?text=Context+Menu+(JPG)" alt="Контекстное меню Analyze for Localization" class="doc-image">
 
             <h1 id="okno-localization-tool" data-key="h1_loc_tool_window"><span class="emoji">🖼️</span></h1>
 
             <h2 id="in-editor-preview" data-key="h2_in_editor_preview"></h2>
             <p data-key="p_preview_1"></p>
-            <img src="img/window_live_preview.gif" alt="Демонстрация работы Live Preview" class="doc-image">
+            <img src="https://placehold.co/800x400/e1e4e8/24292e?text=Live+Preview+Demo+(GIF)" alt="Демонстрация работы Live Preview" class="doc-image">
             <ul>
                 <li data-key="li_preview_1"></li>
                 <li data-key="li_preview_2"></li>
@@ -131,37 +135,37 @@
 
             <h2 id="vkladka-settings" data-key="h2_tab_settings"></h2>
             <p data-key="p_settings_1"></p>
-            <img src="img/window_tab_settings_overview.jpg" alt="Обзор вкладки Settings" class="doc-image">
+            <img src="https://placehold.co/800x400/e1e4e8/24292e?text=Settings+Tab+Overview+(JPG)" alt="Обзор вкладки Settings" class="doc-image">
             <ul>
                 <li>
                     <span data-key="li_settings_1"></span>
-                    <img src="img/window_tab_settings_key_gen.jpg" alt="Настройка Key Generation Mode" class="doc-image">
+                    <img src="https://placehold.co/800x250/e1e4e8/24292e?text=Key+Generation+Mode+(JPG)" alt="Настройка Key Generation Mode" class="doc-image">
                 </li>
                 <li>
                     <span data-key="li_settings_2"></span>
-                    <img src="img/window_tab_settings_lang_management.jpg" alt="Настройка языков" class="doc-image">
+                    <img src="https://placehold.co/800x250/e1e4e8/24292e?text=Language+Management+(JPG)" alt="Настройка языков" class="doc-image">
                 </li>
                 <li>
                      <span data-key="li_settings_3"></span>
-                     <img src="img/window_tab_settings_general.jpg" alt="Секция General Settings" class="doc-image">
+                     <img src="https://placehold.co/800x250/e1e4e8/24292e?text=General+Settings+(JPG)" alt="Секция General Settings" class="doc-image">
                 </li>
                 <li>
                      <span data-key="li_settings_4"></span>
-                     <img src="img/window_tab_settings_debugging.jpg" alt="Секция Debugging & Testing" class="doc-image">
+                     <img src="https://placehold.co/800x250/e1e4e8/24292e?text=Debugging+Settings+(JPG)" alt="Секция Debugging & Testing" class="doc-image">
                 </li>
                 <li>
                      <span data-key="li_settings_5"></span>
-                     <img src="img/window_tab_settings_live_updates.jpg" alt="Секция Live Updates" class="doc-image">
+                     <img src="https://placehold.co/800x250/e1e4e8/24292e?text=Live+Updates+Settings+(JPG)" alt="Секция Live Updates" class="doc-image">
                 </li>
                 <li>
                      <span data-key="li_settings_6"></span>
-                     <img src="img/window_tab_settings_runtime_api.jpg" alt="Секция Runtime API Key" class="doc-image">
+                     <img src="https://placehold.co/800x250/e1e4e8/24292e?text=Runtime+API+Key+(JPG)" alt="Секция Runtime API Key" class="doc-image">
                 </li>
             </ul>
 
             <h2 id="vkladka-content" data-key="h2_tab_content"></h2>
             <p data-key="p_content_1"></p>
-            <img src="img/window_tab_content.jpg" alt="Вкладка Content с настройками" class="doc-image">
+            <img src="https://placehold.co/800x400/e1e4e8/24292e?text=Content+Tab+(JPG)" alt="Вкладка Content с настройками" class="doc-image">
             <ul>
                 <li data-key="li_content_1"></li>
                 <li data-key="li_content_2"></li>
@@ -172,27 +176,27 @@
 
             <h2 id="vkladka-actions" data-key="h2_tab_actions"></h2>
             <p data-key="p_actions_1"></p>
-            <img src="img/window_tab_actions_overview.jpg" alt="Обзор вкладки Actions" class="doc-image">
+            <img src="https://placehold.co/800x400/e1e4e8/24292e?text=Actions+Tab+Overview+(JPG)" alt="Обзор вкладки Actions" class="doc-image">
             <ul>
                 <li data-key="li_actions_1"></li>
                 <li data-key="li_actions_2"></li>
                 <li>
                     <span data-key="li_actions_3"></span>
-                    <img src="img/window_tab_actions_data_management.jpg" alt="Секция Data Management" class="doc-image">
+                    <img src="https://placehold.co/800x250/e1e4e8/24292e?text=Data+Management+(JPG)" alt="Секция Data Management" class="doc-image">
                 </li>
                 <li>
                      <span data-key="li_actions_4"></span>
-                     <img src="img/window_tab_actions_autotranslate.gif" alt="Процесс автоматического перевода" class="doc-image">
+                     <img src="https://placehold.co/800x400/e1e4e8/24292e?text=Autotranslate+Demo+(GIF)" alt="Процесс автоматического перевода" class="doc-image">
                 </li>
                 <li>
                      <span data-key="li_actions_5"></span>
-                     <img src="img/window_tab_actions_danger_zone.jpg" alt="Секция Danger Zone" class="doc-image">
+                     <img src="https://placehold.co/800x250/e1e4e8/24292e?text=Danger+Zone+(JPG)" alt="Секция Danger Zone" class="doc-image">
                 </li>
             </ul>
 
             <h2 id="vkladka-assets" data-key="h2_tab_assets"></h2>
             <p data-key="p_assets_1"></p>
-            <img src="img/window_tab_assets.gif" alt="Процесс работы с ассетами" class="doc-image">
+            <img src="https://placehold.co/800x400/e1e4e8/24292e?text=Assets+Workflow+(GIF)" alt="Процесс работы с ассетами" class="doc-image">
             <ol>
                 <li data-key="li_assets_1"></li>
                 <li data-key="li_assets_2"></li>
@@ -203,7 +207,7 @@
 
             <h2 id="vkladka-report" data-key="h2_tab_report"></h2>
             <p data-key="p_report_1"></p>
-            <img src="img/window_tab_report.gif" alt="Вкладка Report с результатами сканирования" class="doc-image">
+            <img src="https://placehold.co/800x400/e1e4e8/24292e?text=Report+Tab+(GIF)" alt="Вкладка Report с результатами сканирования" class="doc-image">
             <ul>
                 <li data-key="li_report_1"></li>
                 <li data-key="li_report_2"></li>
@@ -211,22 +215,22 @@
 
             <h1 id="redaktor-perevodov" data-key="h1_translation_editor"><span class="emoji">📝</span></h1>
             <p data-key="p_editor_1"></p>
-            <img src="img/editor_workflow.gif" alt="Работа в редакторе переводов" class="doc-image">
+            <img src="https://placehold.co/800x400/e1e4e8/24292e?text=Translation+Editor+(GIF)" alt="Работа в редакторе переводов" class="doc-image">
             <ul>
                 <li>
                     <span data-key="li_editor_1"></span>
-                    <img src="img/editor_smart_grouping.jpg" alt="Умная группировка ключей" class="doc-image">
+                    <img src="https://placehold.co/800x250/e1e4e8/24292e?text=Smart+Grouping+(JPG)" alt="Умная группировка ключей" class="doc-image">
                 </li>
                 <li data-key="li_editor_2"></li>
                 <li>
                     <span data-key="li_editor_3"></span>
-                    <img src="img/editor_placeholder_validation.jpg" alt="Валидация плейсхолдеров" class="doc-image">
+                    <img src="https://placehold.co/800x250/e1e4e8/24292e?text=Placeholder+Validation+(JPG)" alt="Валидация плейсхолдеров" class="doc-image">
                 </li>
                 <li data-key="li_editor_4"></li>
                 <li data-key="li_editor_5"></li>
                 <li>
                     <span data-key="li_editor_6"></span>
-                    <img src="img/editor_backup_manager.jpg" alt="Менеджер бэкапов" class="doc-image">
+                    <img src="https://placehold.co/800x250/e1e4e8/24292e?text=Backup+Manager+(JPG)" alt="Менеджер бэкапов" class="doc-image">
                 </li>
             </ul>
             
@@ -237,25 +241,25 @@
             <ul>
                 <li>
                     <span data-key="li_example_components_1"></span>
-                    <img src="img/examples_language_selector.jpg" alt="Настройка компонента LanguageSelector" class="doc-image">
+                    <img src="https://placehold.co/800x250/e1e4e8/24292e?text=LanguageSelector+Setup+(JPG)" alt="Настройка компонента LanguageSelector" class="doc-image">
                 </li>
                 <li data-key="li_example_components_2"></li>
             </ul>
 
             <h2 id="attribut-localizablefield" data-key="h2_example_attribute"></h2>
             <p data-key="p_example_attribute_1"></p>
-            <img src="img/examples_localizable_field_inspector.jpg" alt="Отображение LocalizableField в инспекторе" class="doc-image">
+            <img src="https://placehold.co/800x250/e1e4e8/24292e?text=LocalizableField+in+Inspector+(JPG)" alt="Отображение LocalizableField в инспекторе" class="doc-image">
             <pre><code class="language-csharp" data-key="code_example_attribute"></code></pre>
 
             <h2 id="funkciya-i-onlanguagechange" data-key="h2_example_function"></h2>
             <p data-key="p_example_function_1"></p>
             <pre><code class="language-csharp" data-key="code_example_function"></code></pre>
-            <img src="img/examples_localized_behaviour_auto.jpg" alt="Автоматически добавленный LocalizedBehaviour" class="doc-image">
+            <img src="https://placehold.co/800x250/e1e4e8/24292e?text=Auto-added+LocalizedBehaviour+(JPG)" alt="Автоматически добавленный LocalizedBehaviour" class="doc-image">
 
             <h2 id="mnozhestvennoe-chislo-i-rod" data-key="h2_example_plurals"></h2>
             <p data-key="p_example_plurals_1"></p>
             <pre><code class="language-csharp" data-key="code_example_plurals"></code></pre>
-            <img src="img/examples_plurals_editor.jpg" alt="Пример ключей для множественного числа в редакторе" class="doc-image">
+            <img src="https://placehold.co/800x250/e1e4e8/24292e?text=Plural+Keys+in+Editor+(JPG)" alt="Пример ключей для множественного числа в редакторе" class="doc-image">
             
             <h1 id="vazhnye-nyuansy" data-key="h1_important_notes"><span class="emoji">⚠️</span></h1>
             <div class="warning-box">
@@ -287,4 +291,3 @@
 
 </body>
 </html>
-
