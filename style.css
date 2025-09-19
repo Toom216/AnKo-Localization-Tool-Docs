@@ -87,9 +87,9 @@ body {
     color: var(--secondary-text-color);
     cursor: pointer;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
     transition: background-color 0.2s, color 0.2s;
     flex-shrink: 0;
 }
@@ -111,10 +111,11 @@ body {
     color: var(--secondary-text-color);
     cursor: pointer;
     border-radius: 50%; 
-    width: 40px; 
-    height: 40px;
+    /* ИЗМЕНЕНО: Размер кнопки и флага увеличен */
+    width: 44px; 
+    height: 44px;
     padding: 0;
-    font-size: 20px;
+    font-size: 26px;
     display: flex;
     align-items: center;
     justify-content: center; 
@@ -128,7 +129,7 @@ body {
 .dropdown-content {
     display: none;
     position: absolute;
-    bottom: 50px;
+    bottom: 55px; /* Увеличено, чтобы не перекрывать кнопку */
     left: 0;
     background-color: var(--content-bg-color);
     min-width: 160px;
@@ -155,7 +156,7 @@ body {
 }
 
 .dropdown-content button .flag {
-    font-size: 20px;
+    font-size: 22px; /* Увеличен размер флагов в списке */
 }
 
 .dropdown-content button:hover {
@@ -240,13 +241,26 @@ body {
     color: var(--active-nav-text);
     font-weight: 600;
 }
-.toc-h1 > a {
-    font-weight: 600;
-    padding-left: 28px; /* Освобождаем место для стрелки */
-}
+/* ИЗМЕНЕНО: Стили для иерархии в навигации */
 .toc-h1 {
     position: relative; /* Для позиционирования стрелки */
 }
+.toc-h1 > a {
+    font-weight: 600;
+    font-size: 15px; /* Раздел крупнее */
+    padding-left: 32px; /* Освобождаем место для увеличенной стрелки */
+}
+.toc-h2 a {
+    font-size: 14px; /* Подпункт меньше */
+    color: var(--secondary-text-color); /* Менее заметный цвет */
+}
+.toc-h2 a.active {
+     color: var(--active-nav-text); /* Возвращаем яркий цвет при активации */
+}
+.toc-h2 a:hover {
+    color: var(--text-color); /* Возвращаем основной цвет при наведении */
+}
+
 .toc-submenu {
     padding-left: 25px; 
     overflow: hidden;
@@ -259,21 +273,23 @@ body {
     visibility: hidden;
     opacity: 0;
 }
+/* ИЗМЕНЕНО: Стили для стрелки, чтобы она не накладывалась и была крупнее */
 .toc-toggle {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 4px;
     width: 28px;
-    height: 33px; /* Высота равна высоте ссылки */
+    height: 100%; /* Занимает всю высоту ссылки */
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     user-select: none;
+    color: var(--secondary-text-color);
 }
 .toc-toggle::before {
     content: '▶';
-    font-size: 10px;
+    font-size: 12px; /* Стрелка стала крупнее */
     display: inline-block;
     transition: transform 0.3s ease;
 }
@@ -456,4 +472,3 @@ pre:hover .copy-code-btn {
         color: var(--text-color);
     }
 }
-
