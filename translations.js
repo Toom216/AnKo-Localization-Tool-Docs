@@ -1,4 +1,4 @@
-const translations = {
+const translations = { 
     'ru': {
         'page_title': 'Документация по инструменту локализации для Unity',
         'toc_title': 'Оглавление',
