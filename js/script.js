@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- КОНФИГУРАЦИЯ ЯЗЫКОВ ---
     const languages = {
-        'ru': { name: 'Русский', flag: '🇷🇺' },
         'en': { name: 'English', flag: '🇬🇧' },
+        'ru': { name: 'Русский', flag: '🇷🇺' },
         'de': { name: 'Deutsch', flag: '🇩🇪' },
         'es': { name: 'Español', flag: '🇪🇸' },
         'zh': { name: '中文', flag: '🇨🇳' },
@@ -33,15 +33,17 @@ document.addEventListener('DOMContentLoaded', function() {
         applyTheme(newTheme);
     });
 
-    // --- ИСПРАВЛЕННАЯ ЛОГИКА ГЕНЕРАЦИИ ОГЛАВЛЕНИЯ (ToC) ---
+    // --- ЛОГИКА ГЕНЕРАЦИИ ОГЛАВЛЕНИЯ (ToC) ---
     const generateCollapsibleTOC = () => {
         tocContainer.innerHTML = ''; 
         const headings = document.querySelectorAll('.main-content h1[id], .main-content h2[id]');
         const mainList = document.createElement('ul');
         let currentSubList = null;
+        let h1Counter = 0;
 
         headings.forEach(heading => {
             if (heading.tagName === 'H1') {
+                h1Counter++;
                 const li = document.createElement('li');
                 li.classList.add('toc-h1');
                 
@@ -61,11 +63,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentSubList.classList.add('toc-submenu');
                 li.appendChild(currentSubList);
                 
-                li.classList.toggle('is-collapsed', mainList.children.length > 1);
+                // Сворачиваем все разделы, кроме первого
+                li.classList.toggle('is-collapsed', h1Counter > 1);
 
-                // Вешаем обработчик именно на иконку-стрелку
                 toggle.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Предотвращаем "всплытие" события
+                    e.stopPropagation();
                     li.classList.toggle('is-collapsed');
                 });
 
@@ -83,107 +85,131 @@ document.addEventListener('DOMContentLoaded', function() {
         tocContainer.appendChild(mainList);
     };
 
-    // --- ФИЛЬТРАЦИЯ ОГЛАВЛЕНИЯ ---
-    const initTocSearch = () => {
+    // --- ИЗМЕНЕНО: Глобальный поиск по контенту ---
+    const initGlobalSearch = () => {
         tocSearch.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const allLinks = tocContainer.querySelectorAll('li.toc-h1, li.toc-h2');
-
-            allLinks.forEach(li => {
-                const linkText = li.querySelector('a').textContent.toLowerCase();
-                const matches = linkText.includes(searchTerm);
-                li.style.display = matches ? '' : 'none';
-            });
+            const searchTerm = e.target.value.toLowerCase().trim();
+            const allHeadings = document.querySelectorAll('.main-content h1[id], .main-content h2[id]');
             
-            if(searchTerm){
-                tocContainer.querySelectorAll('.toc-h1').forEach(h1 => {
-                    const visibleChildren = h1.querySelectorAll('.toc-h2:not([style*="display: none"])');
-                    // Если сам H1 не виден, но есть видимые дочерние H2, показываем H1
-                    if (h1.style.display === 'none' && visibleChildren.length > 0) {
-                        h1.style.display = '';
-                    }
-                    // Если есть видимые дети, разворачиваем родителя
-                    if (visibleChildren.length > 0) {
-                        h1.classList.remove('is-collapsed');
-                    }
+            // Создаем карту для быстрого доступа к элементам ToC по ID заголовка
+            const tocLinks = new Map();
+            tocContainer.querySelectorAll('a[href]').forEach(a => {
+                tocLinks.set(a.getAttribute('href').substring(1), a.parentElement);
+            });
+    
+            allHeadings.forEach(heading => {
+                // Собираем весь контент секции: заголовок + все последующие элементы до следующего заголовка
+                let contentBlock = [heading];
+                let current = heading;
+                while (current.nextElementSibling && !['H1', 'H2'].includes(current.nextElementSibling.tagName)) {
+                    contentBlock.push(current.nextElementSibling);
+                    current = current.nextElementSibling;
+                }
+    
+                // Проверяем наличие поискового запроса в тексте секции
+                const blockText = contentBlock.map(el => el.textContent).join(' ').toLowerCase();
+                const matches = blockText.includes(searchTerm);
+    
+                // Показываем или скрываем всю секцию в основном контенте
+                contentBlock.forEach(el => {
+                    el.style.display = matches ? '' : 'none';
                 });
-            } else {
-                tocContainer.querySelectorAll('.toc-h1').forEach((li, index) => {
-                    li.classList.toggle('is-collapsed', index > 0);
-                });
-            }
+                
+                // Показываем или скрываем соответствующий пункт в оглавлении
+                const tocLi = tocLinks.get(heading.id);
+                if (tocLi) {
+                    tocLi.style.display = matches ? '' : 'none';
+                }
+            });
+    
+            // Обновляем состояние родительских H1 в оглавлении
+            tocContainer.querySelectorAll('.toc-h1').forEach(h1 => {
+                const h1LinkVisible = h1.querySelector('a').parentElement.style.display !== 'none';
+                const visibleChildren = h1.querySelectorAll('.toc-h2:not([style*="display: none"])').length > 0;
+    
+                if (visibleChildren && !h1LinkVisible) {
+                    h1.style.display = ''; // Показываем родителя, если видны дочерние элементы
+                }
+    
+                if (searchTerm && (h1LinkVisible || visibleChildren)) {
+                    h1.classList.remove('is-collapsed'); // Разворачиваем, если есть совпадения
+                }
+            });
         });
     };
 
     // --- КНОПКИ КОПИРОВАНИЯ КОДА ---
     const initCopyCodeButtons = () => {
         document.querySelectorAll('pre').forEach(block => {
-            const button = document.createElement('button');
-            button.classList.add('copy-code-btn');
-            button.innerText = 'Copy';
+            if (block.querySelector('code')) {
+                const button = document.createElement('button');
+                button.classList.add('copy-code-btn');
+                button.innerText = 'Copy';
 
-            button.addEventListener('click', () => {
-                const code = block.querySelector('code').innerText;
-                navigator.clipboard.writeText(code).then(() => {
-                    button.innerText = 'Copied!';
-                    button.classList.add('copied');
-                    setTimeout(() => {
-                        button.innerText = 'Copy';
-                        button.classList.remove('copied');
-                    }, 2000);
+                button.addEventListener('click', () => {
+                    const code = block.querySelector('code').innerText;
+                    navigator.clipboard.writeText(code).then(() => {
+                        button.innerText = 'Copied!';
+                        button.classList.add('copied');
+                        setTimeout(() => {
+                            button.innerText = 'Copy';
+                            button.classList.remove('copied');
+                        }, 2000);
+                    });
                 });
-            });
-            block.appendChild(button);
+                block.appendChild(button);
+            }
         });
     };
 
     // --- ЛОГИКА ЛОКАЛИЗАЦИИ ---
-    const populateLangOptions = (currentLang) => {
+    const populateLangOptions = () => {
         langOptionsContainer.innerHTML = '';
         for (const langCode in languages) {
-            if (langCode !== currentLang) {
-                const option = document.createElement('button');
-                option.dataset.lang = langCode;
-                option.innerHTML = `<span class="flag">${languages[langCode].flag}</span><span>${languages[langCode].name}</span>`;
-                option.addEventListener('click', () => {
-                    applyLanguage(langCode);
-                    langOptionsContainer.classList.remove('show');
-                });
-                langOptionsContainer.appendChild(option);
-            }
+            const option = document.createElement('button');
+            option.dataset.lang = langCode;
+            option.innerHTML = `<span class="flag">${languages[langCode].flag}</span><span>${languages[langCode].name}</span>`;
+            option.addEventListener('click', (e) => {
+                e.stopPropagation();
+                applyLanguage(langCode);
+                langOptionsContainer.classList.remove('show');
+            });
+            langOptionsContainer.appendChild(option);
         }
     };
     
     const applyLanguage = (lang) => {
+        if (!languages[lang]) lang = 'en'; // Безопасность
+
         document.documentElement.lang = lang;
         currentLangFlag.textContent = languages[lang].flag;
-        if(translations[lang]?.['toc_search_placeholder']) {
-             tocSearch.placeholder = translations[lang]['toc_search_placeholder'];
-        } else {
-            tocSearch.placeholder = "Search..."; // Fallback
-        }
-
+        
         document.querySelectorAll('[data-key]').forEach(elem => {
             const key = elem.getAttribute('data-key');
-            const translation = translations[lang]?.[key] || translations['en']?.[key] || translations['ru'][key];
-             if (translation !== undefined) {
+            // Улучшенный поиск перевода: текущий язык -> английский (fallback) -> русский (крайний случай)
+            const translation = translations[lang]?.[key] || translations['en']?.[key] || translations['ru']?.[key];
+            
+            if (key === 'toc_search_placeholder' && elem.tagName === 'INPUT') {
+                 if (translation) elem.placeholder = translation;
+            } else if (translation !== undefined) {
                 elem.innerHTML = translation;
             }
         });
 
         localStorage.setItem('language', lang);
-        populateLangOptions(lang);
     };
     
     // --- ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ ---
     generateCollapsibleTOC();
-    initTocSearch();
+    initGlobalSearch(); // Используем новую функцию поиска
     initCopyCodeButtons();
+    populateLangOptions();
     
     const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     applyTheme(savedTheme);
 
-    const savedLang = localStorage.getItem('language') || 'ru';
+    // ИЗМЕНЕНО: Язык по умолчанию теперь английский
+    const savedLang = localStorage.getItem('language') || 'en';
     applyLanguage(savedLang);
 
     // --- ЛОГИКА ВЫПАДАЮЩЕГО МЕНЮ ЯЗЫКА ---
@@ -193,7 +219,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     window.addEventListener('click', () => {
-        langOptionsContainer.classList.remove('show');
+        if (langOptionsContainer.classList.contains('show')) {
+            langOptionsContainer.classList.remove('show');
+        }
     });
 
     // --- ЛОГИКА СКРОЛЛА И МОБИЛЬНОЙ НАВИГАЦИИ ---
@@ -201,17 +229,21 @@ document.addEventListener('DOMContentLoaded', function() {
         scrollTopBtn.style.display = (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) ? "block" : "none";
 
         let currentSectionId = '';
-        const sections = document.querySelectorAll('h1[id], h2[id]');
-        sections.forEach(section => {
-            if (window.scrollY >= section.offsetTop - 80) { 
+        const sections = document.querySelectorAll('.main-content h1[id], .main-content h2[id]');
+        const offset = 80; // Смещение для более точной активации
+
+        for (let i = sections.length - 1; i >= 0; i--) {
+            const section = sections[i];
+            if (window.scrollY >= section.offsetTop - offset) {
                 currentSectionId = section.getAttribute('id');
+                break;
             }
-        });
+        }
         
         const navLinks = tocContainer.querySelectorAll('a');
         navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href').substring(1) === currentSectionId) {
+            if (link.getAttribute('href') === '#' + currentSectionId) {
                 link.classList.add('active');
                 const parentLi = link.closest('.toc-h1');
                 if (parentLi && parentLi.classList.contains('is-collapsed')) {
@@ -222,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll();
+    handleScroll(); // Вызываем один раз при загрузке для инициализации
 
     scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
@@ -230,10 +262,10 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileNavToggle.addEventListener('click', () => sidebar.classList.toggle('is-open'));
     }
     
+    // Закрываем мобильное меню при клике на ссылку в нем
     tocContainer.addEventListener('click', (e) => {
         if(e.target.tagName === 'A' && sidebar.classList.contains('is-open')) {
             sidebar.classList.remove('is-open');
         }
     });
 });
-
