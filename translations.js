@@ -164,7 +164,7 @@ public class QuestManager : MonoBehaviour
 }`,
         'h2_example_function': '6.3. Функция _() и атрибут [OnLanguageChange]',
         'p_example_function_1': 'Используйте функцию <code>_()</code> для динамического текста, который меняется в ходе игры. Метод, обновляющий UI, следует пометить атрибутом <code>[OnLanguageChange]</code>, чтобы он вызывался автоматически при смене языка. Для этого на объект будет автоматически добавлен компонент <code>LocalizedBehaviour</code>.',
-        'code_example_function': `// To use the short _() call, add these lines
+        'code_example_function': `// Чтобы использовать короткий вызов _(), добавьте эти строки
 using static Ankonoanko.Localization.LocalizationManager;
 using Ankonoanko.Localization; // Required for [OnLanguageChange]
 using UnityEngine;
@@ -178,10 +178,10 @@ public class PlayerHUD : MonoBehaviour
     
     void Start()
     {
-        UpdateUI(); // Initial update
+        UpdateUI(); // Первоначальное обновление
     }
     
-    // This method will be called automatically when the language changes
+    // Этот метод будет вызван автоматически при смене языка
     [OnLanguageChange]
     void UpdateUI()
     {
@@ -239,22 +239,43 @@ public class ItemCounter : MonoBehaviour
 using System.Collections.Generic;
 using UnityEngine;
 using Ankonoanko.Localization;
-// TEMPLATE for creating a parser for a custom component.
+
+// ШАБЛОН для создания парсера для кастомного компонента.
 public class CustomComponentParser_Template : ITextComponentParser
 {
     public IEnumerable<(string text, string key, string source)> Parse(
         GameObject gameObject,
         LocalizationSettings settings)
     {
+        // 1. Проверяем, есть ли на объекте нужный нам кастомный компонент.
         var component = gameObject.GetComponent<AwesomeComponentFromAssetStore>();
-        if (component == null) yield break;
+        if (component == null)
+        {
+            yield break; // Выходим, если компонента нет
+        }
         
+        // 2. Получаем текст из полей кастомного компонента.
         string titleText = component.Title;
+        
+        // 3. Проверяем, является ли текст валидным для локализации.
         if (TextParser.IsValidLocalizableText(titleText))
         {
+            // 4. Генерируем ключ и источник, используя хелперы из TextParser.
             string key = TextParser.GenerateKeyForObject(gameObject, titleText, settings.keyGenerationMode);
             string source = TextParser.GetSourceStringForObject(gameObject);
+            
+            // 5. Возвращаем результат.
             yield return (titleText, key, source);
+        }
+        
+        // 6. Повторяем для других полей...
+        // (можно добавить суффикс, чтобы ключи были уникальными)
+        string descriptionText = component.Description;
+        if (TextParser.IsValidLocalizableText(descriptionText))
+        {
+            string key = TextParser.GenerateKeyForObject(gameObject, descriptionText, settings.keyGenerationMode) + "_description";
+            string source = TextParser.GetSourceStringForObject(gameObject);
+            yield return (descriptionText, key, source);
         }
     }
 }
@@ -500,6 +521,7 @@ public class ItemCounter : MonoBehaviour
 using System.Collections.Generic;
 using UnityEngine;
 using Ankonoanko.Localization;
+
 // TEMPLATE for creating a parser for a custom component.
 public class CustomComponentParser_Template : ITextComponentParser
 {
@@ -507,15 +529,35 @@ public class CustomComponentParser_Template : ITextComponentParser
         GameObject gameObject,
         LocalizationSettings settings)
     {
+        // 1. Check if the object has the custom component we need.
         var component = gameObject.GetComponent<AwesomeComponentFromAssetStore>();
-        if (component == null) yield break;
+        if (component == null)
+        {
+            yield break; // Exit if the component is not found
+        }
         
+        // 2. Get the text from the custom component's fields.
         string titleText = component.Title;
+        
+        // 3. Check if the text is valid for localization.
         if (TextParser.IsValidLocalizableText(titleText))
         {
+            // 4. Generate the key and source using helpers from TextParser.
             string key = TextParser.GenerateKeyForObject(gameObject, titleText, settings.keyGenerationMode);
             string source = TextParser.GetSourceStringForObject(gameObject);
+            
+            // 5. Return the result.
             yield return (titleText, key, source);
+        }
+        
+        // 6. Repeat for other fields...
+        // (a suffix can be added to make keys unique)
+        string descriptionText = component.Description;
+        if (TextParser.IsValidLocalizableText(descriptionText))
+        {
+            string key = TextParser.GenerateKeyForObject(gameObject, descriptionText, settings.keyGenerationMode) + "_description";
+            string source = TextParser.GetSourceStringForObject(gameObject);
+            yield return (descriptionText, key, source);
         }
     }
 }
