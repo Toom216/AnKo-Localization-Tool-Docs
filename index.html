@@ -3,189 +3,609 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Документация | Localization Tool for Unity</title>
+    <title>Документация по инструменту локализации для Unity</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; background-color: #f6f8fa; color: #24292e; display: flex; }
-        .sidebar { position: fixed; top: 0; left: 0; width: 260px; height: 100vh; background-color: #ffffff; border-right: 1px solid #e1e4e8; padding: 20px; overflow-y: auto; }
-        .sidebar h2 { font-size: 18px; margin-top: 0; }
-        .sidebar ul { list-style: none; padding: 0; margin: 0; }
-        .sidebar li a { display: block; padding: 8px 10px; text-decoration: none; color: #586069; border-radius: 5px; margin-bottom: 4px; }
-        .sidebar li a:hover { background-color: #f6f8fa; color: #0366d6; }
-        .sidebar li a.active { background-color: #e3f2fd; color: #0366d6; font-weight: bold; }
-        .main-content { margin-left: 300px; padding: 20px 40px; max-width: 900px; }
-        h1, h2, h3 { border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; margin-top: 24px; margin-bottom: 16px; font-weight: 600; }
-        h1 { font-size: 2.2em; }
-        h2 { font-size: 1.8em; }
-        h3 { font-size: 1.4em; }
-        code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; background-color: rgba(27,31,35,0.05); padding: 0.2em 0.4em; margin: 0; font-size: 85%; border-radius: 3px; }
-        pre { background-color: #f6f8fa; padding: 16px; overflow: auto; border-radius: 5px; }
-        pre code { padding: 0; margin: 0; font-size: 100%; }
-        a { color: #0366d6; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        img { max-width: 100%; height: auto; border-radius: 5px; margin-top: 10px; margin-bottom: 10px; }
-        .warning { background-color: #fffbdd; border-left: 5px solid #ffcc00; padding: 15px; margin: 10px 0; }
-        @media (max-width: 768px) {
-            .sidebar { display: none; }
-            .main-content { margin-left: 0; padding: 20px; }
+        /* Общие стили и переменные */
+        :root {
+            --sidebar-width: 300px;
+            --main-bg-color: #f6f8fa;
+            --content-bg-color: #ffffff;
+            --text-color: #24292e;
+            --link-color: #0366d6;
+            --border-color: #e1e4e8;
+            --code-bg-color: #f3f3f3;
+            --warning-bg-color: #fffbdd;
+            --warning-border-color: #ffc300;
+            --active-nav-bg: #e8f0fe;
+            --active-nav-text: #1a73e8;
+        }
+
+        /* Сброс стилей и настройка шрифтов */
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            line-height: 1.6;
+            background-color: var(--main-bg-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        /* Структура макета */
+        .sidebar {
+            width: var(--sidebar-width);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            background-color: var(--content-bg-color);
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 40px;
+            max-width: 900px;
+        }
+
+        .content-wrapper {
+            background-color: var(--content-bg-color);
+            padding: 30px 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Стилизация навигации в боковой панели */
+        .sidebar h3 {
+            margin-top: 0;
+            color: #586069;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav ul li a {
+            display: block;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: var(--text-color);
+            border-radius: 5px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            font-weight: 500;
+        }
+
+        .sidebar nav ul li a:hover {
+            background-color: var(--main-bg-color);
+        }
+
+        .sidebar nav ul li a.active {
+            background-color: var(--active-nav-bg);
+            color: var(--active-nav-text);
+            font-weight: 600;
+        }
+        
+        /* Стилизация вложенных списков навигации */
+        .sidebar nav ul ul {
+            padding-left: 20px;
+        }
+
+        .sidebar nav ul ul li a {
+            font-size: 0.9em;
+            font-weight: 400;
+        }
+
+        /* Стилизация контента */
+        h1, h2, h3 {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5em;
+            margin-top: 2em;
+            margin-bottom: 1em;
+            scroll-margin-top: 20px; /* Offset for scroll spy */
+        }
+
+        h1:first-child {
+            margin-top: 0;
+        }
+
+        h1 { font-size: 2em; }
+        h2 { font-size: 1.6em; }
+        h3 { font-size: 1.3em; }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Стили для кода */
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            background-color: var(--code-bg-color);
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 85%;
+            border-radius: 3px;
+            border: 1px solid var(--border-color);
+        }
+
+        pre {
+            background-color: var(--code-bg-color);
+            padding: 16px;
+            overflow: auto;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        pre code {
+            padding: 0;
+            margin: 0;
+            font-size: 100%;
+            background-color: transparent;
+            border: none;
+        }
+
+        /* Стили для предупреждений */
+        .warning-box {
+            background-color: var(--warning-bg-color);
+            border-left: 5px solid var(--warning-border-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        /* Стили для плейсхолдеров */
+        .placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 2px dashed #b0b0b0;
+            padding: 40px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background-color: #fafafa;
+            color: #777;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .content-wrapper {
+                padding: 15px 20px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="sidebar">
-    <h2>Навигация</h2>
-    <ul>
-        <li><a href="#welcome">👋 Введение</a></li>
-        <li><a href="#core-features">👑 Ключевые возможности</a></li>
-        <li><a href="#quick-start">🚀 Быстрый старт</a></li>
-        <li><a href="#main-components">⚙️ Основные компоненты</a></li>
-        <li><a href="#tool-window">🛠️ Окно "Localization Tool"</a></li>
-        <li><a href="#editor-window">📝 Редактор переводов</a></li>
-        <li><a href="#examples">💡 Примеры использования</a></li>
-        <li><a href="#important">⚠️ Важные нюансы</a></li>
-    </ul>
-</div>
+    <aside class="sidebar">
+        <h3>Оглавление</h3>
+        <nav id="table-of-contents">
+            <ul>
+                <li><a href="#vvedenie">1. Введение</a></li>
+                <li><a href="#bystryj-start">2. Быстрый старт и настройка</a></li>
+                <li><a href="#osnovnye-komponenty">3. Основные компоненты</a></li>
+                <li><a href="#okno-localization-tool">4. Окно "Localization Tool"</a></li>
+                <li><a href="#redaktor-perevodov">5. Редактор переводов</a></li>
+                <li><a href="#primery-ispolzovaniya">6. Примеры использования</a></li>
+                <li><a href="#vazhnye-nyuansy">7. Важные нюансы и предупреждения</a></li>
+                <li><a href="#rasshirenie-funkcionala">8. Расширение функционала</a></li>
+            </ul>
+        </nav>
+    </aside>
 
-<div class="main-content">
-    <section id="welcome">
-        <h1>Документация по инструменту локализации для Unity</h1>
-        <p>Этот инструмент представляет собой комплексное решение для локализации игр и приложений в Unity. Он позволяет автоматизировать процесс сбора текста и ассетов, управлять переводами через мощный интерфейс, интегрироваться с сервисами машинного перевода и динамически обновлять локализованный контент в игре.</p>
-    </section>
+    <main class="main-content">
+        <div class="content-wrapper">
+            <h1 id="vvedenie">1. 🚀 Введение</h1>
+            <p>Этот инструмент представляет собой комплексное решение для локализации игр и приложений в Unity. Он позволяет автоматизировать процесс сбора текста и ассетов, управлять переводами через мощный интерфейс, интегрироваться с сервисами машинного перевода и динамически обновлять локализованный контент в игре.</p>
+            
+            <h2 id="klyuchevye-vozmozhnosti">Ключевые возможности</h2>
+            <ul>
+                <li><strong>Продвинутый парсинг:</strong> Автоматическое сканирование сцен, префабов, UI Toolkit (UXML) и C# скриптов, включая поля, отмеченные атрибутом <code>[LocalizableField]</code>, а также вложенные классы и списки.</li>
+                <li><strong>Локализация любых ассетов:</strong> Управление спрайтами, аудио, префабами, материалами и т.д.</li>
+                <li><strong>Мощный редактор переводов:</strong> Централизованный интерфейс с автосохранением, полной поддержкой Undo/Redo и умной группировкой ключей.</li>
+                <li><strong>Машинный перевод:</strong> Интеграция с DeepL, Google Translate и Microsoft Translator с гибкими настройками (размер пакета, количество повторных попыток) для каждого сервиса.</li>
+                <li><strong>Гибкий импорт/экспорт:</strong> Поддержка CSV, XML, YAML, XLIFF и прямой импорт из Google Sheets.</li>
+                <li><strong>Live Preview в редакторе:</strong> Предпросмотр любого языка, не запуская игру.</li>
+                <li><strong>Поддержка Plural & Gender:</strong> Корректная обработка форм множественного числа (с правилами для славянских, арабского и других языков) и рода.</li>
+                <li><strong>Полная поддержка RTL:</strong> Корректное отображение языков с написанием справа налево.</li>
+                <li><strong>Live Updates:</strong> Загрузка актуальных переводов с удаленного сервера при старте игры.</li>
+                <li><strong>Менеджер бэкапов:</strong> Встроенный инструмент для создания и восстановления резервных копий.</li>
+            </ul>
+            <div class="placeholder">[--- МЕСТО ДЛЯ GIF: Демонстрация ключевых возможностей в действии ---]</div>
 
-    <section id="core-features">
-        <h2>👑 Ключевые возможности</h2>
-        <h3>Core Features & Workflow</h3>
-        <ul>
-            <li><b>Мощный редактор таблицы переводов</b>: Полноценный интерфейс для управления всеми ключами и переводами прямо в Unity с полной поддержкой Undo/Redo, автосохранением и восстановлением сессии.</li>
-            <li><b>Умная группировка ключей</b>: Автоматически объединяет ключи для множественного числа и рода (например, <code>apple_one</code>, <code>apple_few</code>) в сворачиваемые группы.</li>
-            <li><b>Продвинутая система парсинга</b>: Автоматический поиск текста в сценах, префабах, UI Toolkit (UXML) и C# скриптах (включая поля с атрибутом <code>[LocalizableField]</code>).</li>
-            <li><b>Локализация любых ассетов</b>: Поддержка спрайтов, текстур, аудиоклипов, материалов, видео, префабов и других типов ассетов.</li>
-            <li><b>Live Updates (Живые обновления)</b>: Загрузка актуальных переводов с удаленного URL (Google Sheets или JSON) при старте игры с кэшированием.</li>
-        </ul>
-        <h3>Automation & Tools</h3>
-        <ul>
-            <li><b>Контекстный поиск по проекту</b>: Асинхронный инструмент "Find" для мгновенного нахождения любого локализованного элемента.</li>
-            <li><b>Детальный отчет о парсинге</b>: На вкладке 'Report' доступен подробный отчет со всеми изменениями (Added, Updated, Removed и т.д.).</li>
-            <li><b>Импорт и экспорт данных</b>: Поддержка форматов CSV, XML, YAML и XLIFF, а также прямой импорт из Google Sheets.</li>
-        </ul>
-    </section>
-    
-    <section id="quick-start">
-        <h2>🚀 Быстрый старт и настройка</h2>
-        <h3>1. Установка</h3>
-        <p>Скопируйте ассет в папку вашего проекта. Инструмент автоматически предложит установить необходимые зависимости. После установки откройте окно через <b>Tools -> Localization Tool</b>.</p>
-        
-        <h3>2. Первоначальная настройка</h3>
-        <ol>
-            <li><b>Настройка языков</b>: На вкладке <b>Settings -> Language Management</b> выберите ваш основной язык как <code>Source Language</code> и включите (<code>Enabled</code>) все целевые языки.</li>
-            <li><b>Указание контента</b>: На вкладке <b>Content</b> добавьте ваши сцены в <code>Scenes to Parse</code> и папки с префабами в <code>Prefab Folders</code>.</li>
-            <li><b>Первый запуск</b>: Перейдите на вкладку <b>Actions</b> и нажмите <b>Update Keys</b>. Инструмент просканирует проект и автоматически добавит необходимые компоненты.</li>
-        </ol>
-    </section>
+            <h1 id="bystryj-start">2. 🛠️ Быстрый старт и настройка</h1>
+            
+            <h2 id="ustanovka">2.1. Установка</h2>
+            <ol>
+                <li>Скопируйте ассет в папку вашего проекта Unity.</li>
+                <li>Инструмент автоматически проверит наличие необходимых зависимостей. В появившемся диалоговом окне установщика подтвердите установку.</li>
+                <li>Обязательные зависимости (<code>Newtonsoft Json</code>, <code>Editor Coroutines</code>) необходимы для базовой работы.</li>
+                <li>Опциональные зависимости (<code>Arabic Support</code>, <code>CsvHelper</code>, <code>YamlDotNet</code>) включают дополнительные функции.</li>
+                <li>Нажмите <strong>Install Selected</strong>, чтобы установить рекомендуемые пакеты.</li>
+                <li>После установки откройте главное окно инструмента через меню <strong>Tools -> Localization Tool</strong>.</li>
+            </ol>
+            <div class="placeholder">[--- МЕСТО ДЛЯ ИЗОБРАЖЕНИЯ: Скриншот окна установщика зависимостей ---]</div>
+            
+            <h2 id="pervonachalnaya-nastrojka">2.2. Первоначальная настройка</h2>
+            <ol>
+                <li><strong>Создание настроек:</strong> При первом открытии инструмент создаст файл настроек <code>LocalizationSettings.asset</code> в папке <code>Assets/Resources</code>.</li>
+                <li><strong>Настройка языков:</strong> На вкладке <strong>Settings</strong> в секции <strong>Language Management</strong> убедитесь, что ваш основной язык (например, <code>en</code> — английский) выбран как <strong>Source Language</strong>. Включите (<strong>Enabled</strong>) все языки, которые вы планируете поддерживать.</li>
+                <li><strong>Указание контента для парсинга:</strong> На вкладке <strong>Content</strong> добавьте все сцены для анализа в список <strong>Scenes to Parse</strong>. Если вы используете префабы с текстом, убедитесь, что папки с ними добавлены в <strong>Prefab Folders</strong>.</li>
+                <li><strong>Первый запуск парсера:</strong> Перейдите на вкладку <strong>Actions</strong> и нажмите кнопку <code>Update Keys</code>. Инструмент просканирует ваш проект, создаст файлы с переводами и автоматически добавит необходимые компоненты (<code>LocalizedText</code>, <code>LocalizedAsset</code> и т.д.) на игровые объекты.</li>
+            </ol>
+            <div class="placeholder">[--- МЕСТО ДЛЯ GIF: Пошаговая первоначальная настройка (выбор языка, добавление сцен, запуск парсера) ---]</div>
 
-    <section id="main-components">
-        <h2>⚙️ Основные компоненты</h2>
-        <p class="warning"><b>Важно:</b> Все компоненты добавляются на объекты автоматически при нажатии <code>Update Keys</code>. Вам не нужно делать это вручную.</p>
-        <ul>
-            <li><code>LocalizedText</code>: Основной компонент для текста (Text, TMP_Text).</li>
-            <li><code>LocalizedAsset</code>: Для подмены ассетов (Sprite, AudioClip, Material). Корректно работает с <code>Play on Awake</code>.</li>
-            <li><code>LocalizedPrefab</code>: Для неразрушающей локализации префабов.</li>
-            <li><code>UITKLocalization</code>: Управляет локализацией внутри UI Toolkit (UXML) документов.</li>
-            <li><code>LocalizedBehaviour</code>: Позволяет вашим скриптам реагировать на смену языка через атрибут <code>[OnLanguageChange]</code>.</li>
-        </ul>
-    </section>
-    
-    <section id="tool-window">
-        <h2>🛠️ Окно "Localization Tool"</h2>
-        <p>Это ваш главный центр управления. Здесь есть несколько вкладок:</p>
-        <ul>
-            <li><b>Settings</b>: Глобальные настройки, выбор режима генерации ключей, управление языками.</li>
-            <li><b>Content</b>: Указание сцен, префабов и динамического текста для парсинга.</li>
-            <li><b>Actions</b>: Запуск парсера, импорт/экспорт, авто-перевод.</li>
-            <li><b>Report</b>: Подробный отчет после каждого парсинга. Позволяет отследить все изменения и найти любой ключ в проекте.</li>
-        </ul>
-    </section>
+            <h1 id="osnovnye-komponenty">3. 🧩 Основные компоненты (назначаются автоматически)</h1>
+            <div class="warning-box">
+                <strong>Важное замечание:</strong> Все описанные ниже компоненты добавляются на игровые объекты автоматически в процессе парсинга (когда вы нажимаете кнопку <code>Update Keys</code>). Вам не нужно добавлять их вручную.
+            </div>
+            <p>Эти компоненты — "мост" между вашими объектами в сцене и базой данных переводов. Они "слушают" смену языка и автоматически подставляют нужный текст или ассет.</p>
+            
+            <h2 id="localizedtext">3.1. LocalizedText</h2>
+            <p>Основной компонент для отображения переведенного текста. Устанавливается на объекты с <code>Text</code>, <code>TMP_Text</code> и <code>TextMesh</code>.</p>
+            <ul>
+                <li><code>localizationKey</code>: Ключ, по которому находится перевод. Генерируется автоматически.</li>
+                <li><code>isStyleOnly</code>: Если <code>true</code>, компонент будет применять только стили (шрифт, RTL), но не менять сам текст. Полезно для элементов, текст которых управляется другим скриптом (например, <code>LanguageSelector</code>).</li>
+                <li><code>originalSourceText</code>: Исходный текст на базовом языке. Используется как резервный вариант.</li>
+            </ul>
 
-    <section id="editor-window">
-        <h2>📝 Редактор переводов ("Translation Table Editor")</h2>
-        <p>Отдельное окно (<code>Tools -> Localization -> Translation Table Editor</code>) для ручного редактирования переводов.</p>
-        <ul>
-            <li>Умная группировка ключей для множественного числа и рода.</li>
-            <li>Продвинутое редактирование с окном <code>MultiLineEditWindow</code>, которое показывает исходный текст и валидирует плейсхолдеры в реальном времени.</li>
-            <li>Полная поддержка Undo/Redo (Ctrl+Z / Ctrl+Y).</li>
-            <li>Встроенный менеджер бэкапов и автосохранение сессии.</li>
-        </ul>
-    </section>
+            <h2 id="localizedasset">3.2. LocalizedAsset</h2>
+            <p>Используется для подмены ассетов (<code>Sprite</code>, <code>AudioClip</code>, <code>Material</code> и т.д.). Он автоматически определяет тип целевого компонента на объекте (<code>Image</code>, <code>AudioSource</code>) и подменяет его ресурс.</p>
+            <p>Для компонентов с опцией <strong>Play on Awake</strong> (таких как <code>AudioSource</code>, <code>VideoPlayer</code>), <code>LocalizedAsset</code> корректно перехватывает автозапуск, подменяет ассет и затем запускает воспроизведение, чтобы избежать проигрывания нелокализованного контента.</p>
 
-    <section id="examples">
-        <h2>💡 Примеры использования</h2>
-        <h3>Атрибут <code>[LocalizableField]</code></h3>
-        <p>Предпочтительный способ для локализации полей в инспекторе. Работает со строками, списками и даже вложенными классами.</p>
-<pre><code>using Ankonoanko.Localization;
+            <h2 id="localizedprefab">3.3. LocalizedPrefab</h2>
+            <p>Компонент для локализации целых префабов. Он работает неразрушающим образом: не изменяет исходный префаб, а создает экземпляр локализованной версии как дочерний объект, отключая все скрипты (<code>MonoBehaviour</code>), рендереры (<code>Renderer</code>) и коллайдеры (<code>Collider</code>) на оригинальном объекте. Это предотвращает двойное выполнение логики и появление визуальных артефактов. Для корректной работы в рантайме его порядок выполнения установлен на -100 (<code>[DefaultExecutionOrder(-100)]</code>), чтобы он срабатывал раньше других скриптов.</p>
+
+            <h2 id="uitklocalization">3.4. UITKLocalization</h2>
+            <p>Добавляется на объекты с <code>UIDocument</code> и управляет локализацией всех текстовых элементов внутри UI Toolkit документа (UXML).</p>
+            
+            <h2 id="localizeddropdown">3.5. LocalizedDropdown</h2>
+            <p>Добавляется на <code>Dropdown</code> и <code>TMP_Dropdown</code> для перевода их вариантов.</p>
+
+            <h2 id="localizedbehaviour">3.6. LocalizedBehaviour</h2>
+            <p>Служебный компонент, который позволяет вашим скриптам реагировать на смену языка. Он автоматически находит и вызывает методы, помеченные атрибутом <code>[OnLanguageChange]</code>.</p>
+
+            <h2 id="kontekstnoe-menyu">3.7. Контекстное меню "Analyze for Localization"</h2>
+            <p>Для быстрого добавления <code>LocalizedAsset</code> на объект, вы можете кликнуть правой кнопкой мыши по нужному компоненту (например, <code>Image</code>, <code>AudioSource</code>) в инспекторе и выбрать <strong>Analyze for Localization</strong>. Инструмент сам добавит и настроит компонент. (Это необязательно, но можно использовать для мануального добавления).</p>
+            <div class="placeholder">[--- МЕСТО ДЛЯ ИЗОБРАЖЕНИЯ: Скриншот контекстного меню с опцией "Analyze for Localization" ---]</div>
+
+            <h1 id="okno-localization-tool">4. 🖼️ Окно "Localization Tool"</h1>
+
+            <h2 id="in-editor-preview">4.1. Предпросмотр в редакторе (In-Editor Preview)</h2>
+            <p>Прямо под заголовком находится выпадающий список <strong>Preview Language</strong>. Эта мощная функция позволяет увидеть, как будет выглядеть локализация на любом языке прямо в окне <strong>Scene</strong>, не запуская игру.</p>
+            <div class="placeholder">[--- МЕСТО ДЛЯ GIF: Демонстрация работы Live Preview в редакторе Unity ---]</div>
+            <ul>
+                <li><strong>Как это работает:</strong> Выберите язык из списка, и инструмент мгновенно применит соответствующие переводы, шрифты, RTL-настройки и ассеты ко всем локализуемым объектам на активной сцене.</li>
+                <li><strong>Плейсхолдеры:</strong> Если на вкладке <strong>Settings</strong> выбран стиль плейсхолдеров (например, <strong>Accents</strong> или <strong>Brackets</strong>), то в режиме превью вместо реальных переводов будут отображаться эти плейсхолдеры. Это идеально подходит для тестирования верстки и поиска нелокализованных элементов.</li>
+                <li><strong>Безопасность:</strong> Все изменения, внесенные в режиме превью, являются временными. Инструмент автоматически вернет все в исходное состояние при выборе "<strong>Revert to Original</strong>", закрытии окна, смене сцены или перед сохранением сцены/префаба (благодаря компоненту <code>LocalizationPreviewProtector</code>).</li>
+                <li><strong>Защита от сбоев:</strong> Встроенная система <code>PreviewCrashProtector</code> автоматически восстановит исходное состояние объектов, если редактор Unity закроется аварийно во время активного превью.</li>
+            </ul>
+
+            <h2 id="vkladka-settings">4.2. Вкладка "Settings" (Настройки)</h2>
+            <p>Ваш центр управления. Здесь вы определяете глобальные правила для всего процесса локализации.</p>
+            <div class="placeholder">[--- МЕСТО ДЛЯ ИЗОБРАЖЕНИЯ: Скриншот вкладки "Settings" ---]</div>
+            <ul>
+                <li><strong>Key Generation Mode:</strong> Выберите, как будут создаваться ключи.
+                    <ul>
+                        <li><code>UseTextAsKey</code>: Ключом становится сам текст. Идеально для прототипов. Минус: если изменить исходный текст, ключ изменится, и все его переводы будут потеряны.</li>
+                        <li><code>AutoGenerateKeysOnly</code>: Ключ генерируется на основе иерархии и имени объекта. Надежно для продакшена. Плюс: переводы не ломаются при изменении текста.</li>
+                        <li><code>UseTextAsKeyWithCustomPriority</code> и <code>AutoGenerateWithCustomKeys</code>: Гибридные режимы, позволяющие задавать кастомные ключи в коде через атрибут <code>[LocalizableField("my_custom_key")]</code>.</li>
+                        <li><strong>Безопасная миграция:</strong> Вы можете сменить режим в любой момент. Инструмент автоматически перенесет все существующие переводы на новую систему ключей.</li>
+                    </ul>
+                </li>
+                <li><strong>Language Management:</strong> Настройте список языков. Для языков с особыми символами назначьте соответствующий <strong>Font Asset</strong>. Включите опцию <strong>RTL</strong> для языков с письмом справа налево.</li>
+                <li><strong>General Settings:</strong>
+                    <ul>
+                        <li><code>Parse Prefabs</code>: Включает парсинг префабов.</li>
+                        <li><code>Split files by language</code>: Определяет, как хранить переводы (один большой файл или по файлу на язык).</li>
+                        <li><code>Translations Path</code>: Путь для хранения файлов <code>.json</code> с переводами. Важно: папка должна находиться внутри <code>Assets/StreamingAssets/</code>.</li>
+                    </ul>
+                </li>
+                <li><strong>Debugging & Testing:</strong>
+                    <ul>
+                        <li><code>Placeholder Style</code>: Выберите стиль для отображения плейсхолдеров в режиме превью.</li>
+                    </ul>
+                </li>
+                <li><strong>Live Updates:</strong> Настройки для загрузки переводов с удаленного сервера.</li>
+                <li><strong>Runtime API Key:</strong> Секция для безопасного хранения API ключа, который может понадобиться в скомпилированной игре (хранится в зашифрованном виде).</li>
+            </ul>
+
+            <h2 id="vkladka-content">4.3. Вкладка "Content" (Контент)</h2>
+            <p>Здесь вы сообщаете инструменту, где именно искать текст.</p>
+            <div class="placeholder">[--- МЕСТО ДЛЯ ИЗОБРАЖЕНИЯ: Скриншот вкладки "Content" ---]</div>
+            <ul>
+                <li><strong>Scenes to Parse:</strong> Перетащите сюда все сцены для анализа.</li>
+                <li><strong>Prefab Folders:</strong> Укажите папки с префабами.</li>
+                <li><strong>Dynamic Texts:</strong> Впишите сюда строки, которые создаются исключительно в коде (например, "Game Over").</li>
+                <li><strong>Parsing Ignores:</strong> Укажите скрипты, компоненты или объекты для игнорирования.</li>
+                <li><strong>Pin:</strong> Эта функция позволяет "закрепить" объект из сцены в списке игнорирования. Вместо временной ссылки на объект, инструмент сохранит его полный путь в иерархии, делая игнорирование постоянным между сессиями (но учтите, что переименование объекта или его родителя сломает эту связь).</li>
+            </ul>
+
+            <h2 id="vkladka-actions">4.4. Вкладка "Actions" (Действия)</h2>
+            <p>Главная рабочая вкладка.</p>
+            <div class="placeholder">[--- МЕСТО ДЛЯ ИЗОБРАЖЕНИЯ: Скриншот вкладки "Actions" ---]</div>
+            <ul>
+                <li><strong>Update Keys:</strong> Запускает парсер, который обновляет ваши файлы переводов.</li>
+                <li><strong>Open Translation Editor:</strong> Открывает отдельное, более удобное окно для редактирования всех переводов.</li>
+                <li><strong>Data Management:</strong> Используйте для обмена данными с переводчиками (Export/Import в CSV/XML/YAML/XLIFF, импорт из Google Sheets).</li>
+                <li><strong>Auto-Translation:</strong> Автоматически заполняет все пустые строки переводов. Новые настройки позволяют управлять размером пакета (<strong>Batch Size</strong>) и политикой повторных попыток (<strong>Retry Policy</strong>) для каждого сервиса (DeepL, Google, Microsoft) отдельно. Инструмент отслеживает количество переведенных символов и предупреждает о возможном превышении лимита.</li>
+                <li><strong>Danger Zone:</strong> Содержит кнопки для полного удаления всех компонентов локализации из проекта. Используйте с осторожностью!</li>
+            </ul>
+
+            <h2 id="vkladka-assets">4.5. Вкладка "Assets" (Ассеты)</h2>
+            <p>Эта вкладка полностью посвящена локализации нетекстовых ресурсов.</p>
+            <div class="placeholder">[--- МЕСТО ДЛЯ ИЗОБРАЖЕНИЯ: Скриншот вкладки "Assets" ---]</div>
+            <ol>
+                <li><strong>Создайте структуру папок (опционально):</strong> В секции <strong>2. Asset Folder Generation</strong> нажмите <strong>Create Asset Folders Now</strong>.</li>
+                <li><strong>Настройте категории и правила именования:</strong> В секции <strong>3. Asset Categories & Scanning</strong> убедитесь, что правило <strong>Naming Rule</strong> (<code>{key}_{lang}</code>) соответствует вашим файлам (например, <code>button_ok_en.png</code>).</li>
+                <li><strong>Разместите ваши ассеты:</strong> Положите локализованные ассеты в папки.</li>
+                <li><strong>Просканируйте ассеты:</strong> В секции <strong>4. Automation</strong> нажмите <strong>Scan Assets & Update Tables</strong>. Процесс очистки стал безопаснее: теперь удаляются только старые файлы таблиц (<code>.asset</code>), а не вся папка.</li>
+                <li><strong>Привяжите ассеты к объектам:</strong> Нажмите <strong>Analyze Project & Attach Components</strong>.</li>
+            </ol>
+
+            <h2 id="vkladka-report">4.6. Вкладка "Report" (Отчет)</h2>
+            <p>После каждого парсинга этот отчет показывает полную картину состояния вашей локализации.</p>
+            <div class="placeholder">[--- МЕСТО ДЛЯ ИЗОБРАЖЕНИЯ: Скриншот вкладки "Report" с примерами записей ---]</div>
+            <ul>
+                <li><strong>Категории:</strong> All Keys (все ключи), Added (новые), Updated (текст изменился), Removed (удаленные), Duplicates (дубликаты), Migrated (перенесенные), Skipped (неизменные).</li>
+                <li><strong>Продвинутый поиск:</strong> Нажмите кнопку <strong>Find</strong> напротив любой записи, чтобы мгновенно найти соответствующий объект в проекте. Поиск работает асинхронно, не блокируя редактор, и ищет по всем сценам и префабам. Если ключ используется в нескольких местах, появится выпадающий список со всеми источниками.</li>
+            </ul>
+
+            <h1 id="redaktor-perevodov">5. 📝 Редактор переводов ("Translation Table Editor")</h1>
+            <p>Открывается через <strong>Tools -> Localization -> Translation Table Editor</strong>. Это основной инструмент для ручного редактирования переводов.</p>
+            <div class="placeholder">[--- МЕСТО ДЛЯ GIF: Работа в редакторе переводов - группировка, редактирование, Undo/Redo ---]</div>
+            <ul>
+                <li><strong>Умная группировка:</strong> Ключи для множественного числа и рода (например, <code>apple_count_one</code>, <code>apple_count_few</code>) автоматически объединяются в сворачиваемые группы.</li>
+                <li><strong>Продвинутое редактирование:</strong> Кликните на ячейку, чтобы открыть всплывающее окно <strong>MultiLineEditWindow</strong>. Оно показывает исходный текст для сравнения, позволяет быстро его скопировать и в реальном времени проверяет совпадение плейсхолдеров (например, <code>{username}</code>), подсвечивая недостающие или лишние.</li>
+                <li><strong>Валидация плейсхолдеров через комментарии:</strong> Вы можете явно указать, какие плейсхолдеры должны быть в переводе, добавив в комментарий к ключу специальную директиву, например: <code>@placeholders: {username}, {score}</code>. <strong>MultiLineEditWindow</strong> будет использовать этот список как основной источник правды.</li>
+                <li><strong>Навигация и управление:</strong> Перемещайтесь по таблице скроллбарами или зажав среднюю кнопку мыши. Изменяйте ширину колонок, перетаскивая разделители. Сохраняйте изменения по <code>Ctrl+S</code>.</li>
+                <li><strong>Полный Undo/Redo:</strong> Весь стек действий (изменение текста, добавление/удаление ключей) полностью поддерживается через <code>Ctrl+Z</code> / <code>Ctrl+Y</code>.</li>
+                <li><strong>Резервные копии и автосохранение:</strong> Используйте кнопку <strong>Manage Backups</strong>. Инструмент также автоматически сохраняет вашу сессию каждые несколько минут. При аварийном закрытии будет предложено восстановить изменения.</li>
+            </ul>
+            
+            <h1 id="primery-ispolzovaniya">6. 💡 Примеры использования</h1>
+
+            <h2 id="gotovye-komponenty">6.1. Готовые компоненты и примеры</h2>
+            <p>Проект содержит готовые к использованию скрипты, которые служат отличными примерами.</p>
+            <ul>
+                <li><strong><code>LanguageSelector.cs</code>:</strong> Готовый компонент для создания UI выпадающего списка для смены языка. Он автоматически находит все доступные языки и управляет их переключением.
+                <br><strong>Как использовать:</strong> Просто добавьте компонент <code>LanguageSelector</code> на вашу сцену (например, на пустой GameObject) и укажите в инспекторе ваш <code>TMP_Dropdown</code>.
+                </li>
+                <li><strong>Примеры в коде:</strong> Для изучения продвинутых техник, таких как работа с <code>[LocalizableField]</code>, функцией <code>_()</code>, множественным числом и родом, изучите файлы <code>StatPurchaseTest.cs</code> и <code>TestLocalization.cs</code>. Они наглядно демонстрируют реализацию всех основных возможностей инструмента в коде.</li>
+            </ul>
+
+            <h2 id="attribut-localizablefield">6.2. Атрибут [LocalizableField]</h2>
+            <p>Предпочтительный способ для текстов, которые являются частью конфигурации компонента в инспекторе. Парсер теперь умеет работать со строками, списками/массивами строк и даже полями внутри вложенных <code>[System.Serializable]</code> классов.</p>
+            <pre><code>using Ankonoanko.Localization; // Required for [LocalizableField]
 using UnityEngine;
+using System.Collections.Generic;
 
 public class QuestManager : MonoBehaviour
 {
-    // Парсер найдет это поле
+    // Парсер найдет это поле и создаст для него ключ
     [LocalizableField]
     private string defaultQuestFailedMessage = "You have failed the quest.";
-
+    
     // Можно задать собственный ключ
     [LocalizableField("custom_quest_start_dialog")]
     public string startDialog = "Are you ready for an adventure?";
+    
+    // Работает со списками
+    [LocalizableField]
+    private List&lt;string&gt; missionObjectives = new List&lt;string&gt; { "Find the treasure" };
+    
+    // И даже с вложенными классами!
+    [System.Serializable]
+    public class ItemInfo
+    {
+        [LocalizableField] public string Name;
+        [LocalizableField] public string Description;
+    }
+    
+    [LocalizableField]
+    private ItemInfo magicSword;
 }</code></pre>
-        <h3>Функция <code>_()</code> и атрибут <code>[OnLanguageChange]</code></h3>
-        <p>Используйте функцию <code>_()</code> для динамического текста, который меняется в ходе игры.</p>
-<pre><code>using static Ankonoanko.Localization.LocalizationManager;
-using Ankonoanko.Localization;
+
+            <h2 id="funkciya-i-onlanguagechange">6.3. Функция _() и атрибут [OnLanguageChange]</h2>
+            <p>Используйте функцию <code>_()</code> для динамического текста, который меняется в ходе игры. Метод, обновляющий UI, следует пометить атрибутом <code>[OnLanguageChange]</code>, чтобы он вызывался автоматически при смене языка. Для этого на объект будет автоматически добавлен компонент <code>LocalizedBehaviour</code>.</p>
+            <pre><code>// Чтобы использовать короткий вызов _(), добавьте эти строки
+using static Ankonoanko.Localization.LocalizationManager;
+using Ankonoanko.Localization; // Required for [OnLanguageChange]
 using UnityEngine;
+using TMPro;
+using System.Collections.Generic;
 
 public class PlayerHUD : MonoBehaviour
 {
+    [SerializeField] private TMP_Text scoreText;
+    private int score = 100;
+    private string playerName = "Alex";
+    
+    void Start()
+    {
+        UpdateUI(); // Первоначальное обновление
+    }
+    
+    // Этот метод будет вызван автоматически при смене языка
     [OnLanguageChange]
     void UpdateUI()
     {
-        int score = 100;
-        // Ключ: "score_label", Текст: "Score: {0}"
-        scoreText.text = _("score_label", score); 
+        // 1. Индексные плейсхолдеры (как в string.Format)
+        // Ключ: "score_label", Текст в файле: "Score: {0}"
+        scoreText.text = _("score_label", score); // Результат: "Score: 100"
+        
+        // 2. Именованные плейсхолдеры (рекомендуется для читаемости)
+        // Ключ: "welcome_message", Текст: "Welcome, {username}!"
+        string welcomeText = _("welcome_message", new { username = playerName });
+        
+        // Для сложных случаев или высокой производительности
+        var args = new Dictionary&lt;string, object&gt; { { "username", playerName } };
+        string welcomeText2 = _("welcome_message", args);
     }
 }</code></pre>
-    </section>
+
+            <h2 id="mnozhestvennoe-chislo-i-rod">6.4. Множественное число и род</h2>
+            <p>Инструмент теперь использует более точные правила для разных языковых групп.</p>
+            <pre><code>using static Ankonoanko.Localization.LocalizationManager;
+using Ankonoanko.Localization;
+using UnityEngine;
+
+public class ItemCounter : MonoBehaviour
+{
+    void DisplayItemCount(int count)
+    {
+        // Ключи: "apple_count_one", "apple_count_few", "apple_count_many"
+        // Тексты: "{0} яблоко", "{0} яблока", "{0} яблок"
+        string appleText = _("apple_count", count); 
+        Debug.Log(appleText); // Автоматически выберет правильную форму
+    }
     
-    <section id="important">
-        <h2>⚠️ Важные нюансы</h2>
-        <div class="warning">
-            <ul>
-                <li><b>Резервные копии</b>: Всегда создавайте бэкап перед глобальными операциями.</li>
-                <li><b>Папка <code>StreamingAssets</code></b>: Файлы переводов должны находиться в <code>Assets/StreamingAssets/</code>, чтобы попасть в билд игры.</li>
-                <li><b>Исключение <code>LanguageSelector</code></b>: Объект с компонентом <code>LanguageSelector</code> необходимо добавить в список игнорирования на вкладке <code>Content</code>.</li>
-            </ul>
+    void GreetUser(Gender userGender)
+    {
+        // Ключи: "user_greeted_male", "user_greeted_female"
+        // Тексты: "Он пришел.", "Она пришла."
+        string greeting = _("user_greeted", userGender);
+        Debug.Log(greeting);
+    }
+}</code></pre>
+            
+            <h1 id="vazhnye-nyuansy">7. ⚠️ Важные нюансы и предупреждения</h1>
+            <div class="warning-box">
+                <ul>
+                    <li><strong>Резервные копии:</strong> Перед глобальными операциями (<code>Update Keys</code>, импорт данных) всегда создавайте резервную копию через <strong>Translation Table Editor -> Manage Backups</strong>.</li>
+                    <li><strong>Безопасность API ключей:</strong> Ключ для работы в редакторе хранится локально на вашей машине (в <code>EditorPrefs</code>) и не попадает в репозиторий. Для ключей, которые нужны в билде игры, используйте секцию <strong>Runtime API Key</strong>.</li>
+                    <li><strong>Папка <code>StreamingAssets</code>:</strong> Файлы переводов должны находиться в подпапке <code>Assets/StreamingAssets/</code>, чтобы они были включены в сборку игры.</li>
+                    <li><strong>"Защита от дурака":</strong> Инструмент автоматически защищает вас от случайного сохранения временных данных из режима превью в сцену или префаб.</li>
+                    <li><strong>Производительность:</strong> Вызов <code>_()</code> является быстрым, но в циклах, которые выполняются каждый кадр (например, в <code>Update</code>), старайтесь кэшировать результат в переменную.</li>
+                    <li><strong>Исключение <code>LanguageSelector</code> из парсинга:</strong> Объект с компонентом <code>LanguageSelector</code> и его <code>TMP_Dropdown</code> необходимо добавить в список <strong>Ignore Specific Objects</strong> на вкладке <strong>Content</strong>. Это нужно, чтобы парсер не создавал лишние ключи для вариантов в дропдауне, так как скрипт <code>LanguageSelector</code> заполняет их динамически во время выполнения. Игнорирование предотвращает конфликты и сохраняет чистоту в файлах переводов.</li>
+                    <li><strong>Шрифты для <code>LanguageSelector</code>:</strong> Чтобы выбранный язык в <code>TMP_Dropdown</code> корректно обновлял свой шрифт, вручную добавьте на дочерний объект <strong>Label</strong> у Dropdown пустой компонент <code>LocalizedText</code> и включите у него галочку <code>isStyleOnly</code>.</li>
+                </ul>
+            </div>
+            
+            <h1 id="rasshirenie-funkcionala">8. 🧬 Расширение функционала</h1>
+            <h2 id="sozdanie-kastomnogo-parsera">8.1. Создание кастомного парсера</h2>
+            <p>Вы можете легко расширить систему для поддержки кастомных компонентов, создав свой класс-парсер.</p>
+            <ol>
+                <li>Создайте новый C# скрипт в папке <strong>Editor</strong> вашего проекта.</li>
+                <li>Скопируйте в него приведенный ниже шаблон.</li>
+                <li>Измените логику, чтобы она соответствовала вашему компоненту.</li>
+            </ol>
+            <pre><code>#if UNITY_EDITOR
+using System.Collections.Generic;
+using UnityEngine;
+using Ankonoanko.Localization;
+
+// ШАБЛОН для создания парсера для кастомного компонента.
+public class CustomComponentParser_Template : ITextComponentParser
+{
+    public IEnumerable&lt;(string text, string key, string source)&gt; Parse(
+        GameObject gameObject,
+        LocalizationSettings settings)
+    {
+        // 1. Проверяем, есть ли на объекте нужный нам кастомный компонент.
+        var component = gameObject.GetComponent&lt;AwesomeComponentFromAssetStore&gt;();
+        if (component == null)
+        {
+            yield break; // Выходим, если компонента нет
+        }
+        
+        // 2. Получаем текст из полей кастомного компонента.
+        string titleText = component.Title;
+        
+        // 3. Проверяем, является ли текст валидным для локализации.
+        if (TextParser.IsValidLocalizableText(titleText))
+        {
+            // 4. Генерируем ключ и источник, используя хелперы из TextParser.
+            string key = TextParser.GenerateKeyForObject(gameObject, titleText, settings.keyGenerationMode);
+            string source = TextParser.GetSourceStringForObject(gameObject);
+            
+            // 5. Возвращаем результат.
+            yield return (titleText, key, source);
+        }
+        
+        // 6. Повторяем для других полей...
+        // (можно добавить суффикс, чтобы ключи были уникальными)
+        string descriptionText = component.Description;
+        if (TextParser.IsValidLocalizableText(descriptionText))
+        {
+            string key = TextParser.GenerateKeyForObject(gameObject, descriptionText, settings.keyGenerationMode) + "_description";
+            string source = TextParser.GetSourceStringForObject(gameObject);
+            yield return (descriptionText, key, source);
+        }
+    }
+}
+#endif</code></pre>
+
         </div>
-    </section>
-</div>
+    </main>
 
-<script>
-    // Скрипт для подсветки активного пункта меню при прокрутке
-    const sections = document.querySelectorAll('section');
-    const navLi = document.querySelectorAll('.sidebar ul li a');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('h1[id], h2[id]');
+            const navLinks = document.querySelectorAll('#table-of-contents a');
 
-    window.addEventListener('scroll', ()=> {
-        let current = '';
-        sections.forEach( section => {
-            const sectionTop = section.offsetTop;
-            if (pageYOffset >= sectionTop - 60) {
-                current = section.getAttribute('id');
-            }
+            // Функция для плавной прокрутки
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Функция для подсветки активного пункта меню при прокрутке
+            const onScroll = () => {
+                let current = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.pageYOffset >= sectionTop - 60) { // 60px offset
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', onScroll);
+            onScroll(); // Вызываем сразу для установки начального состояния
         });
-
-        navLi.forEach( a => {
-            a.classList.remove('active');
-            if (a.getAttribute('href') == '#' + current) {
-                a.classList.add('active');
-            }
-        });
-    });
-</script>
-
+    </script>
 </body>
 </html>
