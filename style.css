@@ -17,6 +17,8 @@
     --icon-filter: grayscale(0);
     --highlight-bg-color: #fff2a8;
     --highlight-text-color: #24292e;
+    /* ИЗМЕНЕНИЕ: Добавлен цвет для текущего совпадения в поиске */
+    --current-match-shadow: #0366d6;
 }
 
 html[data-theme="dark"] {
@@ -36,6 +38,8 @@ html[data-theme="dark"] {
     --icon-filter: grayscale(1) brightness(1.5);
     --highlight-bg-color: #6b5800;
     --highlight-text-color: #f0f6fc;
+    /* ИЗМЕНЕНИЕ: Добавлен цвет для текущего совпадения в поиске (темная тема) */
+    --current-match-shadow: #58a6ff;
 }
 
 html { scroll-behavior: smooth; }
@@ -49,13 +53,17 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Стиль подсветки без "дергания" */
+/* ИЗМЕНЕНИЕ: Стили для выделения текущего совпадения */
 mark {
     background-color: var(--highlight-bg-color);
     color: var(--highlight-text-color);
-    padding: 0; /* Убираем внутренние отступы */
-    margin: 0;  /* Убираем внешние отступы */
+    padding: 0;
+    margin: 0;
     border-radius: 3px;
+    transition: box-shadow 0.2s ease-in-out;
+}
+mark.current-match {
+    box-shadow: 0 0 0 2px var(--current-match-shadow);
 }
 
 
@@ -141,6 +149,36 @@ mark {
     outline: none; border-color: var(--link-color);
     box-shadow: 0 0 0 2px rgba(3, 102, 214, 0.3);
 }
+
+/* ИЗМЕНЕНИЕ: Стили для навигации по поиску */
+#search-nav-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 8px;
+}
+#search-results-count {
+    font-size: 13px;
+    color: var(--secondary-text-color);
+}
+#search-nav-controls button {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--secondary-text-color);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+#search-nav-controls button:hover {
+    background-color: var(--main-bg-color);
+    color: var(--text-color);
+}
+/* Конец изменений */
+
+
 .sidebar nav, .sidebar nav ul { list-style: none; padding: 0; margin: 0; }
 .sidebar nav li { margin: 2px 0; }
 .sidebar nav a {
@@ -154,7 +192,6 @@ mark {
     font-weight: 700;
 }
 
-/* ИСПРАВЛЕНИЕ 2: Новая структура для навигации */
 .toc-h1-header {
     display: flex;
     align-items: flex-start;
@@ -171,8 +208,6 @@ mark {
 .toc-h1-header.no-children {
     padding-left: 28px; /* Отступ для элементов без стрелки */
 }
-/* Конец исправления */
-
 
 .toc-h2 a { font-size: 14px; color: var(--secondary-text-color); display: block; padding: 6px 10px; }
 .toc-submenu {
@@ -182,7 +217,6 @@ mark {
     opacity: 1;
 }
 .toc-h1.is-collapsed .toc-submenu { max-height: 0; opacity: 0; visibility: hidden; }
-
 
 .toc-toggle {
     flex-shrink: 0;
@@ -231,3 +265,4 @@ pre:hover .copy-code-btn { opacity: 1; }
     .content-wrapper { padding: 15px 20px; }
     .mobile-nav-toggle { display: block; position: fixed; top: 15px; left: 15px; z-index: 1001; background: var(--content-bg-color); border: 1px solid var(--border-color); border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: var(--text-color); }
 }
+
