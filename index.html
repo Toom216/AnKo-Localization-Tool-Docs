@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-key="page_title">Документация по инструменту локализации для Unity</title>
     
-    <!-- Подключаем файл стилей -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- ИСПРАВЛЕНЫ ПУТИ: Добавил папку js/ для скриптов, как в вашем дереве файлов -->
     <script src="js/translations.js" defer></script>
     <script src="js/script.js" defer></script>
 </head>
@@ -19,14 +17,15 @@
     <aside class="sidebar">
         <div class="sidebar-content">
             <h3 data-key="toc_title">Оглавление</h3>
-            <!-- Поле для поиска/фильтрации по оглавлению -->
-            <input type="search" id="toc-search" data-key="toc_search_placeholder" placeholder="Фильтр по содержанию...">
-            <!-- Оглавление теперь будет генерироваться динамически -->
+            <!-- ИЗМЕНЕНО: Поле поиска обернуто в контейнер для стилизации с иконкой -->
+            <div class="toc-search-container">
+                <svg class="toc-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18ZM10,4a6,6,0,1,0,6,6A6.007,6.007,0,0,0,10,4Z"/><path d="M21,22a1,1,0,0,1-.707-0.293l-4-4a1,1,0,0,1,1.414-1.414l4,4A1,1,0,0,1,21,22Z"/></svg>
+                <input type="search" id="toc-search" placeholder="Поиск...">
+            </div>
             <nav id="table-of-contents"></nav>
         </div>
         <div class="sidebar-controls">
             <div class="lang-switcher-dropdown">
-                <!-- Кнопка выбора языка теперь показывает только флаг для лаконичности -->
                 <button id="current-lang-btn" class="lang-btn">
                     <span id="current-lang-flag">🇷🇺</span>
                 </button>
@@ -56,7 +55,6 @@
                 <li data-key="li_feature_9"></li>
                 <li data-key="li_feature_10"></li>
             </ul>
-            <!-- [ГИФКА ЗДЕСЬ]: Быстрая нарезка ключевых функций: парсинг, редактор переводов, Live Preview, работа с ассетами. -->
             <img src="img/intro_key_features.gif" alt="Демонстрация ключевых возможностей" class="doc-image">
 
             <h1 id="bystryj-start" data-key="h1_quick_start"><span class="emoji">🛠️</span></h1>
@@ -70,7 +68,6 @@
                 <li data-key="li_install_5"></li>
                 <li data-key="li_install_6"></li>
             </ol>
-            <!-- [СКРИНШОТ ЗДЕСЬ]: Окно установщика зависимостей с выделенной кнопкой "Install Selected". -->
             <img src="img/quickstart_installer.jpg" alt="Окно установщика зависимостей" class="doc-image">
             
             <h2 id="pervonachalnaya-nastrojka" data-key="h2_initial_setup"></h2>
@@ -80,7 +77,6 @@
                 <li data-key="li_setup_3"></li>
                 <li data-key="li_setup_4"></li>
             </ol>
-            <!-- [ГИФКА ЗДЕСЬ]: Пошаговая настройка: 1. Открытие окна. 2. Выбор языка в Settings. 3. Перетаскивание сцены в Content. 4. Нажатие "Update Keys". -->
             <img src="img/quickstart_initial_setup.gif" alt="Пошаговая первоначальная настройка" class="doc-image">
 
             <h1 id="osnovnye-komponenty" data-key="h1_components"><span class="emoji">🧩</span></h1>
@@ -89,7 +85,6 @@
             
             <h2 id="localizedtext" data-key="h2_localizedtext"></h2>
             <p data-key="p_localizedtext_1"></p>
-            <!-- [СКРИНШОТ ЗДЕСЬ]: Инспектор объекта с компонентом TextMeshPro, где под ним автоматически добавился компонент LocalizedText. Выделить LocalizedText. -->
             <img src="img/components_localized_text.jpg" alt="Компонент LocalizedText в инспекторе" class="doc-image">
             <ul>
                 <li data-key="li_localizedtext_1"></li>
@@ -99,13 +94,11 @@
 
             <h2 id="localizedasset" data-key="h2_localizedasset"></h2>
             <p data-key="p_localizedasset_1"></p>
-            <!-- [СКРИНШОТ ЗДЕСЬ]: Инспектор объекта с компонентом Image, где под ним автоматически добавился компонент LocalizedAsset. Выделить LocalizedAsset. -->
             <img src="img/components_localized_asset.jpg" alt="Компонент LocalizedAsset в инспекторе" class="doc-image">
             <p data-key="p_localizedasset_2"></p>
 
             <h2 id="localizedprefab" data-key="h2_localizedprefab"></h2>
             <p data-key="p_localizedprefab_1"></p>
-            <!-- [ГИФКА ЗДЕСЬ]: Сцена с оригинальным префабом. После смены языка в Live Preview, оригинальный префаб деактивируется, а рядом появляется его локализованная версия. -->
             <img src="img/components_localized_prefab.gif" alt="Демонстрация работы LocalizedPrefab" class="doc-image">
 
             <h2 id="uitklocalization" data-key="h2_uitklocalization"></h2>
@@ -122,14 +115,12 @@
 
             <h2 id="kontekstnoe-menyu" data-key="h2_context_menu"></h2>
             <p data-key="p_context_menu_1"></p>
-            <!-- [СКРИНШОТ ЗДЕСЬ]: Правый клик по заголовку компонента Image в инспекторе, где в выпадающем меню виден пункт "Analyze for Localization". -->
             <img src="img/components_context_menu.jpg" alt="Контекстное меню Analyze for Localization" class="doc-image">
 
             <h1 id="okno-localization-tool" data-key="h1_loc_tool_window"><span class="emoji">🖼️</span></h1>
 
             <h2 id="in-editor-preview" data-key="h2_in_editor_preview"></h2>
             <p data-key="p_preview_1"></p>
-            <!-- [ГИФКА ЗДЕСЬ]: Окно Scene с текстом. Курсор выбирает другой язык в "Preview Language", и текст в сцене мгновенно меняется. -->
             <img src="img/window_live_preview.gif" alt="Демонстрация работы Live Preview" class="doc-image">
             <ul>
                 <li data-key="li_preview_1"></li>
@@ -140,7 +131,6 @@
 
             <h2 id="vkladka-settings" data-key="h2_tab_settings"></h2>
             <p data-key="p_settings_1"></p>
-            <!-- [СКРИНШОТ ЗДЕСЬ]: Общий вид вкладки Settings, чтобы пользователь сориентировался. -->
             <img src="img/window_tab_settings_overview.jpg" alt="Обзор вкладки Settings" class="doc-image">
             <ul>
                 <li>
