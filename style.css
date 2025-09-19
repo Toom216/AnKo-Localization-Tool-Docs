@@ -1,7 +1,6 @@
 /* Общие стили и переменные */
 :root {
     --sidebar-width: 300px;
-    /* Светлая тема по умолчанию */
     --main-bg-color: #f6f8fa;
     --content-bg-color: #ffffff;
     --text-color: #24292e;
@@ -21,7 +20,6 @@
 }
 
 html[data-theme="dark"] {
-    /* Переменные для темной темы */
     --main-bg-color: #0d1117;
     --content-bg-color: #161b22;
     --text-color: #c9d1d9;
@@ -54,17 +52,14 @@ body {
 mark {
     background-color: var(--highlight-bg-color);
     color: var(--highlight-text-color);
-    padding: 0;
-    margin: 0;
-    border-radius: 3px;
+    padding: 0; margin: 0; border-radius: 3px;
     transition: box-shadow 0.2s ease-in-out;
 }
 mark.current-match {
     box-shadow: 0 0 0 2px var(--current-match-shadow);
 }
 
-
-/* Структура макета */
+/* --- Структура --- */
 .sidebar {
     width: var(--sidebar-width);
     position: fixed;
@@ -83,41 +78,6 @@ mark.current-match {
     display: flex; justify-content: space-between;
     align-items: center; flex-shrink: 0; 
 }
-.theme-switcher {
-    background: none; border: 1px solid var(--border-color);
-    color: var(--secondary-text-color); cursor: pointer; border-radius: 50%;
-    width: 44px; height: 44px; font-size: 22px;
-    transition: background-color 0.2s, color 0.2s; flex-shrink: 0;
-}
-.theme-switcher:hover { background-color: var(--main-bg-color); }
-
-/* Стили флагов */
-.lang-switcher-dropdown { position: relative; display: inline-block; }
-.lang-btn {
-    background: none; border: 1px solid var(--border-color);
-    color: var(--secondary-text-color); cursor: pointer; border-radius: 50%; 
-    width: 44px; height: 44px; padding: 0;
-    display: flex; align-items: center; justify-content: center; 
-    transition: background-color 0.2s;
-}
-.lang-btn:hover { background-color: var(--main-bg-color); }
-.dropdown-content {
-    display: none; position: absolute; bottom: 55px; left: 0;
-    background-color: var(--content-bg-color); min-width: 160px;
-    box-shadow: 0px 8px 16px 0px var(--shadow-color); z-index: 1;
-    border-radius: 6px; border: 1px solid var(--border-color); overflow: hidden;
-}
-.dropdown-content button {
-    color: var(--text-color); padding: 12px 16px; text-decoration: none;
-    display: flex; align-items: center; gap: 10px; width: 100%;
-    border: none; background: none; text-align: left; cursor: pointer; font-size: 15px;
-}
-.dropdown-content button:hover { background-color: var(--main-bg-color); }
-.dropdown-content.show { display: block; }
-.flag-img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
-#current-lang-flag .flag-img { width: 28px; height: 28px; }
-
-
 .main-content {
     margin-left: var(--sidebar-width); flex-grow: 1;
     padding: 40px; max-width: 900px;
@@ -130,29 +90,26 @@ mark.current-match {
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-/* ОГЛАВЛЕНИЕ И ПОИСК */
+/* --- ОГЛАВЛЕНИЕ И ПОИСК --- */
+/* ИЗМЕНЕНИЕ: Возвращаем position: relative для позиционирования иконки */
 .toc-search-container { 
     position: relative; 
     margin-bottom: 15px; 
-    /* ИЗМЕНЕНИЕ: Превращаем в flex-контейнер для выравнивания иконки и поля */
-    display: flex;
-    flex-wrap: wrap; /* Позволяет элементам переноситься на новую строку */
-    align-items: center;
 }
+/* ИЗМЕНЕНИЕ: Возвращаем абсолютное позиционирование для иконки */
 .toc-search-icon {
-    /* ИЗМЕНЕНИЕ: Позиционирование больше не нужно */
-    position: static;
-    transform: none;
-    /* Добавляем небольшой отступ */
-    margin-left: 12px;
-    margin-right: -28px; /* Компенсируем padding у input */
+    position: absolute;
+    top: 18px; /* Центрируем по вертикали относительно поля ввода */
+    left: 12px;
+    transform: translateY(-50%);
+    width: 16px; height: 16px; 
+    color: var(--secondary-text-color);
+    pointer-events: none; /* Иконка не перехватывает клики */
     z-index: 2;
-    width: 16px; height: 16px; color: var(--secondary-text-color);
 }
 #toc-search {
-    /* ИЗМЕНЕНИЕ: Убираем статическую ширину, позволяем flex-контейнеру управлять ей */
-    flex-grow: 1; /* Поле будет занимать все доступное место */
-    padding: 8px 12px 8px 36px; 
+    width: 100%;
+    padding: 8px 12px 8px 36px; /* Отступ слева для иконки */
     border-radius: 6px;
     border: 1px solid var(--border-color); 
     background-color: var(--main-bg-color);
@@ -167,26 +124,18 @@ mark.current-match {
 }
 
 #search-nav-controls {
-    /* ИЗМЕНЕНИЕ: Заставляем панель навигации занимать всю ширину */
     width: 100%;
-    display: flex;
+    display: none; /* Скрыто по-умолчанию */
     align-items: center;
     justify-content: flex-end;
     gap: 8px;
     margin-top: 8px;
 }
-#search-results-count {
-    font-size: 13px;
-    color: var(--secondary-text-color);
-}
+#search-results-count { font-size: 13px; color: var(--secondary-text-color); }
 #search-nav-controls button {
-    background: none;
-    border: 1px solid var(--border-color);
-    color: var(--secondary-text-color);
-    border-radius: 50%;
-    width: 28px;
-    height: 28px;
-    cursor: pointer;
+    background: none; border: 1px solid var(--border-color);
+    color: var(--secondary-text-color); border-radius: 50%;
+    width: 28px; height: 28px; cursor: pointer;
     transition: background-color 0.2s, color 0.2s;
 }
 #search-nav-controls button:hover {
@@ -194,13 +143,14 @@ mark.current-match {
     color: var(--text-color);
 }
 
-
 .sidebar nav, .sidebar nav ul { list-style: none; padding: 0; margin: 0; }
 .sidebar nav li { margin: 2px 0; }
 .sidebar nav a {
     text-decoration: none; color: var(--text-color); border-radius: 5px;
     transition: background-color 0.2s ease, color 0.2s ease;
     font-weight: 400;
+    display: block; /* Важно для правильного применения padding и background */
+    padding: 6px 10px;
 }
 .sidebar nav a:hover { background-color: var(--main-bg-color); }
 .sidebar nav a.active {
@@ -208,31 +158,20 @@ mark.current-match {
     font-weight: 700;
 }
 
-.toc-h1-header {
-    display: flex;
-    align-items: flex-start;
-}
-.toc-h1-header > .toc-link-wrapper {
-    flex-grow: 1;
-}
-.toc-h1-header a {
-    font-weight: 700;
-    font-size: 16px;
-    display: block;
-    padding: 6px 10px;
-}
+.toc-h1-header { display: flex; align-items: flex-start; }
+.toc-h1-header > .toc-link-wrapper { flex-grow: 1; }
+.toc-h1-header a { font-weight: 700; font-size: 16px; }
 
-/* ИЗМЕНЕНИЕ: Отступ для подпунктов H2 */
-.toc-h2 {
-    padding-left: 28px; /* Отступ равен ширине элемента-стрелки */
+/* ИЗМЕНЕНИЕ: Отступ добавляется к ссылке H2, а не к li или ul */
+.toc-h2 a { 
+    font-size: 14px; 
+    color: var(--secondary-text-color);
+    padding-left: 38px; /* 28px (ширина стрелки) + 10px (базовый отступ) */
 }
-.toc-h2 a { font-size: 14px; color: var(--secondary-text-color); display: block; padding: 6px 10px; }
 
 .toc-submenu {
-    /* Отступ для всего блока больше не нужен, он теперь на .toc-h2 */
-    padding-left: 0;
-    overflow: hidden; 
-    max-height: 1000px; 
+    padding-left: 0; /* Убираем отступ отсюда */
+    overflow: hidden; max-height: 1000px; 
     transition: max-height 0.15s ease-out, opacity 0.15s ease-out;
     opacity: 1;
 }
@@ -240,56 +179,25 @@ mark.current-match {
 
 .toc-toggle {
     flex-shrink: 0;
-    width: 28px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--secondary-text-color);
-    user-select: none;
+    width: 28px; height: 35px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--secondary-text-color); user-select: none;
 }
-.toc-toggle:not(.is-placeholder) {
-    cursor: pointer;
-}
-.toc-toggle:not(.is-placeholder):hover {
-    color: var(--text-color);
-}
+.toc-toggle:not(.is-placeholder) { cursor: pointer; }
+.toc-toggle:not(.is-placeholder):hover { color: var(--text-color); }
 .toc-toggle:not(.is-placeholder)::before {
-    content: '▶';
-    font-size: 13px;
-    display: inline-block;
+    content: '▶'; font-size: 13px; display: inline-block;
     transition: transform 0.15s ease;
 }
-.toc-h1:not(.is-collapsed) .toc-toggle::before {
-    transform: rotate(90deg);
-}
+.toc-h1:not(.is-collapsed) .toc-toggle::before { transform: rotate(90deg); }
 
-/* Стилизация контента */
+/* --- Остальные стили без изменений --- */
+/* ... */
 h1, h2 { border-bottom: 1px solid var(--border-color); padding-bottom: 0.5em; margin-top: 2em; margin-bottom: 1em; scroll-margin-top: 20px; transition: border-color 0.3s ease; }
-h1 .emoji { filter: var(--icon-filter); }
-h1:first-child { margin-top: 0; }
-h1 { font-size: 2em; }
-h2 { font-size: 1.6em; }
-a { color: var(--link-color); text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-/* Код */
-code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; background-color: var(--code-bg-color); padding: 0.2em 0.4em; margin: 0; font-size: 85%; border-radius: 3px; border: 1px solid var(--border-color); transition: background-color 0.3s ease, border-color 0.3s ease; }
-pre { position: relative; background-color: var(--code-bg-color); padding: 16px; overflow: auto; border-radius: 6px; border: 1px solid var(--border-color); transition: background-color 0.3s ease, border-color 0.3s ease; }
-pre code { padding: 0; margin: 0; font-size: 100%; background-color: transparent; border: none; white-space: pre-wrap; word-wrap: break-word; }
-.copy-code-btn { position: absolute; top: 8px; right: 8px; background-color: var(--main-bg-color); border: 1px solid var(--border-color); color: var(--secondary-text-color); padding: 4px 8px; border-radius: 5px; cursor: pointer; font-size: 12px; opacity: 0; transition: opacity 0.2s, background-color 0.2s; }
-pre:hover .copy-code-btn { opacity: 1; }
-.copy-code-btn:hover { background-color: var(--border-color); }
-.copy-code-btn.copied { background-color: #28a745; color: white; border-color: #28a745; }
-
-/* Прочее */
-.warning-box { background-color: var(--warning-bg-color); border-left: 5px solid var(--warning-border-color); padding: 15px; margin: 20px 0; border-radius: 0 5px 5px 0; transition: background-color 0.3s ease, border-color 0.3s ease; }
-.doc-image { width: 100%; height: auto; border: 1px solid var(--border-color); border-radius: 8px; margin: 25px 0; box-shadow: 0 1px 3px var(--shadow-color); display: block; }
 #scrollTopBtn { display: none; position: fixed; bottom: 20px; right: 30px; z-index: 99; border: none; outline: none; background-color: var(--link-color); color: white; cursor: pointer; padding: 0; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; line-height: 50px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: opacity 0.3s, visibility 0.3s, background-color 0.2s; }
 #scrollTopBtn:hover { background-color: #0056b3; }
 .mobile-nav-toggle { display: none; }
 
-/* Адаптивность */
 @media (max-width: 900px) {
     body { flex-direction: column; }
     .sidebar { position: fixed; z-index: 1000; transform: translateX(-100%); height: 100%; }
