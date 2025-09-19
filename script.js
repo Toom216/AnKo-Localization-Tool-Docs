@@ -50,7 +50,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentH1LI = document.createElement('li');
                 currentH1LI.classList.add('toc-h1');
                 
-                // Обертка для ссылки, чтобы flexbox работал корректно
+                // ИСПРАВЛЕНИЕ 2: Создаем div-обертку для заголовка (toggle + link)
+                const headerDiv = document.createElement('div');
+                headerDiv.classList.add('toc-h1-header');
+
                 const linkWrapper = document.createElement('div');
                 linkWrapper.classList.add('toc-link-wrapper');
                 
@@ -59,7 +62,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 a.dataset.key = heading.dataset.key.replace(/^h1_/, 'nav_');
                 
                 linkWrapper.appendChild(a);
-                currentH1LI.appendChild(linkWrapper);
+                headerDiv.appendChild(linkWrapper);
+                currentH1LI.appendChild(headerDiv);
                 
                 const subList = document.createElement('ul');
                 subList.classList.add('toc-submenu');
@@ -84,20 +88,28 @@ document.addEventListener('DOMContentLoaded', function() {
             if (subMenu && subMenu.children.length > 0) {
                  const toggle = document.createElement('span');
                  toggle.classList.add('toc-toggle');
-                 h1li.prepend(toggle);
+                 
+                 // ИСПРАВЛЕНИЕ 2: Вставляем переключатель в новую div-обертку
+                 const headerDiv = h1li.querySelector('.toc-h1-header');
+                 headerDiv.prepend(toggle);
+
                  toggle.addEventListener('click', (e) => {
                     e.stopPropagation();
                     h1li.classList.toggle('is-collapsed');
                 });
             } else {
-                 h1li.classList.add('no-children');
+                 // ИСПРАВЛЕНИЕ 2: Добавляем класс к обертке, если нет дочерних элементов
+                 const headerDiv = h1li.querySelector('.toc-h1-header');
+                 if(headerDiv) {
+                    headerDiv.classList.add('no-children');
+                 }
             }
         });
 
         tocContainer.appendChild(mainList);
     };
     
-    // --- ИЗМЕНЕНО: Поиск с фильтрацией и подсветкой ---
+    // --- Поиск с фильтрацией и подсветкой ---
     const performSearch = (searchTerm) => {
         mainContent.innerHTML = originalMainContentHTML; // Восстанавливаем исходный HTML
 
@@ -211,8 +223,11 @@ document.addEventListener('DOMContentLoaded', function() {
     applyTheme(savedTheme);
     
     const savedLang = localStorage.getItem('language') || 'en';
+    
+    // ИСПРАВЛЕНИЕ 1: Сначала генерируем структуру оглавления, потом применяем язык ко всей странице
+    generateCollapsibleTOC();
     applyLanguage(savedLang);
-    generateCollapsibleTOC(); // Генерируем ToC после применения языка
+
     originalMainContentHTML = mainContent.innerHTML; // Сохраняем HTML после всех инициализаций
 
 
@@ -291,4 +306,3 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 });
-
