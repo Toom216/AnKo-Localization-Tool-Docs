@@ -17,7 +17,6 @@
     --icon-filter: grayscale(0);
     --highlight-bg-color: #fff2a8;
     --highlight-text-color: #24292e;
-    /* ИЗМЕНЕНИЕ: Добавлен цвет для текущего совпадения в поиске */
     --current-match-shadow: #0366d6;
 }
 
@@ -38,7 +37,6 @@ html[data-theme="dark"] {
     --icon-filter: grayscale(1) brightness(1.5);
     --highlight-bg-color: #6b5800;
     --highlight-text-color: #f0f6fc;
-    /* ИЗМЕНЕНИЕ: Добавлен цвет для текущего совпадения в поиске (темная тема) */
     --current-match-shadow: #58a6ff;
 }
 
@@ -53,7 +51,6 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ИЗМЕНЕНИЕ: Стили для выделения текущего совпадения */
 mark {
     background-color: var(--highlight-bg-color);
     color: var(--highlight-text-color);
@@ -150,7 +147,6 @@ mark.current-match {
     box-shadow: 0 0 0 2px rgba(3, 102, 214, 0.3);
 }
 
-/* ИЗМЕНЕНИЕ: Стили для навигации по поиску */
 #search-nav-controls {
     display: flex;
     align-items: center;
@@ -176,7 +172,6 @@ mark.current-match {
     background-color: var(--main-bg-color);
     color: var(--text-color);
 }
-/* Конец изменений */
 
 
 .sidebar nav, .sidebar nav ul { list-style: none; padding: 0; margin: 0; }
@@ -192,9 +187,10 @@ mark.current-match {
     font-weight: 700;
 }
 
+/* ИЗМЕНЕНИЕ: Новая структура для выравнивания */
 .toc-h1-header {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-start; /* Выравнивание по верху */
 }
 .toc-h1-header > .toc-link-wrapper {
     flex-grow: 1;
@@ -205,31 +201,46 @@ mark.current-match {
     display: block;
     padding: 6px 10px;
 }
-.toc-h1-header.no-children {
-    padding-left: 28px; /* Отступ для элементов без стрелки */
-}
+/* Старый класс .no-children больше не нужен */
 
 .toc-h2 a { font-size: 14px; color: var(--secondary-text-color); display: block; padding: 6px 10px; }
+
+/* ИЗМЕНЕНИЕ: Отступ для подменю */
 .toc-submenu {
-    padding-left: 25px; 
-    overflow: hidden; max-height: 1000px; 
+    padding-left: 28px; /* Отступ равен ширине элемента-стрелки */
+    overflow: hidden; 
+    max-height: 1000px; 
     transition: max-height 0.15s ease-out, opacity 0.15s ease-out;
     opacity: 1;
 }
 .toc-h1.is-collapsed .toc-submenu { max-height: 0; opacity: 0; visibility: hidden; }
 
+/* ИЗМЕНЕНИЕ: Стили для стрелки и плейсхолдера */
 .toc-toggle {
     flex-shrink: 0;
-    width: 28px; height: 35px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; user-select: none; color: var(--secondary-text-color);
+    width: 28px;
+    height: 35px; /* Высота равна кликабельной области ссылки */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text-color);
+    user-select: none;
 }
-.toc-toggle:hover { color: var(--text-color); }
-.toc-toggle::before {
-    content: '▶'; font-size: 13px; display: inline-block;
+.toc-toggle:not(.is-placeholder) { /* Стили только для настоящих стрелок */
+    cursor: pointer;
+}
+.toc-toggle:not(.is-placeholder):hover {
+    color: var(--text-color);
+}
+.toc-toggle:not(.is-placeholder)::before {
+    content: '▶';
+    font-size: 13px;
+    display: inline-block;
     transition: transform 0.15s ease;
 }
-.toc-h1:not(.is-collapsed) .toc-toggle::before { transform: rotate(90deg); }
+.toc-h1:not(.is-collapsed) .toc-toggle::before {
+    transform: rotate(90deg);
+}
 
 /* Стилизация контента */
 h1, h2 { border-bottom: 1px solid var(--border-color); padding-bottom: 0.5em; margin-top: 2em; margin-bottom: 1em; scroll-margin-top: 20px; transition: border-color 0.3s ease; }
