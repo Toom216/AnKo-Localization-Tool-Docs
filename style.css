@@ -54,14 +54,17 @@ body {
 mark {
     background-color: var(--highlight-bg-color);
     color: var(--highlight-text-color);
-    padding: 0; margin: 0; border-radius: 3px;
+    padding: 0;
+    margin: 0;
+    border-radius: 3px;
     transition: box-shadow 0.2s ease-in-out;
 }
 mark.current-match {
     box-shadow: 0 0 0 2px var(--current-match-shadow);
 }
 
-/* --- Структура --- */
+
+/* Структура макета */
 .sidebar {
     width: var(--sidebar-width);
     position: fixed;
@@ -127,24 +130,29 @@ mark.current-match {
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-/* --- ОГЛАВЛЕНИЕ И ПОИСК --- */
+/* ОГЛАВЛЕНИЕ И ПОИСК */
 .toc-search-container { 
     position: relative; 
     margin-bottom: 15px; 
+    /* ИЗМЕНЕНИЕ: Превращаем в flex-контейнер для выравнивания иконки и поля */
+    display: flex;
+    flex-wrap: wrap; /* Позволяет элементам переноситься на новую строку */
+    align-items: center;
 }
 .toc-search-icon {
-    position: absolute;
-    top: 18px; 
-    left: 12px;
-    transform: translateY(-50%);
-    width: 16px; height: 16px; 
-    color: var(--secondary-text-color);
-    pointer-events: none;
+    /* ИЗМЕНЕНИЕ: Позиционирование больше не нужно */
+    position: static;
+    transform: none;
+    /* Добавляем небольшой отступ */
+    margin-left: 12px;
+    margin-right: -28px; /* Компенсируем padding у input */
     z-index: 2;
+    width: 16px; height: 16px; color: var(--secondary-text-color);
 }
 #toc-search {
-    width: 100%;
-    padding: 8px 12px 8px 36px;
+    /* ИЗМЕНЕНИЕ: Убираем статическую ширину, позволяем flex-контейнеру управлять ей */
+    flex-grow: 1; /* Поле будет занимать все доступное место */
+    padding: 8px 12px 8px 36px; 
     border-radius: 6px;
     border: 1px solid var(--border-color); 
     background-color: var(--main-bg-color);
@@ -159,18 +167,26 @@ mark.current-match {
 }
 
 #search-nav-controls {
+    /* ИЗМЕНЕНИЕ: Заставляем панель навигации занимать всю ширину */
     width: 100%;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 8px;
     margin-top: 8px;
 }
-#search-results-count { font-size: 13px; color: var(--secondary-text-color); }
+#search-results-count {
+    font-size: 13px;
+    color: var(--secondary-text-color);
+}
 #search-nav-controls button {
-    background: none; border: 1px solid var(--border-color);
-    color: var(--secondary-text-color); border-radius: 50%;
-    width: 28px; height: 28px; cursor: pointer;
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--secondary-text-color);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
     transition: background-color 0.2s, color 0.2s;
 }
 #search-nav-controls button:hover {
@@ -178,14 +194,13 @@ mark.current-match {
     color: var(--text-color);
 }
 
+
 .sidebar nav, .sidebar nav ul { list-style: none; padding: 0; margin: 0; }
 .sidebar nav li { margin: 2px 0; }
 .sidebar nav a {
     text-decoration: none; color: var(--text-color); border-radius: 5px;
     transition: background-color 0.2s ease, color 0.2s ease;
     font-weight: 400;
-    display: block;
-    padding: 6px 10px;
 }
 .sidebar nav a:hover { background-color: var(--main-bg-color); }
 .sidebar nav a.active {
@@ -193,19 +208,31 @@ mark.current-match {
     font-weight: 700;
 }
 
-.toc-h1-header { display: flex; align-items: flex-start; }
-.toc-h1-header > .toc-link-wrapper { flex-grow: 1; }
-.toc-h1-header a { font-weight: 700; font-size: 16px; }
-
-.toc-h2 a { 
-    font-size: 14px; 
-    color: var(--secondary-text-color);
-    padding-left: 38px;
+.toc-h1-header {
+    display: flex;
+    align-items: flex-start;
+}
+.toc-h1-header > .toc-link-wrapper {
+    flex-grow: 1;
+}
+.toc-h1-header a {
+    font-weight: 700;
+    font-size: 16px;
+    display: block;
+    padding: 6px 10px;
 }
 
+/* ИЗМЕНЕНИЕ: Отступ для подпунктов H2 */
+.toc-h2 {
+    padding-left: 28px; /* Отступ равен ширине элемента-стрелки */
+}
+.toc-h2 a { font-size: 14px; color: var(--secondary-text-color); display: block; padding: 6px 10px; }
+
 .toc-submenu {
+    /* Отступ для всего блока больше не нужен, он теперь на .toc-h2 */
     padding-left: 0;
-    overflow: hidden; max-height: 1000px; 
+    overflow: hidden; 
+    max-height: 1000px; 
     transition: max-height 0.15s ease-out, opacity 0.15s ease-out;
     opacity: 1;
 }
@@ -213,87 +240,47 @@ mark.current-match {
 
 .toc-toggle {
     flex-shrink: 0;
-    width: 28px; height: 35px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--secondary-text-color); user-select: none;
+    width: 28px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text-color);
+    user-select: none;
 }
-.toc-toggle:not(.is-placeholder) { cursor: pointer; }
-.toc-toggle:not(.is-placeholder):hover { color: var(--text-color); }
+.toc-toggle:not(.is-placeholder) {
+    cursor: pointer;
+}
+.toc-toggle:not(.is-placeholder):hover {
+    color: var(--text-color);
+}
 .toc-toggle:not(.is-placeholder)::before {
-    content: '▶'; font-size: 13px; display: inline-block;
+    content: '▶';
+    font-size: 13px;
+    display: inline-block;
     transition: transform 0.15s ease;
 }
-.toc-h1:not(.is-collapsed) .toc-toggle::before { transform: rotate(90deg); }
+.toc-h1:not(.is-collapsed) .toc-toggle::before {
+    transform: rotate(90deg);
+}
 
 /* Стилизация контента */
-h1, h2, h3, h4, h5, h6 {
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.5em;
-    margin-top: 2em;
-    margin-bottom: 1em;
-    scroll-margin-top: 20px;
-    transition: border-color 0.3s ease;
-}
-h1 .emoji {
-    filter: var(--icon-filter);
-}
+h1, h2 { border-bottom: 1px solid var(--border-color); padding-bottom: 0.5em; margin-top: 2em; margin-bottom: 1em; scroll-margin-top: 20px; transition: border-color 0.3s ease; }
+h1 .emoji { filter: var(--icon-filter); }
 h1:first-child { margin-top: 0; }
 h1 { font-size: 2em; }
 h2 { font-size: 1.6em; }
 a { color: var(--link-color); text-decoration: none; }
 a:hover { text-decoration: underline; }
-ul, ol { padding-left: 2em; }
 
 /* Код */
-code {
-    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    background-color: var(--code-bg-color);
-    padding: 0.2em 0.4em;
-    margin: 0;
-    font-size: 85%;
-    border-radius: 3px;
-    border: 1px solid var(--border-color);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-pre {
-    position: relative;
-    background-color: var(--code-bg-color);
-    padding: 16px;
-    overflow: auto;
-    border-radius: 6px;
-    border: 1px solid var(--border-color);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-pre code {
-    padding: 0;
-    margin: 0;
-    font-size: 100%;
-    background-color: transparent;
-    border: none;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-}
-.copy-code-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background-color: var(--main-bg-color);
-    border: 1px solid var(--border-color);
-    color: var(--secondary-text-color);
-    padding: 4px 8px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 12px;
-    opacity: 0;
-    transition: opacity 0.2s, background-color 0.2s;
-}
+code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; background-color: var(--code-bg-color); padding: 0.2em 0.4em; margin: 0; font-size: 85%; border-radius: 3px; border: 1px solid var(--border-color); transition: background-color 0.3s ease, border-color 0.3s ease; }
+pre { position: relative; background-color: var(--code-bg-color); padding: 16px; overflow: auto; border-radius: 6px; border: 1px solid var(--border-color); transition: background-color 0.3s ease, border-color 0.3s ease; }
+pre code { padding: 0; margin: 0; font-size: 100%; background-color: transparent; border: none; white-space: pre-wrap; word-wrap: break-word; }
+.copy-code-btn { position: absolute; top: 8px; right: 8px; background-color: var(--main-bg-color); border: 1px solid var(--border-color); color: var(--secondary-text-color); padding: 4px 8px; border-radius: 5px; cursor: pointer; font-size: 12px; opacity: 0; transition: opacity 0.2s, background-color 0.2s; }
 pre:hover .copy-code-btn { opacity: 1; }
 .copy-code-btn:hover { background-color: var(--border-color); }
-.copy-code-btn.copied {
-    background-color: #28a745;
-    color: white;
-    border-color: #28a745;
-}
+.copy-code-btn.copied { background-color: #28a745; color: white; border-color: #28a745; }
 
 /* Прочее */
 .warning-box { background-color: var(--warning-bg-color); border-left: 5px solid var(--warning-border-color); padding: 15px; margin: 20px 0; border-radius: 0 5px 5px 0; transition: background-color 0.3s ease, border-color 0.3s ease; }
