@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let originalMainContentHTML = '';
     let searchMatches = [];
     let currentMatchIndex = -1;
-    let headingPositions = []; // For scroll spy
 
     // --- THEME SWITCHER ---
     const applyTheme = (theme) => {
@@ -123,18 +122,14 @@ document.addEventListener('DOMContentLoaded', function() {
         currentMatchIndex = -1;
         searchNavControls.style.display = 'none';
 
-        if (!searchTerm) {
-             mainContent.querySelectorAll('[data-filtered]').forEach(el => el.style.display = '');
-             tocContainer.querySelectorAll('[data-filtered]').forEach(el => el.style.display = '');
-             return;
-        }
+        if (!searchTerm) return;
         
         const regex = new RegExp(searchTerm.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi');
         
         const walker = document.createTreeWalker(mainContent, NodeFilter.SHOW_TEXT, null, false);
         let node;
         while (node = walker.nextNode()) {
-            if (node.parentElement.offsetParent === null) continue;
+            if (node.parentElement.offsetParent === null || node.parentElement.tagName === 'MARK') continue;
             if (node.nodeValue.match(regex)) {
                 const fragment = document.createDocumentFragment();
                 let lastIndex = 0;
@@ -170,6 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.querySelectorAll('[data-key]').forEach(elem => {
             const key = elem.getAttribute('data-key');
+            // Assuming translations.js defines a global `translations` object
             const translation = window.translations[lang]?.[key] || window.translations['en']?.[key] || '';
             
             if (key === 'toc_search_placeholder' && elem.tagName === 'INPUT') {
@@ -183,51 +179,52 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('language', lang);
     };
 
-    // --- REVISED SCROLL SPY LOGIC ---
-    const cacheHeadingPositions = () => {
-        headingPositions = Array.from(mainContent.querySelectorAll('h1[id], h2[id]')).map(h => ({
-            id: h.id,
-            top: h.offsetTop
-        }));
-    };
-
-    const updateScrollSpy = () => {
-        const scrollPosition = window.scrollY + 100; // Offset to activate a bit earlier
-        let currentId = null;
-
-        for (const heading of headingPositions) {
-            if (scrollPosition >= heading.top) {
-                currentId = heading.id;
-            } else {
-                break;
-            }
-        }
-
-        tocContainer.querySelectorAll('a.active').forEach(a => a.classList.remove('active'));
-        if (currentId) {
-            const activeLink = tocContainer.querySelector(`a[href="#${currentId}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
-                const parentH1 = activeLink.closest('.toc-h1');
-                if (parentH1 && parentH1.classList.contains('is-collapsed')) {
-                     parentH1.classList.remove('is-collapsed');
+    // --- "Умный" IntersectionObserver для Scroll Spy ---
+    const initScrollSpy = () => {
+        let currentActiveLink = null;
+        const headings = mainContent.querySelectorAll('h1[id], h2[id]');
+        
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    const link = tocContainer.querySelector(`a[href="#${id}"]`);
+                    
+                    if (link && link !== currentActiveLink) {
+                        if (currentActiveLink) {
+                            currentActiveLink.classList.remove('active');
+                        }
+                        link.classList.add('active');
+                        currentActiveLink = link;
+                        
+                        const parentH1 = link.closest('.toc-h1');
+                        if (parentH1 && parentH1.classList.contains('is-collapsed')) {
+                            parentH1.classList.remove('is-collapsed');
+                        }
+                    }
                 }
-            }
-        }
+            });
+        }, {
+            rootMargin: '0px 0px -80% 0px',
+            threshold: 0
+        });
+
+        headings.forEach(heading => observer.observe(heading));
     };
 
     // --- INITIALIZATION ---
     const init = () => {
         const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         const savedLang = localStorage.getItem('language') || 'en';
-
+        
         applyTheme(savedTheme);
+
+        applyLanguage(savedLang);
         generateCollapsibleTOC();
         applyLanguage(savedLang);
-        cacheHeadingPositions(); // Cache positions after content is loaded
-        updateScrollSpy(); // Initial check
+        initScrollSpy();
         
-        // --- EVENT LISTENERS ---
+        // --- Event Listeners ---
         themeToggle.addEventListener('click', () => {
             const newTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
             applyTheme(newTheme);
@@ -252,10 +249,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const button = e.target.closest('button[data-lang]');
             if (button) {
                 e.stopPropagation();
-                applyLanguage(button.dataset.lang);
-                generateCollapsibleTOC(); // Re-generate TOC for new text
-                applyLanguage(button.dataset.lang); // Re-apply language to new TOC
-                cacheHeadingPositions(); // Re-cache positions
+                const lang = button.dataset.lang;
+                applyLanguage(lang);
+                generateCollapsibleTOC();
+                applyLanguage(lang);
+                initScrollSpy();
                 langOptionsContainer.classList.remove('show');
             }
         });
@@ -266,8 +264,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        window.addEventListener('scroll', updateScrollSpy);
-
         scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
         window.addEventListener('scroll', () => {
             scrollTopBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
@@ -284,7 +280,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    // Run initialization
     init();
 });
 
