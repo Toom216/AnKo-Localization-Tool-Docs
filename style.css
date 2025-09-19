@@ -49,7 +49,7 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ИЗМЕНЕНО: Стиль подсветки без "дергания" */
+/* Стиль подсветки без "дергания" */
 mark {
     background-color: var(--highlight-bg-color);
     color: var(--highlight-text-color);
@@ -154,26 +154,38 @@ mark {
     font-weight: 700;
 }
 
-/* ИЗМЕНЕНО: Новая структура для навигации с Flexbox */
-.toc-h1 { display: flex; align-items: flex-start; }
-.toc-h1 > .toc-link-wrapper { flex-grow: 1; }
-.toc-h1 > a { font-weight: 700; font-size: 16px; display: block; padding: 6px 10px; }
-.toc-h1.no-children { padding-left: 28px; } /* Отступ для элементов без стрелки */
+/* ИСПРАВЛЕНИЕ 2: Новая структура для навигации */
+.toc-h1-header {
+    display: flex;
+    align-items: flex-start;
+}
+.toc-h1-header > .toc-link-wrapper {
+    flex-grow: 1;
+}
+.toc-h1-header a {
+    font-weight: 700;
+    font-size: 16px;
+    display: block;
+    padding: 6px 10px;
+}
+.toc-h1-header.no-children {
+    padding-left: 28px; /* Отступ для элементов без стрелки */
+}
+/* Конец исправления */
+
 
 .toc-h2 a { font-size: 14px; color: var(--secondary-text-color); display: block; padding: 6px 10px; }
 .toc-submenu {
-    /* ИЗМЕНЕНО: Увеличен отступ для вложенности */
     padding-left: 25px; 
     overflow: hidden; max-height: 1000px; 
-    /* ИЗМЕНЕНО: Ускоренная анимация */
     transition: max-height 0.15s ease-out, opacity 0.15s ease-out;
     opacity: 1;
 }
 .toc-h1.is-collapsed .toc-submenu { max-height: 0; opacity: 0; visibility: hidden; }
 
-/* ИЗМЕНЕНО: Стрелка как отдельный Flex-элемент */
+
 .toc-toggle {
-    flex-shrink: 0; /* Не сжиматься */
+    flex-shrink: 0;
     width: 28px; height: 35px;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer; user-select: none; color: var(--secondary-text-color);
@@ -181,7 +193,6 @@ mark {
 .toc-toggle:hover { color: var(--text-color); }
 .toc-toggle::before {
     content: '▶'; font-size: 13px; display: inline-block;
-    /* ИЗМЕНЕНО: Ускоренная анимация */
     transition: transform 0.15s ease;
 }
 .toc-h1:not(.is-collapsed) .toc-toggle::before { transform: rotate(90deg); }
@@ -220,4 +231,3 @@ pre:hover .copy-code-btn { opacity: 1; }
     .content-wrapper { padding: 15px 20px; }
     .mobile-nav-toggle { display: block; position: fixed; top: 15px; left: 15px; z-index: 1001; background: var(--content-bg-color); border: 1px solid var(--border-color); border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: var(--text-color); }
 }
-
