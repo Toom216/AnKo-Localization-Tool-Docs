@@ -131,34 +131,15 @@ mark.current-match {
 }
 
 /* ОГЛАВЛЕНИЕ И ПОИСК */
-.toc-search-container { 
-    position: relative; 
-    margin-bottom: 15px; 
-    /* ИЗМЕНЕНИЕ: Превращаем в flex-контейнер для выравнивания иконки и поля */
-    display: flex;
-    flex-wrap: wrap; /* Позволяет элементам переноситься на новую строку */
-    align-items: center;
-}
+.toc-search-container { position: relative; margin-bottom: 15px; }
 .toc-search-icon {
-    /* ИЗМЕНЕНИЕ: Позиционирование больше не нужно */
-    position: static;
-    transform: none;
-    /* Добавляем небольшой отступ */
-    margin-left: 12px;
-    margin-right: -28px; /* Компенсируем padding у input */
-    z-index: 2;
-    width: 16px; height: 16px; color: var(--secondary-text-color);
+    position: absolute; top: 50%; left: 12px; transform: translateY(-50%);
+    width: 16px; height: 16px; color: var(--secondary-text-color); pointer-events: none;
 }
 #toc-search {
-    /* ИЗМЕНЕНИЕ: Убираем статическую ширину, позволяем flex-контейнеру управлять ей */
-    flex-grow: 1; /* Поле будет занимать все доступное место */
-    padding: 8px 12px 8px 36px; 
-    border-radius: 6px;
-    border: 1px solid var(--border-color); 
-    background-color: var(--main-bg-color);
-    color: var(--text-color); 
-    box-sizing: border-box; 
-    font-size: 14px;
+    width: 100%; padding: 8px 12px 8px 36px; border-radius: 6px;
+    border: 1px solid var(--border-color); background-color: var(--main-bg-color);
+    color: var(--text-color); box-sizing: border-box; font-size: 14px;
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 #toc-search:focus {
@@ -167,8 +148,6 @@ mark.current-match {
 }
 
 #search-nav-controls {
-    /* ИЗМЕНЕНИЕ: Заставляем панель навигации занимать всю ширину */
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -208,9 +187,10 @@ mark.current-match {
     font-weight: 700;
 }
 
+/* ИЗМЕНЕНИЕ: Новая структура для выравнивания */
 .toc-h1-header {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-start; /* Выравнивание по верху */
 }
 .toc-h1-header > .toc-link-wrapper {
     flex-grow: 1;
@@ -221,16 +201,13 @@ mark.current-match {
     display: block;
     padding: 6px 10px;
 }
+/* Старый класс .no-children больше не нужен */
 
-/* ИЗМЕНЕНИЕ: Отступ для подпунктов H2 */
-.toc-h2 {
-    padding-left: 28px; /* Отступ равен ширине элемента-стрелки */
-}
 .toc-h2 a { font-size: 14px; color: var(--secondary-text-color); display: block; padding: 6px 10px; }
 
+/* ИЗМЕНЕНИЕ: Отступ для подменю */
 .toc-submenu {
-    /* Отступ для всего блока больше не нужен, он теперь на .toc-h2 */
-    padding-left: 0;
+    padding-left: 28px; /* Отступ равен ширине элемента-стрелки */
     overflow: hidden; 
     max-height: 1000px; 
     transition: max-height 0.15s ease-out, opacity 0.15s ease-out;
@@ -238,17 +215,18 @@ mark.current-match {
 }
 .toc-h1.is-collapsed .toc-submenu { max-height: 0; opacity: 0; visibility: hidden; }
 
+/* ИЗМЕНЕНИЕ: Стили для стрелки и плейсхолдера */
 .toc-toggle {
     flex-shrink: 0;
     width: 28px;
-    height: 35px;
+    height: 35px; /* Высота равна кликабельной области ссылки */
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--secondary-text-color);
     user-select: none;
 }
-.toc-toggle:not(.is-placeholder) {
+.toc-toggle:not(.is-placeholder) { /* Стили только для настоящих стрелок */
     cursor: pointer;
 }
 .toc-toggle:not(.is-placeholder):hover {
