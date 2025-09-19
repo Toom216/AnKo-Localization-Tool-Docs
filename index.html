@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<!-- Язык по умолчанию 'en' (английский) -->
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
@@ -21,6 +21,12 @@
             <div class="toc-search-container">
                 <svg class="toc-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18ZM10,4a6,6,0,1,0,6,6A6.007,6.007,0,0,0,10,4Z"/><path d="M21,22a1,1,0,0,1-.707-0.293l-4-4a1,1,0,0,1,1.414-1.414l4,4A1,1,0,0,1,21,22Z"/></svg>
                 <input type="search" id="toc-search" placeholder="Поиск..." data-key="toc_search_placeholder">
+                <!-- ИЗМЕНЕНИЕ: Добавлен блок навигации по результатам поиска -->
+                <div id="search-nav-controls" style="display: none;">
+                    <span id="search-results-count"></span>
+                    <button id="search-prev" title="Предыдущее совпадение">▲</button>
+                    <button id="search-next" title="Следующее совпадение">▼</button>
+                </div>
             </div>
             <nav id="table-of-contents"></nav>
         </div>
@@ -39,7 +45,7 @@
 
     <main class="main-content">
         <div class="content-wrapper">
-            <!-- ИЗМЕНЕНО: Возвращены оригинальные пути к изображениям -->
+            <!-- Контент страницы без изменений -->
             <h1 id="vvedenie" data-key="h1_introduction"><span class="emoji">🚀</span> Введение</h1>
             <p data-key="p_intro_1"></p>
             
@@ -288,4 +294,3 @@
 
 </body>
 </html>
-
