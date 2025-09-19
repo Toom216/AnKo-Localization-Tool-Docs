@@ -111,7 +111,6 @@ body {
     color: var(--secondary-text-color);
     cursor: pointer;
     border-radius: 50%; 
-    /* ИЗМЕНЕНО: Размер кнопки и флага увеличен */
     width: 44px; 
     height: 44px;
     padding: 0;
@@ -120,6 +119,8 @@ body {
     align-items: center;
     justify-content: center; 
     transition: background-color 0.2s, color 0.2s;
+    /* ИЗМЕНЕНО: Добавлен шрифт для корректного отображения эмодзи-флагов */
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
 .lang-btn:hover {
@@ -129,7 +130,7 @@ body {
 .dropdown-content {
     display: none;
     position: absolute;
-    bottom: 55px; /* Увеличено, чтобы не перекрывать кнопку */
+    bottom: 55px;
     left: 0;
     background-color: var(--content-bg-color);
     min-width: 160px;
@@ -156,7 +157,8 @@ body {
 }
 
 .dropdown-content button .flag {
-    font-size: 22px; /* Увеличен размер флагов в списке */
+    font-size: 22px;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
 .dropdown-content button:hover {
@@ -197,11 +199,11 @@ body {
     width: 16px;
     height: 16px;
     color: var(--secondary-text-color);
-    pointer-events: none; /* Иконка не перехватывает клики */
+    pointer-events: none;
 }
 #toc-search {
     width: 100%;
-    padding: 8px 12px 8px 36px; /* Отступ слева для иконки */
+    padding: 8px 12px 8px 36px;
     border-radius: 6px;
     border: 1px solid var(--border-color);
     background-color: var(--main-bg-color);
@@ -223,6 +225,7 @@ body {
 }
 .sidebar nav li {
     margin: 2px 0;
+    position: relative; /* Необходимо для позиционирования .toc-toggle */
 }
 .sidebar nav a {
     display: block;
@@ -239,63 +242,63 @@ body {
 .sidebar nav a.active {
     background-color: var(--active-nav-bg);
     color: var(--active-nav-text);
-    font-weight: 600;
-}
-/* ИЗМЕНЕНО: Стили для иерархии в навигации */
-.toc-h1 {
-    position: relative; /* Для позиционирования стрелки */
-}
-.toc-h1 > a {
-    font-weight: 600;
-    font-size: 15px; /* Раздел крупнее */
-    padding-left: 32px; /* Освобождаем место для увеличенной стрелки */
-}
-.toc-h2 a {
-    font-size: 14px; /* Подпункт меньше */
-    color: var(--secondary-text-color); /* Менее заметный цвет */
-}
-.toc-h2 a.active {
-     color: var(--active-nav-text); /* Возвращаем яркий цвет при активации */
-}
-.toc-h2 a:hover {
-    color: var(--text-color); /* Возвращаем основной цвет при наведении */
+    font-weight: 700;
 }
 
+/* --- ИЗМЕНЕНО: Стили для иерархии в навигации --- */
+.toc-h1 > a {
+    font-weight: 700; /* Жирный шрифт для заголовка */
+    font-size: 16px;   /* Увеличенный размер шрифта */
+    padding-left: 30px; /* Отступ слева для стрелки */
+}
+
+.toc-h2 a {
+    font-size: 14px; /* Размер шрифта подпункта */
+    color: var(--secondary-text-color);
+    padding-left: 15px; /* Отступ для вложенности */
+}
 .toc-submenu {
-    padding-left: 25px; 
+    padding-left: 15px; /* Дополнительный отступ для всей группы подпунктов */
     overflow: hidden;
     max-height: 1000px; 
-    transition: max-height 0.3s ease-in-out, visibility 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
     opacity: 1;
 }
+
 .toc-h1.is-collapsed .toc-submenu {
     max-height: 0;
-    visibility: hidden;
     opacity: 0;
+    visibility: hidden;
 }
-/* ИЗМЕНЕНО: Стили для стрелки, чтобы она не накладывалась и была крупнее */
+
+/* --- ИЗМЕНЕНО: Улучшенные стили для стрелки --- */
 .toc-toggle {
     position: absolute;
     top: 0;
-    left: 4px;
+    left: 2px;
     width: 28px;
-    height: 100%; /* Занимает всю высоту ссылки */
+    height: 35px; /* Фиксированная высота, равная высоте ссылки H1 */
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     user-select: none;
     color: var(--secondary-text-color);
+    z-index: 1; /* Чтобы быть над ссылкой */
+}
+.toc-toggle:hover {
+    color: var(--text-color);
 }
 .toc-toggle::before {
     content: '▶';
-    font-size: 12px; /* Стрелка стала крупнее */
+    font-size: 13px; /* Увеличенный размер стрелки */
     display: inline-block;
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease;
 }
 .toc-h1:not(.is-collapsed) .toc-toggle::before {
     transform: rotate(90deg);
 }
+
 
 /* Стилизация контента */
 h1, h2 {
@@ -472,3 +475,4 @@ pre:hover .copy-code-btn {
         color: var(--text-color);
     }
 }
+
