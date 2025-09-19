@@ -68,7 +68,7 @@ body {
 
 .sidebar-content {
     flex-grow: 1;
-    overflow-y: auto; /* Добавляем скролл для контента, если он не влезает */
+    overflow-y: auto; 
 }
 
 .sidebar-controls {
@@ -78,7 +78,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-shrink: 0; /* Предотвращаем сжатие контролов */
+    flex-shrink: 0; 
 }
 
 .theme-switcher {
@@ -110,14 +110,14 @@ body {
     border: 1px solid var(--border-color);
     color: var(--secondary-text-color);
     cursor: pointer;
-    border-radius: 50%; /* Делаем кнопку круглой */
-    width: 40px; /* Фиксированный размер */
+    border-radius: 50%; 
+    width: 40px; 
     height: 40px;
     padding: 0;
     font-size: 20px;
     display: flex;
     align-items: center;
-    justify-content: center; /* Центрируем флаг */
+    justify-content: center; 
     transition: background-color 0.2s, color 0.2s;
 }
 
@@ -183,17 +183,31 @@ body {
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-/* --- НОВЫЕ СТИЛИ ДЛЯ ОГЛАВЛЕНИЯ (ToC) --- */
+/* --- ОБНОВЛЕННЫЕ СТИЛИ ДЛЯ ОГЛАВЛЕНИЯ И ПОИСКА --- */
+.toc-search-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+.toc-search-icon {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: var(--secondary-text-color);
+    pointer-events: none; /* Иконка не перехватывает клики */
+}
 #toc-search {
     width: 100%;
-    padding: 8px 12px;
-    margin-bottom: 15px;
+    padding: 8px 12px 8px 36px; /* Отступ слева для иконки */
     border-radius: 6px;
     border: 1px solid var(--border-color);
     background-color: var(--main-bg-color);
     color: var(--text-color);
     box-sizing: border-box;
     font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 #toc-search:focus {
     outline: none;
@@ -206,11 +220,9 @@ body {
     padding: 0;
     margin: 0;
 }
-
 .sidebar nav li {
     margin: 2px 0;
 }
-
 .sidebar nav a {
     display: block;
     padding: 6px 10px;
@@ -230,23 +242,34 @@ body {
 }
 .toc-h1 > a {
     font-weight: 600;
+    padding-left: 28px; /* Освобождаем место для стрелки */
+}
+.toc-h1 {
+    position: relative; /* Для позиционирования стрелки */
 }
 .toc-submenu {
-    padding-left: 25px; /* Отступ для вложенных элементов */
+    padding-left: 25px; 
     overflow: hidden;
-    max-height: 1000px; /* Анимация по высоте */
-    transition: max-height 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    max-height: 1000px; 
+    transition: max-height 0.3s ease-in-out, visibility 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 1;
 }
 .toc-h1.is-collapsed .toc-submenu {
     max-height: 0;
     visibility: hidden;
+    opacity: 0;
 }
 .toc-toggle {
-    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 28px;
+    height: 33px; /* Высота равна высоте ссылки */
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    padding-right: 8px;
-    transition: transform 0.3s ease;
-    user-select: none; /* Запрещаем выделение иконки */
+    user-select: none;
 }
 .toc-toggle::before {
     content: '▶';
@@ -283,7 +306,6 @@ a {
     color: var(--link-color);
     text-decoration: none;
 }
-
 a:hover {
     text-decoration: underline;
 }
@@ -299,9 +321,8 @@ code {
     border: 1px solid var(--border-color);
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
-
 pre {
-    position: relative; /* Для позиционирования кнопки "Копировать" */
+    position: relative; 
     background-color: var(--code-bg-color);
     padding: 16px;
     overflow: auto;
@@ -309,7 +330,6 @@ pre {
     border: 1px solid var(--border-color);
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
-
 pre code {
     padding: 0;
     margin: 0;
@@ -319,7 +339,6 @@ pre code {
     white-space: pre-wrap;
     word-wrap: break-word;
 }
-/* НОВЫЕ СТИЛИ: Кнопка "Копировать" */
 .copy-code-btn {
     position: absolute;
     top: 8px;
@@ -356,7 +375,6 @@ pre:hover .copy-code-btn {
     border-radius: 0 5px 5px 0;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
-
 .doc-image {
     width: 100%;
     height: auto;
@@ -416,7 +434,7 @@ pre:hover .copy-code-btn {
     .main-content {
         margin-left: 0;
         padding: 20px;
-        padding-top: 80px; /* Space for the mobile nav button */
+        padding-top: 80px;
     }
     .content-wrapper {
         padding: 15px 20px;
@@ -438,3 +456,4 @@ pre:hover .copy-code-btn {
         color: var(--text-color);
     }
 }
+
