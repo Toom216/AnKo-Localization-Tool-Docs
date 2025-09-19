@@ -1,16 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // --- КОНФИГУРАЦИЯ ЯЗЫКОВ ---
+    // ИЗМЕНЕНО: Добавлены ссылки на SVG-изображения флагов
     const languages = {
-        'en': { name: 'English', flag: '🇬🇧' },
-        'ru': { name: 'Русский', flag: '🇷🇺' },
-        'de': { name: 'Deutsch', flag: '🇩🇪' },
-        'es': { name: 'Español', flag: '🇪🇸' },
-        'zh': { name: '中文', flag: '🇨🇳' },
-        'hi': { name: 'हिन्दी', flag: '🇮🇳' },
+        'en': { name: 'English', flag: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1ec-1f1e7.svg' },
+        'ru': { name: 'Русский', flag: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1f7-1f1fa.svg' },
+        'de': { name: 'Deutsch', flag: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1e9-1f1ea.svg' },
+        'es': { name: 'Español', flag: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1ea-1f1f8.svg' },
+        'zh': { name: '中文', flag: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1e8-1f1f3.svg' },
+        'hi': { name: 'हिन्दी', flag: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1ee-1f1f3.svg' },
     };
 
     // --- ПОИСК ЭЛЕМЕНТОВ DOM ---
+    const mainContent = document.querySelector('.main-content .content-wrapper');
     const scrollTopBtn = document.getElementById('scrollTopBtn');
     const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
     const sidebar = document.querySelector('.sidebar');
@@ -33,111 +35,110 @@ document.addEventListener('DOMContentLoaded', function() {
         applyTheme(newTheme);
     });
 
-    // --- ЛОГИКА ГЕНЕРАЦИИ ОГЛАВЛЕНИЯ (ToC) ---
+    // --- ИЗМЕНЕНО: ЛОГИКА ГЕНЕРАЦИИ ОГЛАВЛЕНИЯ (ToC) ---
+    // Теперь стрелки добавляются только при наличии подпунктов
     const generateCollapsibleTOC = () => {
         tocContainer.innerHTML = ''; 
         const headings = document.querySelectorAll('.main-content h1[id], .main-content h2[id]');
         const mainList = document.createElement('ul');
-        let currentSubList = null;
+        let currentH1LI = null;
         let h1Counter = 0;
 
         headings.forEach(heading => {
             if (heading.tagName === 'H1') {
                 h1Counter++;
-                const li = document.createElement('li');
-                li.classList.add('toc-h1');
-                
-                const toggle = document.createElement('span');
-                toggle.classList.add('toc-toggle');
+                currentH1LI = document.createElement('li');
+                currentH1LI.classList.add('toc-h1');
                 
                 const a = document.createElement('a');
                 a.href = '#' + heading.id;
                 a.dataset.key = heading.dataset.key.replace(/^h1_/, 'nav_');
                 
-                li.appendChild(toggle);
-                li.appendChild(a);
+                currentH1LI.appendChild(a);
                 
-                mainList.appendChild(li);
+                const subList = document.createElement('ul');
+                subList.classList.add('toc-submenu');
+                currentH1LI.appendChild(subList);
                 
-                currentSubList = document.createElement('ul');
-                currentSubList.classList.add('toc-submenu');
-                li.appendChild(currentSubList);
-                
-                // Сворачиваем все разделы, кроме первого
-                li.classList.toggle('is-collapsed', h1Counter > 1);
+                mainList.appendChild(currentH1LI);
+                currentH1LI.classList.toggle('is-collapsed', h1Counter > 1);
 
-                toggle.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    li.classList.toggle('is-collapsed');
-                });
-
-            } else if (heading.tagName === 'H2' && currentSubList) {
+            } else if (heading.tagName === 'H2' && currentH1LI) {
                 const li = document.createElement('li');
                 li.classList.add('toc-h2');
                 const a = document.createElement('a');
                 a.href = '#' + heading.id;
                 a.dataset.key = heading.dataset.key.replace(/^h2_/, 'nav_');
                 li.appendChild(a);
-                currentSubList.appendChild(li);
+                currentH1LI.querySelector('.toc-submenu').appendChild(li);
+            }
+        });
+        
+        // Проходимся по всем H1 и добавляем стрелку, только если есть H2
+        mainList.querySelectorAll('.toc-h1').forEach(h1li => {
+            const subMenu = h1li.querySelector('.toc-submenu');
+            if (subMenu && subMenu.children.length > 0) {
+                 const toggle = document.createElement('span');
+                 toggle.classList.add('toc-toggle');
+                 h1li.prepend(toggle); // Вставляем стрелку в начало LI
+                 toggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    h1li.classList.toggle('is-collapsed');
+                });
+            } else {
+                 h1li.classList.add('no-children'); // Добавляем класс для стилизации
             }
         });
 
         tocContainer.appendChild(mainList);
     };
+    
+    // --- ИЗМЕНЕНО: Поиск с подсветкой ---
+    let originalHTML = mainContent.innerHTML; // Сохраняем исходный HTML
+    
+    const highlightText = (searchTerm) => {
+        // Восстанавливаем исходный HTML перед новым поиском
+        mainContent.innerHTML = originalHTML;
 
-    // --- ИЗМЕНЕНО: Глобальный поиск по контенту ---
-    const initGlobalSearch = () => {
-        tocSearch.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase().trim();
-            const allHeadings = document.querySelectorAll('.main-content h1[id], .main-content h2[id]');
-            
-            // Создаем карту для быстрого доступа к элементам ToC по ID заголовка
-            const tocLinks = new Map();
-            tocContainer.querySelectorAll('a[href]').forEach(a => {
-                tocLinks.set(a.getAttribute('href').substring(1), a.parentElement);
-            });
-    
-            allHeadings.forEach(heading => {
-                // Собираем весь контент секции: заголовок + все последующие элементы до следующего заголовка
-                let contentBlock = [heading];
-                let current = heading;
-                while (current.nextElementSibling && !['H1', 'H2'].includes(current.nextElementSibling.tagName)) {
-                    contentBlock.push(current.nextElementSibling);
-                    current = current.nextElementSibling;
-                }
-    
-                // Проверяем наличие поискового запроса в тексте секции
-                const blockText = contentBlock.map(el => el.textContent).join(' ').toLowerCase();
-                const matches = blockText.includes(searchTerm);
-    
-                // Показываем или скрываем всю секцию в основном контенте
-                contentBlock.forEach(el => {
-                    el.style.display = matches ? '' : 'none';
+        if (!searchTerm) return; // Если поиск пуст, ничего не делаем
+
+        const regex = new RegExp(searchTerm.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi');
+        
+        const textNodes = [];
+        const walk = document.createTreeWalker(mainContent, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        while(node = walk.nextNode()) {
+            // Исключаем скрипты, стили и текст внутри тега <mark>
+            if(node.parentElement.tagName !== 'SCRIPT' && node.parentElement.tagName !== 'STYLE' && node.parentElement.tagName !== 'MARK') {
+                 textNodes.push(node);
+            }
+        }
+
+        textNodes.forEach(node => {
+            const matches = node.nodeValue.match(regex);
+            if (matches) {
+                const fragment = document.createDocumentFragment();
+                let lastIndex = 0;
+                node.nodeValue.replace(regex, (match, offset) => {
+                    const textBefore = document.createTextNode(node.nodeValue.slice(lastIndex, offset));
+                    const mark = document.createElement('mark');
+                    mark.textContent = match;
+                    fragment.appendChild(textBefore);
+                    fragment.appendChild(mark);
+                    lastIndex = offset + match.length;
                 });
-                
-                // Показываем или скрываем соответствующий пункт в оглавлении
-                const tocLi = tocLinks.get(heading.id);
-                if (tocLi) {
-                    tocLi.style.display = matches ? '' : 'none';
-                }
-            });
-    
-            // Обновляем состояние родительских H1 в оглавлении
-            tocContainer.querySelectorAll('.toc-h1').forEach(h1 => {
-                const h1LinkVisible = h1.querySelector('a').parentElement.style.display !== 'none';
-                const visibleChildren = h1.querySelectorAll('.toc-h2:not([style*="display: none"])').length > 0;
-    
-                if (visibleChildren && !h1LinkVisible) {
-                    h1.style.display = ''; // Показываем родителя, если видны дочерние элементы
-                }
-    
-                if (searchTerm && (h1LinkVisible || visibleChildren)) {
-                    h1.classList.remove('is-collapsed'); // Разворачиваем, если есть совпадения
-                }
-            });
+                const textAfter = document.createTextNode(node.nodeValue.slice(lastIndex));
+                fragment.appendChild(textAfter);
+                node.parentNode.replaceChild(fragment, node);
+            }
         });
     };
-
+    
+    tocSearch.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        highlightText(searchTerm); // Вызываем функцию подсветки
+    });
+    
     // --- КНОПКИ КОПИРОВАНИЯ КОДА ---
     const initCopyCodeButtons = () => {
         document.querySelectorAll('pre').forEach(block => {
@@ -162,13 +163,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    // --- ЛОГИКА ЛОКАЛИЗАЦИИ ---
+    // --- ИЗМЕНЕНО: ЛОГИКА ЛОКАЛИЗАЦИИ c SVG-флагами ---
     const populateLangOptions = () => {
         langOptionsContainer.innerHTML = '';
         for (const langCode in languages) {
             const option = document.createElement('button');
             option.dataset.lang = langCode;
-            option.innerHTML = `<span class="flag">${languages[langCode].flag}</span><span>${languages[langCode].name}</span>`;
+            option.innerHTML = `<img src="${languages[langCode].flag}" class="flag-img" alt="${langCode}"><span>${languages[langCode].name}</span>`;
             option.addEventListener('click', (e) => {
                 e.stopPropagation();
                 applyLanguage(langCode);
@@ -179,14 +180,13 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     const applyLanguage = (lang) => {
-        if (!languages[lang]) lang = 'en'; // Безопасность
+        if (!languages[lang]) lang = 'en';
 
         document.documentElement.lang = lang;
-        currentLangFlag.textContent = languages[lang].flag;
+        currentLangFlag.innerHTML = `<img src="${languages[lang].flag}" class="flag-img" alt="${lang}">`;
         
         document.querySelectorAll('[data-key]').forEach(elem => {
             const key = elem.getAttribute('data-key');
-            // Улучшенный поиск перевода: текущий язык -> английский (fallback) -> русский (крайний случай)
             const translation = translations[lang]?.[key] || translations['en']?.[key] || translations['ru']?.[key];
             
             if (key === 'toc_search_placeholder' && elem.tagName === 'INPUT') {
@@ -195,20 +195,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 elem.innerHTML = translation;
             }
         });
-
+        
+        originalHTML = mainContent.innerHTML; // Обновляем сохраненный HTML после смены языка
         localStorage.setItem('language', lang);
     };
     
     // --- ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ ---
     generateCollapsibleTOC();
-    initGlobalSearch(); // Используем новую функцию поиска
     initCopyCodeButtons();
     populateLangOptions();
     
     const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     applyTheme(savedTheme);
-
-    // ИЗМЕНЕНО: Язык по умолчанию теперь английский
+    
     const savedLang = localStorage.getItem('language') || 'en';
     applyLanguage(savedLang);
 
@@ -230,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let currentSectionId = '';
         const sections = document.querySelectorAll('.main-content h1[id], .main-content h2[id]');
-        const offset = 80; // Смещение для более точной активации
+        const offset = 80;
 
         for (let i = sections.length - 1; i >= 0; i--) {
             const section = sections[i];
@@ -254,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Вызываем один раз при загрузке для инициализации
+    handleScroll();
 
     scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
@@ -262,10 +261,10 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileNavToggle.addEventListener('click', () => sidebar.classList.toggle('is-open'));
     }
     
-    // Закрываем мобильное меню при клике на ссылку в нем
     tocContainer.addEventListener('click', (e) => {
         if(e.target.tagName === 'A' && sidebar.classList.contains('is-open')) {
             sidebar.classList.remove('is-open');
         }
     });
 });
+
