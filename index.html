@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- Подключаем скрипты: сначала переводы, потом логику -->
-    <script src="js/translations.js" defer></script>
-    <script src="js/script.js" defer></script>
+    <script src="translations.js" defer></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
 
@@ -19,24 +19,16 @@
     <aside class="sidebar">
         <div class="sidebar-content">
             <h3 data-key="toc_title">Оглавление</h3>
-            <nav id="table-of-contents">
-                <ul>
-                    <li><a href="#vvedenie" data-key="nav_introduction">1. Введение</a></li>
-                    <li><a href="#bystryj-start" data-key="nav_quick_start">2. Быстрый старт и настройка</a></li>
-                    <li><a href="#osnovnye-komponenty" data-key="nav_components">3. Основные компоненты</a></li>
-                    <li><a href="#okno-localization-tool" data-key="nav_loc_tool_window">4. Окно "Localization Tool"</a></li>
-                    <li><a href="#redaktor-perevodov" data-key="nav_translation_editor">5. Редактор переводов</a></li>
-                    <li><a href="#primery-ispolzovaniya" data-key="nav_usage_examples">6. Примеры использования</a></li>
-                    <li><a href="#vazhnye-nyuansy" data-key="nav_important_notes">7. Важные нюансы и предупреждения</a></li>
-                    <li><a href="#rasshirenie-funkcionala" data-key="nav_extending">8. Расширение функционала</a></li>
-                </ul>
-            </nav>
+            <!-- Поле для поиска/фильтрации по оглавлению -->
+            <input type="search" id="toc-search" data-key="toc_search_placeholder" placeholder="Фильтр по содержанию...">
+            <!-- Оглавление теперь будет генерироваться динамически -->
+            <nav id="table-of-contents"></nav>
         </div>
         <div class="sidebar-controls">
             <div class="lang-switcher-dropdown">
+                <!-- Кнопка выбора языка теперь показывает только флаг для лаконичности -->
                 <button id="current-lang-btn" class="lang-btn">
                     <span id="current-lang-flag">🇷🇺</span>
-                    <span id="current-lang-code">RU</span>
                 </button>
                 <div id="lang-options" class="dropdown-content">
                     <!-- Опции языка будут добавлены скриптом -->
@@ -305,4 +297,3 @@
 
 </body>
 </html>
-
