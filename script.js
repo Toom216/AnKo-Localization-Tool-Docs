@@ -22,14 +22,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentLangFlag = document.getElementById('current-lang-flag');
     const langOptionsContainer = document.getElementById('lang-options');
     
-    // ИЗМЕНЕНИЕ: Элементы для навигации по поиску
     const searchNavControls = document.getElementById('search-nav-controls');
     const searchResultsCount = document.getElementById('search-results-count');
     const searchPrevBtn = document.getElementById('search-prev');
     const searchNextBtn = document.getElementById('search-next');
 
     let originalMainContentHTML = mainContent.innerHTML;
-    // ИЗМЕНЕНИЕ: Переменные для состояния поиска
     let searchMatches = [];
     let currentMatchIndex = -1;
 
@@ -46,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
         applyTheme(newTheme);
     });
 
-    // --- ЛОГИКА ГЕНЕРАЦИИ ОГЛАВЛЕНИЯ (ToC) ---
+    // --- ИЗМЕНЕНИЕ: ЛОГИКА ГЕНЕРАЦИИ ОГЛАВЛЕНИЯ (ToC) ---
     const generateCollapsibleTOC = () => {
         tocContainer.innerHTML = ''; 
         const headings = mainContent.querySelectorAll('h1[id], h2[id]');
@@ -92,31 +90,31 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
+        // ИЗМЕНЕНИЕ: Вставляем плейсхолдер или стрелку для каждого H1
         mainList.querySelectorAll('.toc-h1').forEach(h1li => {
             const subMenu = h1li.querySelector('.toc-submenu');
-            if (subMenu && subMenu.children.length > 0) {
-                 const toggle = document.createElement('span');
-                 toggle.classList.add('toc-toggle');
-                 
-                 const headerDiv = h1li.querySelector('.toc-h1-header');
-                 headerDiv.prepend(toggle);
+            const headerDiv = h1li.querySelector('.toc-h1-header');
+            
+            const toggle = document.createElement('span');
+            toggle.classList.add('toc-toggle');
+            headerDiv.prepend(toggle); // Вставляем в начало .toc-h1-header
 
+            if (subMenu && subMenu.children.length > 0) {
+                 // Это настоящая стрелка
                  toggle.addEventListener('click', (e) => {
                     e.stopPropagation();
                     h1li.classList.toggle('is-collapsed');
                 });
             } else {
-                 const headerDiv = h1li.querySelector('.toc-h1-header');
-                 if(headerDiv) {
-                    headerDiv.classList.add('no-children');
-                 }
+                 // Это просто плейсхолдер для выравнивания
+                 toggle.classList.add('is-placeholder');
             }
         });
 
         tocContainer.appendChild(mainList);
     };
     
-    // --- ИЗМЕНЕНИЕ: ЛОГИКА ПОИСКА И НАВИГАЦИИ ПО НЕМУ ---
+    // --- ЛОГИКА ПОИСКА И НАВИГАЦИИ ПО НЕМУ ---
     const updateSearchFocus = () => {
         searchMatches.forEach(match => match.classList.remove('current-match'));
         if (currentMatchIndex >= 0 && currentMatchIndex < searchMatches.length) {
@@ -131,7 +129,6 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     const performSearch = (searchTerm) => {
-        // Сброс состояния перед новым поиском
         mainContent.innerHTML = originalMainContentHTML;
         searchMatches = [];
         currentMatchIndex = -1;
@@ -259,25 +256,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- ИЗМЕНЕНИЕ: ЛОГИКА ПОДСВЕТКИ ОГЛАВЛЕНИЯ ПРИ ПРОКРУТКЕ (SCROLL SPY) ---
     const initScrollSpy = () => {
+        let currentActiveLink = null;
         const headings = mainContent.querySelectorAll('h1[id], h2[id]');
         
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
-                const id = entry.target.getAttribute('id');
-                const link = tocContainer.querySelector(`a[href="#${id}"]`);
-                if (link) {
-                    if (entry.isIntersecting && entry.intersectionRatio > 0) {
-                        // Сначала убираем active со всех
-                        tocContainer.querySelectorAll('a').forEach(a => a.classList.remove('active'));
-                        // Затем добавляем к текущему
+                // Если заголовок входит в зону видимости
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    const link = tocContainer.querySelector(`a[href="#${id}"]`);
+                    
+                    // Если это новый активный линк
+                    if (link && link !== currentActiveLink) {
+                        // Убираем активность со старого
+                        if (currentActiveLink) {
+                            currentActiveLink.classList.remove('active');
+                        }
+                        // Добавляем новому
                         link.classList.add('active');
+                        // Запоминаем его
+                        currentActiveLink = link;
+                        
                         // Раскрываем родительский H1, если он свернут
                         const parentH1 = link.closest('.toc-h1');
                         if (parentH1 && parentH1.classList.contains('is-collapsed')) {
                             parentH1.classList.remove('is-collapsed');
                         }
-                    } else {
-                        link.classList.remove('active');
                     }
                 }
             });
@@ -299,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
     applyTheme(savedTheme);
     generateCollapsibleTOC();
     applyLanguage(savedLang);
-    initScrollSpy(); // Запускаем слежение за прокруткой
+    initScrollSpy();
 
     originalMainContentHTML = mainContent.innerHTML;
 
