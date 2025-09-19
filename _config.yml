@@ -1,0 +1,10 @@
+# Выбираем тему оформления. "jekyll-theme-cayman" - популярная и красивая тема.
+theme: jekyll-theme-cayman
+
+# Заголовок и описание вашего сайта (будут видны на странице)
+title: Localization Tool for Unity
+description: Полная документация по мощному инструменту локализации для Unity.
+
+# Эта строчка убирает лишние предупреждения при сборке сайта
+github:
+  is_project_page: false
