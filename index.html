@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- Подключаем скрипты: сначала переводы, потом логику -->
-    <!-- Атрибут defer указывает браузеру загружать скрипты параллельно с HTML, но выполнять после построения DOM -->
     <script src="js/translations.js" defer></script>
     <script src="js/script.js" defer></script>
 </head>
@@ -34,7 +33,6 @@
             </nav>
         </div>
         <div class="sidebar-controls">
-            <!-- НОВЫЙ БЛОК ПЕРЕКЛЮЧАТЕЛЯ ЯЗЫКА -->
             <div class="lang-switcher-dropdown">
                 <button id="current-lang-btn" class="lang-btn">
                     <span id="current-lang-flag">🇷🇺</span>
@@ -66,7 +64,8 @@
                 <li data-key="li_feature_9"></li>
                 <li data-key="li_feature_10"></li>
             </ul>
-            <div class="placeholder" data-key="placeholder_gif_features"></div>
+            <!-- [ГИФКА ЗДЕСЬ]: Быстрая нарезка ключевых функций: парсинг, редактор переводов, Live Preview, работа с ассетами. -->
+            <img src="img/intro_key_features.gif" alt="Демонстрация ключевых возможностей" class="doc-image">
 
             <h1 id="bystryj-start" data-key="h1_quick_start"><span class="emoji">🛠️</span></h1>
             
@@ -79,7 +78,8 @@
                 <li data-key="li_install_5"></li>
                 <li data-key="li_install_6"></li>
             </ol>
-            <div class="placeholder" data-key="placeholder_img_installer"></div>
+            <!-- [СКРИНШОТ ЗДЕСЬ]: Окно установщика зависимостей с выделенной кнопкой "Install Selected". -->
+            <img src="img/quickstart_installer.png" alt="Окно установщика зависимостей" class="doc-image">
             
             <h2 id="pervonachalnaya-nastrojka" data-key="h2_initial_setup"></h2>
             <ol>
@@ -88,7 +88,8 @@
                 <li data-key="li_setup_3"></li>
                 <li data-key="li_setup_4"></li>
             </ol>
-            <div class="placeholder" data-key="placeholder_gif_setup"></div>
+            <!-- [ГИФКА ЗДЕСЬ]: Пошаговая настройка: 1. Открытие окна. 2. Выбор языка в Settings. 3. Перетаскивание сцены в Content. 4. Нажатие "Update Keys". -->
+            <img src="img/quickstart_initial_setup.gif" alt="Пошаговая первоначальная настройка" class="doc-image">
 
             <h1 id="osnovnye-komponenty" data-key="h1_components"><span class="emoji">🧩</span></h1>
             <div class="warning-box" data-key="warning_box_components"></div>
@@ -96,6 +97,8 @@
             
             <h2 id="localizedtext" data-key="h2_localizedtext"></h2>
             <p data-key="p_localizedtext_1"></p>
+            <!-- [СКРИНШОТ ЗДЕСЬ]: Инспектор объекта с компонентом TextMeshPro, где под ним автоматически добавился компонент LocalizedText. Выделить LocalizedText. -->
+            <img src="img/components_localized_text.png" alt="Компонент LocalizedText в инспекторе" class="doc-image">
             <ul>
                 <li data-key="li_localizedtext_1"></li>
                 <li data-key="li_localizedtext_2"></li>
@@ -104,10 +107,14 @@
 
             <h2 id="localizedasset" data-key="h2_localizedasset"></h2>
             <p data-key="p_localizedasset_1"></p>
+            <!-- [СКРИНШОТ ЗДЕСЬ]: Инспектор объекта с компонентом Image, где под ним автоматически добавился компонент LocalizedAsset. Выделить LocalizedAsset. -->
+            <img src="img/components_localized_asset.png" alt="Компонент LocalizedAsset в инспекторе" class="doc-image">
             <p data-key="p_localizedasset_2"></p>
 
             <h2 id="localizedprefab" data-key="h2_localizedprefab"></h2>
             <p data-key="p_localizedprefab_1"></p>
+            <!-- [ГИФКА ЗДЕСЬ]: Сцена с оригинальным префабом. После смены языка в Live Preview, оригинальный префаб деактивируется, а рядом появляется его локализованная версия. -->
+            <img src="img/components_localized_prefab.gif" alt="Демонстрация работы LocalizedPrefab" class="doc-image">
 
             <h2 id="uitklocalization" data-key="h2_uitklocalization"></h2>
             <p data-key="p_uitklocalization_1"></p>
@@ -120,13 +127,15 @@
 
             <h2 id="kontekstnoe-menyu" data-key="h2_context_menu"></h2>
             <p data-key="p_context_menu_1"></p>
-            <div class="placeholder" data-key="placeholder_img_context_menu"></div>
+            <!-- [СКРИНШОТ ЗДЕСЬ]: Правый клик по заголовку компонента Image в инспекторе, где в выпадающем меню виден пункт "Analyze for Localization". -->
+            <img src="img/components_context_menu.png" alt="Контекстное меню Analyze for Localization" class="doc-image">
 
             <h1 id="okno-localization-tool" data-key="h1_loc_tool_window"><span class="emoji">🖼️</span></h1>
 
             <h2 id="in-editor-preview" data-key="h2_in_editor_preview"></h2>
             <p data-key="p_preview_1"></p>
-            <div class="placeholder" data-key="placeholder_gif_preview"></div>
+            <!-- [ГИФКА ЗДЕСЬ]: Окно Scene с текстом. Курсор выбирает другой язык в "Preview Language", и текст в сцене мгновенно меняется. -->
+            <img src="img/window_live_preview.gif" alt="Демонстрация работы Live Preview" class="doc-image">
             <ul>
                 <li data-key="li_preview_1"></li>
                 <li data-key="li_preview_2"></li>
@@ -136,10 +145,15 @@
 
             <h2 id="vkladka-settings" data-key="h2_tab_settings"></h2>
             <p data-key="p_settings_1"></p>
-            <div class="placeholder" data-key="placeholder_img_settings"></div>
+            <!-- [СКРИНШОТ ЗДЕСЬ]: Общий вид вкладки Settings, чтобы пользователь сориентировался. -->
+            <img src="img/window_tab_settings_overview.png" alt="Обзор вкладки Settings" class="doc-image">
             <ul>
                 <li data-key="li_settings_1"></li>
+                <!-- [СКРИНШОТ ЗДЕСЬ]: Крупный план секции "Key Generation Mode" с открытым выпадающим списком. -->
+                <img src="img/window_tab_settings_key_gen.png" alt="Настройка Key Generation Mode" class="doc-image">
                 <li data-key="li_settings_2"></li>
+                <!-- [СКРИНШОТ ЗДЕСЬ]: Крупный план секции "Language Management" с парой языков, где видно поля Font Asset и чекбокс RTL. -->
+                <img src="img/window_tab_settings_lang_management.png" alt="Настройка языков" class="doc-image">
                 <li data-key="li_settings_3"></li>
                 <li data-key="li_settings_4"></li>
                 <li data-key="li_settings_5"></li>
@@ -148,7 +162,8 @@
 
             <h2 id="vkladka-content" data-key="h2_tab_content"></h2>
             <p data-key="p_content_1"></p>
-            <div class="placeholder" data-key="placeholder_img_content"></div>
+            <!-- [СКРИНШОТ ЗДЕСЬ]: Вкладка Content, где в "Scenes to Parse" добавлена сцена, а в "Parsing Ignores" "закреплен" (Pin) какой-нибудь объект. -->
+            <img src="img/window_tab_content.png" alt="Вкладка Content с настройками" class="doc-image">
             <ul>
                 <li data-key="li_content_1"></li>
                 <li data-key="li_content_2"></li>
@@ -159,18 +174,22 @@
 
             <h2 id="vkladka-actions" data-key="h2_tab_actions"></h2>
             <p data-key="p_actions_1"></p>
-            <div class="placeholder" data-key="placeholder_img_actions"></div>
+            <!-- [СКРИНШОТ ЗДЕСЬ]: Общий вид вкладки Actions с акцентом на кнопки "Update Keys" и "Open Translation Editor". -->
+            <img src="img/window_tab_actions_overview.png" alt="Обзор вкладки Actions" class="doc-image">
             <ul>
                 <li data-key="li_actions_1"></li>
                 <li data-key="li_actions_2"></li>
                 <li data-key="li_actions_3"></li>
+                <!-- [ГИФКА ЗДЕСЬ]: Короткая анимация нажатия на кнопку в секции "Auto-Translation" и появления прогресс-бара. -->
+                <img src="img/window_tab_actions_autotranslate.gif" alt="Процесс автоматического перевода" class="doc-image">
                 <li data-key="li_actions_4"></li>
                 <li data-key="li_actions_5"></li>
             </ul>
 
             <h2 id="vkladka-assets" data-key="h2_tab_assets"></h2>
             <p data-key="p_assets_1"></p>
-            <div class="placeholder" data-key="placeholder_img_assets"></div>
+            <!-- [ГИФКА ЗДЕСЬ]: Процесс работы с ассетами: 1. Нажатие "Create Asset Folders". 2. Показ созданных папок. 3. Нажатие "Scan Assets". 4. Нажатие "Analyze Project & Attach". -->
+            <img src="img/window_tab_assets.gif" alt="Процесс работы с ассетами" class="doc-image">
             <ol>
                 <li data-key="li_assets_1"></li>
                 <li data-key="li_assets_2"></li>
@@ -181,7 +200,8 @@
 
             <h2 id="vkladka-report" data-key="h2_tab_report"></h2>
             <p data-key="p_report_1"></p>
-            <div class="placeholder" data-key="placeholder_img_report"></div>
+            <!-- [СКРИНШОТ ЗДЕСЬ]: Вкладка Report с результатами сканирования, где видны категории Added, Removed, Duplicates и выделена кнопка "Find". -->
+            <img src="img/window_tab_report.png" alt="Вкладка Report с результатами сканирования" class="doc-image">
             <ul>
                 <li data-key="li_report_1"></li>
                 <li data-key="li_report_2"></li>
@@ -189,7 +209,8 @@
 
             <h1 id="redaktor-perevodov" data-key="h1_translation_editor"><span class="emoji">📝</span></h1>
             <p data-key="p_editor_1"></p>
-            <div class="placeholder" data-key="placeholder_gif_editor"></div>
+            <!-- [ГИФКА ЗДЕСЬ]: Работа в редакторе: 1. Открытие окна. 2. Прокрутка. 3. Клик на ячейку и появление MultiLineEditWindow. 4. Ввод текста с проверкой плейсхолдера. 5. Демонстрация Undo/Redo. -->
+            <img src="img/editor_workflow.gif" alt="Работа в редакторе переводов" class="doc-image">
             <ul>
                 <li data-key="li_editor_1"></li>
                 <li data-key="li_editor_2"></li>
@@ -204,12 +225,16 @@
             <h2 id="gotovye-komponenty" data-key="h2_example_components"></h2>
             <p data-key="p_example_components_1"></p>
             <ul>
+                <!-- [СКРИНШОТ ЗДЕСЬ]: Инспектор с компонентом LanguageSelector, где в поле "Dropdown" перетащен объект TMP_Dropdown со сцены. -->
+                <img src="img/examples_language_selector.png" alt="Настройка компонента LanguageSelector" class="doc-image">
                 <li data-key="li_example_components_1"></li>
                 <li data-key="li_example_components_2"></li>
             </ul>
 
             <h2 id="attribut-localizablefield" data-key="h2_example_attribute"></h2>
             <p data-key="p_example_attribute_1"></p>
+            <!-- [СКРИНШОТ ЗДЕСЬ]: Инспектор с компонентом QuestManager, где видны поля "Default Quest Failed Message" и "Start Dialog" с их текстами. -->
+            <img src="img/examples_localizable_field_inspector.png" alt="Отображение LocalizableField в инспекторе" class="doc-image">
             <pre><code class="language-csharp" data-key="code_example_attribute"></code></pre>
 
             <h2 id="funkciya-i-onlanguagechange" data-key="h2_example_function"></h2>
@@ -250,3 +275,4 @@
 
 </body>
 </html>
+
