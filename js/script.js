@@ -1,18 +1,29 @@
 // Ждем, пока весь HTML-документ будет загружен и готов к работе
 document.addEventListener('DOMContentLoaded', function() {
 
+    // --- КОНФИГУРАЦИЯ ЯЗЫКОВ ---
+    const languages = {
+        'ru': { name: 'Русский', flag: '🇷🇺' },
+        'en': { name: 'English', flag: '🇬🇧' },
+        'de': { name: 'Deutsch', flag: '🇩🇪' },
+        'es': { name: 'Español', flag: '🇪🇸' },
+        'zh': { name: '中文', flag: '🇨🇳' },
+        'hi': { name: 'हिन्दी', flag: '🇮🇳' },
+    };
+
     // --- ПОИСК ЭЛЕМЕНТОВ DOM ---
-    // Собираем все необходимые элементы в константы для быстрого доступа
     const sections = document.querySelectorAll('h1[id], h2[id]');
     const navLinks = document.querySelectorAll('#table-of-contents a');
     const scrollTopBtn = document.getElementById('scrollTopBtn');
     const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
     const sidebar = document.querySelector('.sidebar');
     const themeToggle = document.getElementById('theme-toggle');
-    const langButtons = {
-        ru: document.getElementById('lang-ru'),
-        en: document.getElementById('lang-en')
-    };
+
+    // Элементы нового переключателя языка
+    const currentLangBtn = document.getElementById('current-lang-btn');
+    const currentLangFlag = document.getElementById('current-lang-flag');
+    const currentLangCode = document.getElementById('current-lang-code');
+    const langOptionsContainer = document.getElementById('lang-options');
     
     // --- ЛОГИКА ПЕРЕКЛЮЧЕНИЯ ТЕМЫ ---
     
@@ -23,111 +34,119 @@ document.addEventListener('DOMContentLoaded', function() {
     const applyTheme = (theme) => {
         document.documentElement.setAttribute('data-theme', theme);
         themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
-        // Сохраняем выбор темы в localStorage, чтобы он сохранился при перезагрузке
         localStorage.setItem('theme', theme);
     };
 
-    // Вешаем обработчик клика на кнопку смены темы
     themeToggle.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        const newTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
         applyTheme(newTheme);
     });
 
     // --- ЛОГИКА ЛОКАЛИЗАЦИИ ---
 
     /**
+     * Заполняет выпадающий список языков, исключая текущий выбранный язык.
+     * @param {string} currentLang - Код текущего языка.
+     */
+    const populateLangOptions = (currentLang) => {
+        langOptionsContainer.innerHTML = ''; // Очищаем список
+        for (const langCode in languages) {
+            if (langCode !== currentLang) {
+                const option = document.createElement('button');
+                option.dataset.lang = langCode;
+                option.innerHTML = `
+                    <span class="flag">${languages[langCode].flag}</span>
+                    <span>${languages[langCode].name}</span>
+                `;
+                option.addEventListener('click', () => {
+                    applyLanguage(langCode);
+                    langOptionsContainer.classList.remove('show');
+                });
+                langOptionsContainer.appendChild(option);
+            }
+        }
+    };
+    
+    /**
      * Применяет выбранный язык ко всем элементам с атрибутом data-key.
-     * @param {string} lang - Код языка ('ru' или 'en').
+     * @param {string} lang - Код языка.
      */
     const applyLanguage = (lang) => {
-        // Устанавливаем атрибут lang для всего документа (важно для доступности и SEO)
+        // Устанавливаем атрибут lang для всего документа
         document.documentElement.lang = lang;
         
-        // Проходим по всем элементам, которые нужно перевести
+        // Обновляем главную кнопку
+        currentLangFlag.textContent = languages[lang].flag;
+        currentLangCode.textContent = lang.toUpperCase();
+
+        // Проходим по всем элементам для перевода
         document.querySelectorAll('[data-key]').forEach(elem => {
             const key = elem.getAttribute('data-key');
-            // Проверяем, существует ли перевод для данного ключа и языка
-            if (translations[lang] && translations[lang][key]) {
-                elem.innerHTML = translations[lang][key];
-            } else if (translations['ru'][key]) {
-                // Если перевода нет, используем русский как запасной вариант
-                elem.innerHTML = translations['ru'][key];
+            // Используем английский как запасной, если для выбранного языка нет перевода
+            const translation = translations[lang]?.[key] || translations['en']?.[key] || translations['ru'][key];
+             if (translation !== undefined) {
+                elem.innerHTML = translation;
             }
         });
 
-        // Обновляем стиль активной кнопки языка
-        for (const key in langButtons) {
-            langButtons[key].classList.toggle('active', key === lang);
-        }
-        // Сохраняем выбор языка в localStorage
         localStorage.setItem('language', lang);
+        populateLangOptions(lang); // Обновляем список в дропдауне
     };
-
-    // Добавляем обработчики кликов на кнопки выбора языка
-    Object.keys(langButtons).forEach(lang => {
-        langButtons[lang].addEventListener('click', () => applyLanguage(lang));
-    });
     
     // --- ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ ---
     
-    // 1. Устанавливаем тему: берем сохраненную, или системную, или светлую по умолчанию
     const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     applyTheme(savedTheme);
 
-    // 2. Устанавливаем язык: берем сохраненный или русский по умолчанию
     const savedLang = localStorage.getItem('language') || 'ru';
     applyLanguage(savedLang);
 
+    // --- ЛОГИКА ВЫПАДАЮЩЕГО МЕНЮ ЯЗЫКА ---
+    currentLangBtn.addEventListener('click', (event) => {
+        event.stopPropagation();
+        langOptionsContainer.classList.toggle('show');
+    });
+
+    // Закрываем меню, если клик был вне его
+    window.addEventListener('click', (event) => {
+        if (!currentLangBtn.contains(event.target)) {
+            langOptionsContainer.classList.remove('show');
+        }
+    });
+
+
     // --- ЛОГИКА СКРОЛЛА И МОБИЛЬНОЙ НАВИГАЦИИ ---
 
-    /**
-     * Обработчик события прокрутки страницы.
-     * Показывает/скрывает кнопку "Наверх" и подсвечивает активный пункт меню.
-     */
     const handleScroll = () => {
         // Кнопка "Наверх"
-        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-            scrollTopBtn.style.display = "block";
-        } else {
-            scrollTopBtn.style.display = "none";
-        }
+        scrollTopBtn.style.display = (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) ? "block" : "none";
 
-        // Подсветка меню (Scroll Spy)
+        // Подсветка меню
         let currentSectionId = '';
         sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            if (window.pageYOffset >= sectionTop - 60) { // Смещение в 60px для точности
+            if (window.pageYOffset >= section.offsetTop - 60) {
                 currentSectionId = section.getAttribute('id');
             }
         });
 
         navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href').substring(1) === currentSectionId) {
-                link.classList.add('active');
-            }
+            link.classList.toggle('active', link.getAttribute('href').substring(1) === currentSectionId);
         });
     };
 
-    // Вешаем обработчик прокрутки на окно
     window.addEventListener('scroll', handleScroll);
-    // Вызываем один раз при загрузке, чтобы установить начальное состояние
-    handleScroll();
+    handleScroll(); // Вызов при загрузке
 
-    // Обработчик клика по кнопке "Наверх"
     scrollTopBtn.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Обработчик для кнопки мобильного меню
     if (mobileNavToggle) {
         mobileNavToggle.addEventListener('click', () => {
             sidebar.classList.toggle('is-open');
         });
     }
 
-    // Закрываем мобильное меню при клике на любую ссылку в нем
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             if (sidebar.classList.contains('is-open')) {
