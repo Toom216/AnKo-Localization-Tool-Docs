@@ -4,324 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-key="page_title">Документация по инструменту локализации для Unity</title>
-    <style>
-        /* Общие стили и переменные */
-        :root {
-            --sidebar-width: 300px;
-            /* Светлая тема по умолчанию */
-            --main-bg-color: #f6f8fa;
-            --content-bg-color: #ffffff;
-            --text-color: #24292e;
-            --secondary-text-color: #586069;
-            --link-color: #0366d6;
-            --border-color: #e1e4e8;
-            --code-bg-color: #f3f3f3;
-            --warning-bg-color: #fffbdd;
-            --warning-border-color: #ffc300;
-            --active-nav-bg: #e8f0fe;
-            --active-nav-text: #1a73e8;
-            --shadow-color: rgba(0,0,0,0.05);
-            --icon-filter: grayscale(0);
-        }
+    
+    <!-- Подключаем файл стилей -->
+    <link rel="stylesheet" href="style.css">
 
-        html[data-theme="dark"] {
-            /* Переменные для темной темы */
-            --main-bg-color: #0d1117;
-            --content-bg-color: #161b22;
-            --text-color: #c9d1d9;
-            --secondary-text-color: #8b949e;
-            --link-color: #58a6ff;
-            --border-color: #30363d;
-            --code-bg-color: #2d333b;
-            --warning-bg-color: #2c240f;
-            --warning-border-color: #a78700;
-            --active-nav-bg: #1f6feb26;
-            --active-nav-text: #58a6ff;
-            --shadow-color: rgba(0,0,0,0.2);
-            --icon-filter: grayscale(1) brightness(1.5);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Сброс стилей и настройка шрифтов */
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            line-height: 1.6;
-            background-color: var(--main-bg-color);
-            color: var(--text-color);
-            display: flex;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        /* Структура макета */
-        .sidebar {
-            width: var(--sidebar-width);
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            background-color: var(--content-bg-color);
-            border-right: 1px solid var(--border-color);
-            overflow-y: auto;
-            padding: 20px;
-            box-sizing: border-box;
-            box-shadow: 1px 0 3px var(--shadow-color);
-            display: flex;
-            flex-direction: column;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-        
-        .sidebar-content {
-            flex-grow: 1;
-        }
-
-        .sidebar-controls {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-        
-        .theme-switcher, .lang-switcher button {
-            background: none;
-            border: 1px solid var(--border-color);
-            color: var(--secondary-text-color);
-            cursor: pointer;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 20px;
-            transition: background-color 0.2s, color 0.2s;
-        }
-        
-        .lang-switcher button.active {
-            background-color: var(--active-nav-bg);
-            color: var(--active-nav-text);
-            border-color: var(--active-nav-text);
-        }
-
-        .theme-switcher:hover, .lang-switcher button:hover {
-            background-color: var(--main-bg-color);
-        }
-
-
-        .main-content {
-            margin-left: var(--sidebar-width);
-            flex-grow: 1;
-            padding: 40px;
-            max-width: 900px;
-        }
-
-        .content-wrapper {
-            background-color: var(--content-bg-color);
-            padding: 30px 40px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 1px 3px var(--shadow-color), 0 1px 2px var(--shadow-color);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-
-        /* Стилизация навигации в боковой панели */
-        .sidebar h3 {
-            margin-top: 0;
-            color: var(--secondary-text-color);
-        }
-
-        .sidebar nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .sidebar nav ul li a {
-            display: block;
-            padding: 8px 12px;
-            text-decoration: none;
-            color: var(--text-color);
-            border-radius: 5px;
-            transition: background-color 0.2s ease, color 0.2s ease;
-            font-weight: 500;
-        }
-
-        .sidebar nav ul li a:hover {
-            background-color: var(--main-bg-color);
-        }
-
-        .sidebar nav ul li a.active {
-            background-color: var(--active-nav-bg);
-            color: var(--active-nav-text);
-            font-weight: 600;
-        }
-        
-        .sidebar nav ul ul li a {
-            font-size: 0.9em;
-            font-weight: 400;
-        }
-
-        /* Стилизация контента */
-        h1, h2, h3 {
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5em;
-            margin-top: 2em;
-            margin-bottom: 1em;
-            scroll-margin-top: 20px;
-            transition: border-color 0.3s ease;
-        }
-        
-        h1 .emoji {
-            filter: var(--icon-filter);
-        }
-
-        h1:first-child {
-            margin-top: 0;
-        }
-
-        h1 { font-size: 2em; }
-        h2 { font-size: 1.6em; }
-        h3 { font-size: 1.3em; }
-
-        a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        /* Стили для кода */
-        code {
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-            background-color: var(--code-bg-color);
-            padding: 0.2em 0.4em;
-            margin: 0;
-            font-size: 85%;
-            border-radius: 3px;
-            border: 1px solid var(--border-color);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-
-        pre {
-            background-color: var(--code-bg-color);
-            padding: 16px;
-            overflow: auto;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-
-        pre code {
-            padding: 0;
-            margin: 0;
-            font-size: 100%;
-            background-color: transparent;
-            border: none;
-        }
-
-        /* Стили для предупреждений */
-        .warning-box {
-            background-color: var(--warning-bg-color);
-            border-left: 5px solid var(--warning-border-color);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 5px 5px 0;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-        
-        /* Стили для плейсхолдеров */
-        .placeholder {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            border: 2px dashed var(--border-color);
-            padding: 40px;
-            margin: 20px 0;
-            border-radius: 8px;
-            background-color: var(--code-bg-color);
-            color: var(--secondary-text-color);
-            font-weight: bold;
-            font-size: 1.1em;
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-        }
-
-        /* Кнопка "Наверх" */
-        #scrollTopBtn {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 30px;
-            z-index: 99;
-            border: none;
-            outline: none;
-            background-color: var(--link-color);
-            color: white;
-            cursor: pointer;
-            padding: 0;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 24px;
-            line-height: 50px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            transition: opacity 0.3s, visibility 0.3s, background-color 0.2s;
-        }
-        #scrollTopBtn:hover {
-            background-color: #0056b3;
-        }
-
-        /* Кнопка мобильной навигации (бургер) */
-        .mobile-nav-toggle {
-            display: none;
-        }
-
-        /* Адаптивность */
-        @media (max-width: 900px) {
-            body {
-                flex-direction: column;
-            }
-            .sidebar {
-                position: fixed;
-                z-index: 1000;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease-in-out;
-                border-right: 1px solid var(--border-color);
-            }
-            .sidebar.is-open {
-                transform: translateX(0);
-            }
-            .main-content {
-                margin-left: 0;
-                padding: 20px;
-                padding-top: 80px; /* Space for the mobile nav button */
-            }
-            .content-wrapper {
-                padding: 15px 20px;
-            }
-            .mobile-nav-toggle {
-                display: block;
-                position: fixed;
-                top: 15px;
-                left: 15px;
-                z-index: 1001;
-                background: var(--content-bg-color);
-                border: 1px solid var(--border-color);
-                border-radius: 50%;
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
-                cursor: pointer;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                color: var(--text-color);
-            }
-        }
-    </style>
+    <!-- Подключаем скрипты: сначала переводы, потом логику -->
+    <!-- Атрибут defer указывает браузеру загружать скрипты параллельно с HTML, но выполнять после построения DOM -->
+    <script src="js/translations.js" defer></script>
+    <script src="js/script.js" defer></script>
 </head>
 <body>
 
@@ -359,225 +49,199 @@
             
             <h2 id="klyuchevye-vozmozhnosti" data-key="h2_key_features">Ключевые возможности</h2>
             <ul>
-                <li data-key="li_feature_1"><strong>Продвинутый парсинг:</strong> Автоматическое сканирование сцен, префабов, UI Toolkit (UXML) и C# скриптов, включая поля, отмеченные атрибутом <code>[LocalizableField]</code>, а также вложенные классы и списки.</li>
-                <li data-key="li_feature_2"><strong>Локализация любых ассетов:</strong> Управление спрайтами, аудио, префабами, материалами и т.д.</li>
-                <li data-key="li_feature_3"><strong>Мощный редактор переводов:</strong> Централизованный интерфейс с автосохранением, полной поддержкой Undo/Redo и умной группировкой ключей.</li>
-                <li data-key="li_feature_4"><strong>Машинный перевод:</strong> Интеграция с DeepL, Google Translate и Microsoft Translator с гибкими настройками (размер пакета, количество повторных попыток) для каждого сервиса.</li>
-                <li data-key="li_feature_5"><strong>Гибкий импорт/экспорт:</strong> Поддержка CSV, XML, YAML, XLIFF и прямой импорт из Google Sheets.</li>
-                <li data-key="li_feature_6"><strong>Live Preview в редакторе:</strong> Предпросмотр любого языка, не запуская игру.</li>
-                <li data-key="li_feature_7"><strong>Поддержка Plural & Gender:</strong> Корректная обработка форм множественного числа (с правилами для славянских, арабского и других языков) и рода.</li>
-                <li data-key="li_feature_8"><strong>Полная поддержка RTL:</strong> Корректное отображение языков с написанием справа налево.</li>
-                <li data-key="li_feature_9"><strong>Live Updates:</strong> Загрузка актуальных переводов с удаленного сервера при старте игры.</li>
-                <li data-key="li_feature_10"><strong>Менеджер бэкапов:</strong> Встроенный инструмент для создания и восстановления резервных копий.</li>
+                <li data-key="li_feature_1"></li>
+                <li data-key="li_feature_2"></li>
+                <li data-key="li_feature_3"></li>
+                <li data-key="li_feature_4"></li>
+                <li data-key="li_feature_5"></li>
+                <li data-key="li_feature_6"></li>
+                <li data-key="li_feature_7"></li>
+                <li data-key="li_feature_8"></li>
+                <li data-key="li_feature_9"></li>
+                <li data-key="li_feature_10"></li>
             </ul>
-            <div class="placeholder" data-key="placeholder_gif_features">[--- МЕСТО ДЛЯ GIF: Демонстрация ключевых возможностей в действии ---]</div>
+            <div class="placeholder" data-key="placeholder_gif_features"></div>
 
             <h1 id="bystryj-start" data-key="h1_quick_start"><span class="emoji">🛠️</span> Быстрый старт и настройка</h1>
             
             <h2 id="ustanovka" data-key="h2_installation">2.1. Установка</h2>
             <ol>
-                <li data-key="li_install_1">Скопируйте ассет в папку вашего проекта Unity.</li>
-                <li data-key="li_install_2">Инструмент автоматически проверит наличие необходимых зависимостей. В появившемся диалоговом окне установщика подтвердите установку.</li>
-                <li data-key="li_install_3">Обязательные зависимости (<code>Newtonsoft Json</code>, <code>Editor Coroutines</code>) необходимы для базовой работы.</li>
-                <li data-key="li_install_4">Опциональные зависимости (<code>Arabic Support</code>, <code>CsvHelper</code>, <code>YamlDotNet</code>) включают дополнительные функции.</li>
-                <li data-key="li_install_5">Нажмите <strong>Install Selected</strong>, чтобы установить рекомендуемые пакеты.</li>
-                <li data-key="li_install_6">После установки откройте главное окно инструмента через меню <strong>Tools -> Localization Tool</strong>.</li>
+                <li data-key="li_install_1"></li>
+                <li data-key="li_install_2"></li>
+                <li data-key="li_install_3"></li>
+                <li data-key="li_install_4"></li>
+                <li data-key="li_install_5"></li>
+                <li data-key="li_install_6"></li>
             </ol>
-            <div class="placeholder" data-key="placeholder_img_installer">[--- МЕСТО ДЛЯ ИЗОБРАЖЕНИЯ: Скриншот окна установщика зависимостей ---]</div>
+            <div class="placeholder" data-key="placeholder_img_installer"></div>
             
             <h2 id="pervonachalnaya-nastrojka" data-key="h2_initial_setup">2.2. Первоначальная настройка</h2>
             <ol>
-                <li data-key="li_setup_1"><strong>Создание настроек:</strong> При первом открытии инструмент создаст файл настроек <code>LocalizationSettings.asset</code> в папке <code>Assets/Resources</code>.</li>
-                <li data-key="li_setup_2"><strong>Настройка языков:</strong> На вкладке <strong>Settings</strong> в секции <strong>Language Management</strong> убедитесь, что ваш основной язык (например, <code>en</code> — английский) выбран как <strong>Source Language</strong>. Включите (<strong>Enabled</strong>) все языки, которые вы планируете поддерживать.</li>
-                <li data-key="li_setup_3"><strong>Указание контента для парсинга:</strong> На вкладке <strong>Content</strong> добавьте все сцены для анализа в список <strong>Scenes to Parse</strong>. Если вы используете префабы с текстом, убедитесь, что папки с ними добавлены в <strong>Prefab Folders</strong>.</li>
-                <li data-key="li_setup_4"><strong>Первый запуск парсера:</strong> Перейдите на вкладку <strong>Actions</strong> и нажмите кнопку <code>Update Keys</code>. Инструмент просканирует ваш проект, создаст файлы с переводами и автоматически добавит необходимые компоненты (<code>LocalizedText</code>, <code>LocalizedAsset</code> и т.д.) на игровые объекты.</li>
+                <li data-key="li_setup_1"></li>
+                <li data-key="li_setup_2"></li>
+                <li data-key="li_setup_3"></li>
+                <li data-key="li_setup_4"></li>
             </ol>
-            <div class="placeholder" data-key="placeholder_gif_setup">[--- МЕСТО ДЛЯ GIF: Пошаговая первоначальная настройка (выбор языка, добавление сцен, запуск парсера) ---]</div>
+            <div class="placeholder" data-key="placeholder_gif_setup"></div>
 
             <h1 id="osnovnye-komponenty" data-key="h1_components"><span class="emoji">🧩</span> Основные компоненты (назначаются автоматически)</h1>
-            <div class="warning-box">
-                <strong data-key="strong_component_warning">Важное замечание:</strong> <span data-key="span_component_warning">Все описанные ниже компоненты добавляются на игровые объекты автоматически в процессе парсинга (когда вы нажимаете кнопку <code>Update Keys</code>). Вам не нужно добавлять их вручную.</span>
-            </div>
-            <p data-key="p_components_intro">Эти компоненты — "мост" между вашими объектами в сцене и базой данных переводов. Они "слушают" смену языка и автоматически подставляют нужный текст или ассет.</p>
+            <div class="warning-box" data-key="warning_box_components"></div>
+            <p data-key="p_components_intro"></p>
             
-            <!-- ... Остальная часть HTML также должна быть размечена data-key ... -->
-            <!-- Я продолжу разметку, но для краткости не буду показывать весь файл. Логика будет применена ко всему документу -->
+            <h2 id="localizedtext" data-key="h2_localizedtext">3.1. LocalizedText</h2>
+            <p data-key="p_localizedtext_1"></p>
+            <ul>
+                <li data-key="li_localizedtext_1"></li>
+                <li data-key="li_localizedtext_2"></li>
+                <li data-key="li_localizedtext_3"></li>
+            </ul>
+
+            <h2 id="localizedasset" data-key="h2_localizedasset">3.2. LocalizedAsset</h2>
+            <p data-key="p_localizedasset_1"></p>
+            <p data-key="p_localizedasset_2"></p>
+
+            <h2 id="localizedprefab" data-key="h2_localizedprefab">3.3. LocalizedPrefab</h2>
+            <p data-key="p_localizedprefab_1"></p>
+
+            <h2 id="uitklocalization" data-key="h2_uitklocalization">3.4. UITKLocalization</h2>
+            <p data-key="p_uitklocalization_1"></p>
+            
+            <h2 id="localizeddropdown" data-key="h2_localizeddropdown">3.5. LocalizedDropdown</h2>
+            <p data-key="p_localizeddropdown_1"></p>
+
+            <h2 id="localizedbehaviour" data-key="h2_localizedbehaviour">3.6. LocalizedBehaviour</h2>
+            <p data-key="p_localizedbehaviour_1"></p>
+
+            <h2 id="kontekstnoe-menyu" data-key="h2_context_menu">3.7. Контекстное меню "Analyze for Localization"</h2>
+            <p data-key="p_context_menu_1"></p>
+            <div class="placeholder" data-key="placeholder_img_context_menu"></div>
+
+            <h1 id="okno-localization-tool" data-key="h1_loc_tool_window"><span class="emoji">🖼️</span> Окно "Localization Tool"</h1>
+
+            <h2 id="in-editor-preview" data-key="h2_in_editor_preview">4.1. Предпросмотр в редакторе (In-Editor Preview)</h2>
+            <p data-key="p_preview_1"></p>
+            <div class="placeholder" data-key="placeholder_gif_preview"></div>
+            <ul>
+                <li data-key="li_preview_1"></li>
+                <li data-key="li_preview_2"></li>
+                <li data-key="li_preview_3"></li>
+                <li data-key="li_preview_4"></li>
+            </ul>
+
+            <h2 id="vkladka-settings" data-key="h2_tab_settings">4.2. Вкладка "Settings" (Настройки)</h2>
+            <p data-key="p_settings_1"></p>
+            <div class="placeholder" data-key="placeholder_img_settings"></div>
+            <ul>
+                <li data-key="li_settings_1"></li>
+                <li data-key="li_settings_2"></li>
+                <li data-key="li_settings_3"></li>
+                <li data-key="li_settings_4"></li>
+                <li data-key="li_settings_5"></li>
+                <li data-key="li_settings_6"></li>
+            </ul>
+
+            <h2 id="vkladka-content" data-key="h2_tab_content">4.3. Вкладка "Content" (Контент)</h2>
+            <p data-key="p_content_1"></p>
+            <div class="placeholder" data-key="placeholder_img_content"></div>
+            <ul>
+                <li data-key="li_content_1"></li>
+                <li data-key="li_content_2"></li>
+                <li data-key="li_content_3"></li>
+                <li data-key="li_content_4"></li>
+                <li data-key="li_content_5"></li>
+            </ul>
+
+            <h2 id="vkladka-actions" data-key="h2_tab_actions">4.4. Вкладка "Actions" (Действия)</h2>
+            <p data-key="p_actions_1"></p>
+            <div class="placeholder" data-key="placeholder_img_actions"></div>
+            <ul>
+                <li data-key="li_actions_1"></li>
+                <li data-key="li_actions_2"></li>
+                <li data-key="li_actions_3"></li>
+                <li data-key="li_actions_4"></li>
+                <li data-key="li_actions_5"></li>
+            </ul>
+
+            <h2 id="vkladka-assets" data-key="h2_tab_assets">4.5. Вкладка "Assets" (Ассеты)</h2>
+            <p data-key="p_assets_1"></p>
+            <div class="placeholder" data-key="placeholder_img_assets"></div>
+            <ol>
+                <li data-key="li_assets_1"></li>
+                <li data-key="li_assets_2"></li>
+                <li data-key="li_assets_3"></li>
+                <li data-key="li_assets_4"></li>
+                <li data-key="li_assets_5"></li>
+            </ol>
+
+            <h2 id="vkladka-report" data-key="h2_tab_report">4.6. Вкладка "Report" (Отчет)</h2>
+            <p data-key="p_report_1"></p>
+            <div class="placeholder" data-key="placeholder_img_report"></div>
+            <ul>
+                <li data-key="li_report_1"></li>
+                <li data-key="li_report_2"></li>
+            </ul>
+
+            <h1 id="redaktor-perevodov" data-key="h1_translation_editor"><span class="emoji">📝</span> Редактор переводов ("Translation Table Editor")</h1>
+            <p data-key="p_editor_1"></p>
+            <div class="placeholder" data-key="placeholder_gif_editor"></div>
+            <ul>
+                <li data-key="li_editor_1"></li>
+                <li data-key="li_editor_2"></li>
+                <li data-key="li_editor_3"></li>
+                <li data-key="li_editor_4"></li>
+                <li data-key="li_editor_5"></li>
+                <li data-key="li_editor_6"></li>
+            </ul>
+            
+            <h1 id="primery-ispolzovaniya" data-key="h1_usage_examples"><span class="emoji">💡</span> Примеры использования</h1>
+
+            <h2 id="gotovye-komponenty" data-key="h2_example_components">6.1. Готовые компоненты и примеры</h2>
+            <p data-key="p_example_components_1"></p>
+            <ul>
+                <li data-key="li_example_components_1"></li>
+                <li data-key="li_example_components_2"></li>
+            </ul>
+
+            <h2 id="attribut-localizablefield" data-key="h2_example_attribute">6.2. Атрибут [LocalizableField]</h2>
+            <p data-key="p_example_attribute_1"></p>
+            <pre><code class="language-csharp" data-key="code_example_attribute"></code></pre>
+
+            <h2 id="funkciya-i-onlanguagechange" data-key="h2_example_function">6.3. Функция _() и атрибут [OnLanguageChange]</h2>
+            <p data-key="p_example_function_1"></p>
+            <pre><code class="language-csharp" data-key="code_example_function"></code></pre>
+
+            <h2 id="mnozhestvennoe-chislo-i-rod" data-key="h2_example_plurals">6.4. Множественное число и род</h2>
+            <p data-key="p_example_plurals_1"></p>
+            <pre><code class="language-csharp" data-key="code_example_plurals"></code></pre>
+            
+            <h1 id="vazhnye-nyuansy" data-key="h1_important_notes"><span class="emoji">⚠️</span> Важные нюансы и предупреждения</h1>
+            <div class="warning-box">
+                <ul>
+                    <li data-key="li_notes_1"></li>
+                    <li data-key="li_notes_2"></li>
+                    <li data-key="li_notes_3"></li>
+                    <li data-key="li_notes_4"></li>
+                    <li data-key="li_notes_5"></li>
+                    <li data-key="li_notes_6"></li>
+                    <li data-key="li_notes_7"></li>
+                </ul>
+            </div>
+            
+            <h1 id="rasshirenie-funkcionala" data-key="h1_extending"><span class="emoji">🧬</span> Расширение функционала</h1>
+            <h2 id="sozdanie-kastomnogo-parsera" data-key="h2_custom_parser">8.1. Создание кастомного парсера</h2>
+            <p data-key="p_custom_parser_1"></p>
+            <ol>
+                <li data-key="li_custom_parser_1"></li>
+                <li data-key="li_custom_parser_2"></li>
+                <li data-key="li_custom_parser_3"></li>
+            </ol>
+            <pre><code class="language-csharp" data-key="code_custom_parser"></code></pre>
 
         </div>
     </main>
 
     <button id="scrollTopBtn" title="Наверх">↑</button>
 
-    <script>
-        // --- СЛОВАРЬ ПЕРЕВОДОВ ---
-        // Вам нужно будет заполнить секцию 'en' вашими переводами.
-        // Ключи должны совпадать с атрибутами data-key в HTML.
-        const translations = {
-            'ru': {
-                'page_title': 'Документация по инструменту локализации для Unity',
-                'toc_title': 'Оглавление',
-                'nav_introduction': '1. Введение',
-                'nav_quick_start': '2. Быстрый старт и настройка',
-                'nav_components': '3. Основные компоненты',
-                'nav_loc_tool_window': '4. Окно "Localization Tool"',
-                'nav_translation_editor': '5. Редактор переводов',
-                'nav_usage_examples': '6. Примеры использования',
-                'nav_important_notes': '7. Важные нюансы и предупреждения',
-                'nav_extending': '8. Расширение функционала',
-                'h1_introduction': '<span class="emoji">🚀</span> Введение',
-                'p_intro_1': 'Этот инструмент представляет собой комплексное решение для локализации игр и приложений в Unity. Он позволяет автоматизировать процесс сбора текста и ассетов, управлять переводами через мощный интерфейс, интегрироваться с сервисами машинного перевода и динамически обновлять локализованный контент в игре.',
-                'h2_key_features': 'Ключевые возможности',
-                'li_feature_1': '<strong>Продвинутый парсинг:</strong> Автоматическое сканирование сцен, префабов, UI Toolkit (UXML) и C# скриптов, включая поля, отмеченные атрибутом <code>[LocalizableField]</code>, а также вложенные классы и списки.',
-                'li_feature_2': '<strong>Локализация любых ассетов:</strong> Управление спрайтами, аудио, префабами, материалами и т.д.',
-                'li_feature_3': '<strong>Мощный редактор переводов:</strong> Централизованный интерфейс с автосохранением, полной поддержкой Undo/Redo и умной группировкой ключей.',
-                'li_feature_4': '<strong>Машинный перевод:</strong> Интеграция с DeepL, Google Translate и Microsoft Translator с гибкими настройками (размер пакета, количество повторных попыток) для каждого сервиса.',
-                'li_feature_5': '<strong>Гибкий импорт/экспорт:</strong> Поддержка CSV, XML, YAML, XLIFF и прямой импорт из Google Sheets.',
-                'li_feature_6': '<strong>Live Preview в редакторе:</strong> Предпросмотр любого языка, не запуская игру.',
-                'li_feature_7': '<strong>Поддержка Plural & Gender:</strong> Корректная обработка форм множественного числа (с правилами для славянских, арабского и других языков) и рода.',
-                'li_feature_8': '<strong>Полная поддержка RTL:</strong> Корректное отображение языков с написанием справа налево.',
-                'li_feature_9': '<strong>Live Updates:</strong> Загрузка актуальных переводов с удаленного сервера при старте игры.',
-                'li_feature_10': '<strong>Менеджер бэкапов:</strong> Встроенный инструмент для создания и восстановления резервных копий.',
-                'placeholder_gif_features': '[--- МЕСТО ДЛЯ GIF: Демонстрация ключевых возможностей в действии ---]',
-                'h1_quick_start': '<span class="emoji">🛠️</span> Быстрый старт и настройка',
-                'h2_installation': '2.1. Установка',
-                // ... и так далее для всех ключей
-            },
-            'en': {
-                'page_title': 'Unity Localization Tool Documentation',
-                'toc_title': 'Table of Contents',
-                'nav_introduction': '1. Introduction',
-                'nav_quick_start': '2. Quick Start & Setup',
-                'nav_components': '3. Core Components',
-                'nav_loc_tool_window': '4. "Localization Tool" Window',
-                'nav_translation_editor': '5. Translation Table Editor',
-                'nav_usage_examples': '6. Usage Examples',
-                'nav_important_notes': '7. Important Notes & Warnings',
-                'nav_extending': '8. Extending Functionality',
-                'h1_introduction': '<span class="emoji">🚀</span> Introduction',
-                'p_intro_1': 'This tool is a comprehensive solution for localizing games and applications in Unity. It allows you to automate the process of collecting text and assets, manage translations through a powerful interface, integrate with machine translation services, and dynamically update localized content in the game.',
-                'h2_key_features': 'Key Features',
-                'li_feature_1': '<strong>Advanced Parsing:</strong> Automatic scanning of scenes, prefabs, UI Toolkit (UXML), and C# scripts, including fields marked with the <code>[LocalizableField]</code> attribute, as well as nested classes and lists.',
-                'li_feature_2': '<strong>Any Asset Localization:</strong> Manage sprites, audio, prefabs, materials, etc.',
-                'li_feature_3': '<strong>Powerful Translation Editor:</strong> A centralized interface with auto-saving, full Undo/Redo support, and smart key grouping.',
-                'li_feature_4': '<strong>Machine Translation:</strong> Integration with DeepL, Google Translate, and Microsoft Translator with flexible settings (batch size, retry count) for each service.',
-                'li_feature_5': '<strong>Flexible Import/Export:</strong> Support for CSV, XML, YAML, XLIFF, and direct import from Google Sheets.',
-                'li_feature_6': '<strong>Live Preview in Editor:</strong> Preview any language without running the game.',
-                'li_feature_7': '<strong>Plural & Gender Support:</strong> Correct handling of plural forms (with rules for Slavic, Arabic, and other languages) and gender.',
-                'li_feature_8': '<strong>Full RTL Support:</strong> Correct display of right-to-left languages.',
-                'li_feature_9': '<strong>Live Updates:</strong> Download the latest translations from a remote server at game start.',
-                'li_feature_10': '<strong>Backup Manager:</strong> A built-in tool for creating and restoring backups.',
-                'placeholder_gif_features': '[--- GIF AREA: Demonstration of key features in action ---]',
-                'h1_quick_start': '<span class="emoji">🛠️</span> Quick Start & Setup',
-                'h2_installation': '2.1. Installation',
-                 // ... and so on for all keys
-            }
-        };
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // --- ЭЛЕМЕНТЫ UI ---
-            const sections = document.querySelectorAll('h1[id], h2[id]');
-            const navLinks = document.querySelectorAll('#table-of-contents a');
-            const scrollTopBtn = document.getElementById('scrollTopBtn');
-            const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-            const sidebar = document.querySelector('.sidebar');
-            const themeToggle = document.getElementById('theme-toggle');
-            const langButtons = {
-                ru: document.getElementById('lang-ru'),
-                en: document.getElementById('lang-en')
-            };
-            
-            // --- ЛОГИКА ТЕМЫ ---
-            const applyTheme = (theme) => {
-                document.documentElement.setAttribute('data-theme', theme);
-                themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
-                localStorage.setItem('theme', theme);
-            };
-
-            themeToggle.addEventListener('click', () => {
-                const newTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-                applyTheme(newTheme);
-            });
-
-            // --- ЛОГИКА ЛОКАЛИЗАЦИИ ---
-            const applyLanguage = (lang) => {
-                document.documentElement.lang = lang;
-                document.querySelectorAll('[data-key]').forEach(elem => {
-                    const key = elem.getAttribute('data-key');
-                    if (translations[lang] && translations[lang][key]) {
-                        elem.innerHTML = translations[lang][key];
-                    }
-                });
-                // Обновление активной кнопки языка
-                for (const key in langButtons) {
-                    langButtons[key].classList.toggle('active', key === lang);
-                }
-                localStorage.setItem('language', lang);
-            };
-
-            Object.keys(langButtons).forEach(lang => {
-                langButtons[lang].addEventListener('click', () => applyLanguage(lang));
-            });
-            
-            // --- ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ ---
-            // Устанавливаем тему
-            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            applyTheme(savedTheme);
-
-            // Устанавливаем язык
-            const savedLang = localStorage.getItem('language') || 'ru';
-            applyLanguage(savedLang);
-
-            // --- ОСТАЛЬНАЯ ЛОГИКА (из прошлого шага) ---
-            window.onscroll = function() {
-                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                    scrollTopBtn.style.display = "block";
-                } else {
-                    scrollTopBtn.style.display = "none";
-                }
-                onScroll(); // Для подсветки меню
-            };
-            scrollTopBtn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-
-            if (mobileNavToggle) {
-                mobileNavToggle.addEventListener('click', () => {
-                    sidebar.classList.toggle('is-open');
-                });
-            }
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                    if (sidebar.classList.contains('is-open')) {
-                        sidebar.classList.remove('is-open');
-                    }
-                });
-            });
-
-            const onScroll = () => {
-                let current = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    if (window.pageYOffset >= sectionTop - 60) {
-                        current = section.getAttribute('id');
-                    }
-                });
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href').substring(1) === current) {
-                        link.classList.add('active');
-                    }
-                });
-            };
-            onScroll();
-        });
-    </script>
 </body>
 </html>
 
