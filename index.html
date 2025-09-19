@@ -20,6 +20,10 @@
             --active-nav-text: #1a73e8;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         /* Сброс стилей и настройка шрифтов */
         body {
             margin: 0;
@@ -42,6 +46,7 @@
             overflow-y: auto;
             padding: 20px;
             box-sizing: border-box;
+            box-shadow: 1px 0 3px rgba(0,0,0,0.05);
         }
 
         .main-content {
@@ -56,6 +61,7 @@
             padding: 30px 40px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.12);
         }
 
         /* Стилизация навигации в боковой панели */
@@ -178,29 +184,81 @@
             font-size: 1.1em;
         }
 
+        /* Кнопка "Наверх" */
+        #scrollTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: var(--link-color);
+            color: white;
+            cursor: pointer;
+            padding: 0;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            line-height: 50px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: opacity 0.3s, visibility 0.3s, background-color 0.2s;
+        }
+        #scrollTopBtn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Кнопка мобильной навигации (бургер) */
+        .mobile-nav-toggle {
+            display: none;
+        }
+
         /* Адаптивность */
         @media (max-width: 900px) {
             body {
                 flex-direction: column;
             }
             .sidebar {
-                position: static;
-                width: 100%;
-                height: auto;
-                border-right: none;
-                border-bottom: 1px solid var(--border-color);
+                position: fixed;
+                z-index: 1000;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                border-right: 1px solid var(--border-color);
+            }
+            .sidebar.is-open {
+                transform: translateX(0);
             }
             .main-content {
                 margin-left: 0;
                 padding: 20px;
+                padding-top: 80px; /* Space for the mobile nav button */
             }
             .content-wrapper {
                 padding: 15px 20px;
+            }
+            .mobile-nav-toggle {
+                display: block;
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                z-index: 1001;
+                background: var(--content-bg-color);
+                border: 1px solid var(--border-color);
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+                cursor: pointer;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             }
         }
     </style>
 </head>
 <body>
+
+    <button class="mobile-nav-toggle" aria-label="Открыть меню">☰</button>
 
     <aside class="sidebar">
         <h3>Оглавление</h3>
@@ -564,12 +622,36 @@ public class CustomComponentParser_Template : ITextComponentParser
         </div>
     </main>
 
+    <button id="scrollTopBtn" title="Наверх">↑</button>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const sections = document.querySelectorAll('h1[id], h2[id]');
             const navLinks = document.querySelectorAll('#table-of-contents a');
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+            const sidebar = document.querySelector('.sidebar');
 
-            // Функция для плавной прокрутки
+            // --- Кнопка "Наверх" ---
+            window.onscroll = function() {
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    scrollTopBtn.style.display = "block";
+                } else {
+                    scrollTopBtn.style.display = "none";
+                }
+            };
+            scrollTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // --- Логика мобильной навигации ---
+            if (mobileNavToggle) {
+                mobileNavToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('is-open');
+                });
+            }
+
+            // Функция для плавной прокрутки и закрытия мобильного меню
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -580,6 +662,10 @@ public class CustomComponentParser_Template : ITextComponentParser
                             behavior: 'smooth',
                             block: 'start'
                         });
+                    }
+                    // Закрываем меню при клике на ссылку
+                    if (sidebar.classList.contains('is-open')) {
+                        sidebar.classList.remove('is-open');
                     }
                 });
             });
@@ -609,3 +695,4 @@ public class CustomComponentParser_Template : ITextComponentParser
     </script>
 </body>
 </html>
+
