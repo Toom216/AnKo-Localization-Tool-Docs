@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // --- КОНФИГУРАЦИЯ ЯЗЫКОВ ---
+    // --- CONFIGURATION ---
     const languages = {
         'en': { name: 'English', flag: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1ec-1f1e7.svg' },
         'ru': { name: 'Русский', flag: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1f7-1f1fa.svg' },
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'hi': { name: 'हिन्दी', flag: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1ee-1f1f3.svg' },
     };
 
-    // --- ПОИСК ЭЛЕМЕНТОВ DOM ---
+    // --- DOM ELEMENT CACHE ---
     const mainContent = document.querySelector('.main-content .content-wrapper');
     const scrollTopBtn = document.getElementById('scrollTopBtn');
     const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
@@ -21,30 +21,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentLangBtn = document.getElementById('current-lang-btn');
     const currentLangFlag = document.getElementById('current-lang-flag');
     const langOptionsContainer = document.getElementById('lang-options');
-    
     const searchNavControls = document.getElementById('search-nav-controls');
     const searchResultsCount = document.getElementById('search-results-count');
     const searchPrevBtn = document.getElementById('search-prev');
     const searchNextBtn = document.getElementById('search-next');
 
-    let originalMainContentHTML = mainContent.innerHTML;
+    // --- STATE VARIABLES ---
+    let originalMainContentHTML = '';
     let searchMatches = [];
     let currentMatchIndex = -1;
+    let headingPositions = []; // For scroll spy
 
-
-    // --- ЛОГИКА ПЕРЕКЛЮЧЕНИЯ ТЕМЫ ---
+    // --- THEME SWITCHER ---
     const applyTheme = (theme) => {
         document.documentElement.setAttribute('data-theme', theme);
         themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
         localStorage.setItem('theme', theme);
     };
 
-    themeToggle.addEventListener('click', () => {
-        const newTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-        applyTheme(newTheme);
-    });
-
-    // --- ИЗМЕНЕНИЕ: ЛОГИКА ГЕНЕРАЦИИ ОГЛАВЛЕНИЯ (ToC) ---
+    // --- TOC GENERATION ---
     const generateCollapsibleTOC = () => {
         tocContainer.innerHTML = ''; 
         const headings = mainContent.querySelectorAll('h1[id], h2[id]');
@@ -90,23 +85,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // ИЗМЕНЕНИЕ: Вставляем плейсхолдер или стрелку для каждого H1
         mainList.querySelectorAll('.toc-h1').forEach(h1li => {
             const subMenu = h1li.querySelector('.toc-submenu');
             const headerDiv = h1li.querySelector('.toc-h1-header');
             
             const toggle = document.createElement('span');
             toggle.classList.add('toc-toggle');
-            headerDiv.prepend(toggle); // Вставляем в начало .toc-h1-header
+            headerDiv.prepend(toggle);
 
             if (subMenu && subMenu.children.length > 0) {
-                 // Это настоящая стрелка
                  toggle.addEventListener('click', (e) => {
                     e.stopPropagation();
                     h1li.classList.toggle('is-collapsed');
                 });
             } else {
-                 // Это просто плейсхолдер для выравнивания
                  toggle.classList.add('is-placeholder');
             }
         });
@@ -114,16 +106,13 @@ document.addEventListener('DOMContentLoaded', function() {
         tocContainer.appendChild(mainList);
     };
     
-    // --- ЛОГИКА ПОИСКА И НАВИГАЦИИ ПО НЕМУ ---
+    // --- SEARCH LOGIC ---
     const updateSearchFocus = () => {
         searchMatches.forEach(match => match.classList.remove('current-match'));
         if (currentMatchIndex >= 0 && currentMatchIndex < searchMatches.length) {
             const currentEl = searchMatches[currentMatchIndex];
             currentEl.classList.add('current-match');
-            currentEl.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-            });
+            currentEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
             searchResultsCount.textContent = `${currentMatchIndex + 1} / ${searchMatches.length}`;
         }
     };
@@ -134,74 +123,33 @@ document.addEventListener('DOMContentLoaded', function() {
         currentMatchIndex = -1;
         searchNavControls.style.display = 'none';
 
-        const sections = mainContent.querySelectorAll('h1[id]');
-        const tocLinks = new Map();
-        tocContainer.querySelectorAll('.toc-h1').forEach(li => {
-            const link = li.querySelector('a');
-            if (link) {
-                tocLinks.set(link.getAttribute('href').substring(1), li);
-            }
-        });
-
         if (!searchTerm) {
-            sections.forEach(h1 => {
-                let current = h1;
-                current.style.display = '';
-                while (current.nextElementSibling && current.nextElementSibling.tagName !== 'H1') {
-                    current.nextElementSibling.style.display = '';
-                    current = current.nextElementSibling;
-                }
-            });
-            tocLinks.forEach(li => li.style.display = '');
-            return;
+             mainContent.querySelectorAll('[data-filtered]').forEach(el => el.style.display = '');
+             tocContainer.querySelectorAll('[data-filtered]').forEach(el => el.style.display = '');
+             return;
         }
         
         const regex = new RegExp(searchTerm.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi');
-        let hasMatches = false;
         
-        sections.forEach(h1 => {
-            let contentBlock = [h1];
-            let current = h1;
-            while (current.nextElementSibling && current.nextElementSibling.tagName !== 'H1') {
-                contentBlock.push(current.nextElementSibling);
-                current = current.nextElementSibling;
-            }
-            
-            const blockText = contentBlock.map(el => el.textContent).join(' ').toLowerCase();
-            const matchesInSection = blockText.includes(searchTerm);
-            if (matchesInSection) hasMatches = true;
-            
-            contentBlock.forEach(el => el.style.display = matchesInSection ? '' : 'none');
-            
-            const tocLi = tocLinks.get(h1.id);
-            if (tocLi) {
-                tocLi.style.display = matchesInSection ? '' : 'none';
-            }
-        });
-
-        if(hasMatches) {
-            const walker = document.createTreeWalker(mainContent, NodeFilter.SHOW_TEXT, null, false);
-            let node;
-            while (node = walker.nextNode()) {
-                if (node.parentElement.offsetParent === null) continue;
-                if (node.nodeValue.match(regex)) {
-                    const fragment = document.createDocumentFragment();
-                    let lastIndex = 0;
-                    node.nodeValue.replace(regex, (match, offset) => {
-                        const textBefore = node.nodeValue.slice(lastIndex, offset);
-                        if(textBefore) fragment.appendChild(document.createTextNode(textBefore));
-                        
-                        const mark = document.createElement('mark');
-                        mark.textContent = match;
-                        fragment.appendChild(mark);
-                        
-                        lastIndex = offset + match.length;
-                    });
-                    const textAfter = node.nodeValue.slice(lastIndex);
-                    if(textAfter) fragment.appendChild(document.createTextNode(textAfter));
+        const walker = document.createTreeWalker(mainContent, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        while (node = walker.nextNode()) {
+            if (node.parentElement.offsetParent === null) continue;
+            if (node.nodeValue.match(regex)) {
+                const fragment = document.createDocumentFragment();
+                let lastIndex = 0;
+                node.nodeValue.replace(regex, (match, offset) => {
+                    const textBefore = node.nodeValue.slice(lastIndex, offset);
+                    if(textBefore) fragment.appendChild(document.createTextNode(textBefore));
                     
-                    node.parentNode.replaceChild(fragment, node);
-                }
+                    const mark = document.createElement('mark');
+                    mark.textContent = match;
+                    fragment.appendChild(mark);
+                    lastIndex = offset + match.length;
+                });
+                const textAfter = node.nodeValue.slice(lastIndex);
+                if(textAfter) fragment.appendChild(document.createTextNode(textAfter));
+                node.parentNode.replaceChild(fragment, node);
             }
         }
         
@@ -213,26 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
-    tocSearch.addEventListener('input', (e) => {
-        performSearch(e.target.value.toLowerCase().trim());
-    });
-
-    searchNextBtn.addEventListener('click', () => {
-        currentMatchIndex = (currentMatchIndex + 1) % searchMatches.length;
-        updateSearchFocus();
-    });
-
-    searchPrevBtn.addEventListener('click', () => {
-        currentMatchIndex = (currentMatchIndex - 1 + searchMatches.length) % searchMatches.length;
-        updateSearchFocus();
-    });
-
-
-    // --- КНОПКИ КОПИРОВАНИЯ КОДА ---
-    const initCopyCodeButtons = () => { /* ... (без изменений) ... */ };
-
-    // --- ЛОГИКА ЛОКАЛИЗАЦИИ ---
-    const populateLangOptions = () => { /* ... (без изменений) ... */ };
+    // --- LOCALIZATION ---
     const applyLanguage = (lang) => {
         if (!languages[lang]) lang = 'en';
 
@@ -241,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.querySelectorAll('[data-key]').forEach(elem => {
             const key = elem.getAttribute('data-key');
-            const translation = translations[lang]?.[key] || translations['en']?.[key] || translations['ru']?.[key];
+            const translation = window.translations[lang]?.[key] || window.translations['en']?.[key] || '';
             
             if (key === 'toc_search_placeholder' && elem.tagName === 'INPUT') {
                  if (translation) elem.placeholder = translation;
@@ -254,133 +183,108 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('language', lang);
     };
 
-    // --- ИЗМЕНЕНИЕ: ЛОГИКА ПОДСВЕТКИ ОГЛАВЛЕНИЯ ПРИ ПРОКРУТКЕ (SCROLL SPY) ---
-    const initScrollSpy = () => {
-        let currentActiveLink = null;
-        const headings = mainContent.querySelectorAll('h1[id], h2[id]');
-        
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                // Если заголовок входит в зону видимости
-                if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute('id');
-                    const link = tocContainer.querySelector(`a[href="#${id}"]`);
-                    
-                    // Если это новый активный линк
-                    if (link && link !== currentActiveLink) {
-                        // Убираем активность со старого
-                        if (currentActiveLink) {
-                            currentActiveLink.classList.remove('active');
-                        }
-                        // Добавляем новому
-                        link.classList.add('active');
-                        // Запоминаем его
-                        currentActiveLink = link;
-                        
-                        // Раскрываем родительский H1, если он свернут
-                        const parentH1 = link.closest('.toc-h1');
-                        if (parentH1 && parentH1.classList.contains('is-collapsed')) {
-                            parentH1.classList.remove('is-collapsed');
-                        }
-                    }
+    // --- REVISED SCROLL SPY LOGIC ---
+    const cacheHeadingPositions = () => {
+        headingPositions = Array.from(mainContent.querySelectorAll('h1[id], h2[id]')).map(h => ({
+            id: h.id,
+            top: h.offsetTop
+        }));
+    };
+
+    const updateScrollSpy = () => {
+        const scrollPosition = window.scrollY + 100; // Offset to activate a bit earlier
+        let currentId = null;
+
+        for (const heading of headingPositions) {
+            if (scrollPosition >= heading.top) {
+                currentId = heading.id;
+            } else {
+                break;
+            }
+        }
+
+        tocContainer.querySelectorAll('a.active').forEach(a => a.classList.remove('active'));
+        if (currentId) {
+            const activeLink = tocContainer.querySelector(`a[href="#${currentId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+                const parentH1 = activeLink.closest('.toc-h1');
+                if (parentH1 && parentH1.classList.contains('is-collapsed')) {
+                     parentH1.classList.remove('is-collapsed');
                 }
-            });
-        }, {
-            rootMargin: '0px 0px -80% 0px', // Срабатывает, когда заголовок в верхних 20% экрана
-            threshold: 0
+            }
+        }
+    };
+
+    // --- INITIALIZATION ---
+    const init = () => {
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const savedLang = localStorage.getItem('language') || 'en';
+
+        applyTheme(savedTheme);
+        generateCollapsibleTOC();
+        applyLanguage(savedLang);
+        cacheHeadingPositions(); // Cache positions after content is loaded
+        updateScrollSpy(); // Initial check
+        
+        // --- EVENT LISTENERS ---
+        themeToggle.addEventListener('click', () => {
+            const newTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+        });
+        
+        tocSearch.addEventListener('input', (e) => performSearch(e.target.value.toLowerCase().trim()));
+        searchNextBtn.addEventListener('click', () => {
+            currentMatchIndex = (currentMatchIndex + 1) % searchMatches.length;
+            updateSearchFocus();
+        });
+        searchPrevBtn.addEventListener('click', () => {
+            currentMatchIndex = (currentMatchIndex - 1 + searchMatches.length) % searchMatches.length;
+            updateSearchFocus();
         });
 
-        headings.forEach(heading => observer.observe(heading));
-    };
-    
-    
-    // --- ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ ---
-    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    const savedLang = localStorage.getItem('language') || 'en';
+        currentLangBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            langOptionsContainer.classList.toggle('show');
+        });
 
-    initCopyCodeButtons();
-    populateLangOptions();
-    applyTheme(savedTheme);
-    generateCollapsibleTOC();
-    applyLanguage(savedLang);
-    initScrollSpy();
+        langOptionsContainer.addEventListener('click', (e) => {
+            const button = e.target.closest('button[data-lang]');
+            if (button) {
+                e.stopPropagation();
+                applyLanguage(button.dataset.lang);
+                generateCollapsibleTOC(); // Re-generate TOC for new text
+                applyLanguage(button.dataset.lang); // Re-apply language to new TOC
+                cacheHeadingPositions(); // Re-cache positions
+                langOptionsContainer.classList.remove('show');
+            }
+        });
 
-    originalMainContentHTML = mainContent.innerHTML;
+        window.addEventListener('click', () => {
+            if (langOptionsContainer.classList.contains('show')) {
+                langOptionsContainer.classList.remove('show');
+            }
+        });
+        
+        window.addEventListener('scroll', updateScrollSpy);
 
+        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        window.addEventListener('scroll', () => {
+            scrollTopBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
+        });
 
-    // --- ЛОГИКА ВЫПАДАЮЩЕГО МЕНЮ ЯЗЫКА ---
-    currentLangBtn.addEventListener('click', (event) => { /* ... (без изменений) ... */ });
-    window.addEventListener('click', () => { /* ... (без изменений) ... */ });
-
-    // --- ЛОГИКА СКРОЛЛА И МОБИЛЬНОЙ НАВИГАЦИИ ---
-    const handleScroll = () => { scrollTopBtn.style.display = window.scrollY > 300 ? 'block' : 'none'; };
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    if (mobileNavToggle) { /* ... (без изменений) ... */ }
-    tocContainer.addEventListener('click', (e) => { /* ... (без изменений) ... */ });
-
-
-    // --- Переопределение функций для демонстрации ---
-    const initCopyCodeButtons_stub = () => {
-        document.querySelectorAll('pre').forEach(block => {
-            if (block.querySelector('code')) {
-                const button = document.createElement('button');
-                button.classList.add('copy-code-btn');
-                button.innerText = 'Copy';
-                button.addEventListener('click', () => {
-                    const code = block.querySelector('code').innerText;
-                    navigator.clipboard.writeText(code).then(() => {
-                        button.innerText = 'Copied!';
-                        button.classList.add('copied');
-                        setTimeout(() => {
-                            button.innerText = 'Copy';
-                            button.classList.remove('copied');
-                        }, 2000);
-                    });
-                });
-                block.appendChild(button);
+        if (mobileNavToggle) {
+            mobileNavToggle.addEventListener('click', () => sidebar.classList.toggle('is-open'));
+        }
+        
+        tocContainer.addEventListener('click', (e) => {
+            if(e.target.closest('a') && sidebar.classList.contains('is-open')) {
+                sidebar.classList.remove('is-open');
             }
         });
     };
-    initCopyCodeButtons_stub();
 
-    const populateLangOptions_stub = () => {
-        langOptionsContainer.innerHTML = '';
-        for (const langCode in languages) {
-            const option = document.createElement('button');
-            option.dataset.lang = langCode;
-            option.innerHTML = `<img src="${languages[langCode].flag}" class="flag-img" alt="${langCode}"><span>${languages[langCode].name}</span>`;
-            option.addEventListener('click', (e) => {
-                e.stopPropagation();
-                applyLanguage(langCode);
-                langOptionsContainer.classList.remove('show');
-            });
-            langOptionsContainer.appendChild(option);
-        }
-    };
-    populateLangOptions_stub();
-    
-    currentLangBtn.addEventListener('click', (event) => {
-        event.stopPropagation();
-        langOptionsContainer.classList.toggle('show');
-    });
-
-    window.addEventListener('click', () => {
-        if (langOptionsContainer.classList.contains('show')) {
-            langOptionsContainer.classList.remove('show');
-        }
-    });
-    
-     if (mobileNavToggle) {
-        mobileNavToggle.addEventListener('click', () => sidebar.classList.toggle('is-open'));
-    }
-    
-    tocContainer.addEventListener('click', (e) => {
-        if(e.target.closest('a') && sidebar.classList.contains('is-open')) {
-            sidebar.classList.remove('is-open');
-        }
-    });
-
+    // Run initialization
+    init();
 });
 
