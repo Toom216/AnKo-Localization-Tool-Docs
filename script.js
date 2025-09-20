@@ -372,5 +372,162 @@ document.addEventListener('DOMContentLoaded', function() {
             sidebar.classList.remove('is-open');
         }
     });
-});
 
+    // --- НОВАЯ ЛОГИКА: LIGHTBOX ДЛЯ ИЗОБРАЖЕНИЙ ---
+    const initLightbox = () => {
+        // Создаем элементы lightbox один раз и добавляем их в body
+        const lightboxOverlay = document.createElement('div');
+        lightboxOverlay.id = 'lightbox-overlay';
+        lightboxOverlay.classList.add('lightbox-overlay');
+
+        const lightboxContent = document.createElement('div');
+        lightboxContent.classList.add('lightbox-content');
+        
+        const lightboxImage = document.createElement('img');
+        lightboxImage.id = 'lightbox-image';
+        
+        const lightboxClose = document.createElement('span');
+        lightboxClose.classList.add('lightbox-close');
+        lightboxClose.innerHTML = '&times;';
+
+        lightboxContent.appendChild(lightboxImage);
+        lightboxOverlay.appendChild(lightboxContent);
+        lightboxOverlay.appendChild(lightboxClose);
+        document.body.appendChild(lightboxOverlay);
+
+        // Переменные для управления состоянием зума и панорамирования
+        let currentScale = 1;
+        let isPanning = false;
+        let startX, startY, transformX = 0, transformY = 0;
+
+        // Функция для сброса трансформаций
+        const resetTransform = () => {
+            currentScale = 1;
+            transformX = 0;
+            transformY = 0;
+            lightboxImage.style.transition = 'transform 0.3s ease';
+            lightboxImage.style.transform = 'translate(0px, 0px) scale(1)';
+            lightboxImage.classList.remove('is-zoomed');
+            lightboxImage.style.cursor = 'grab';
+        };
+        
+        // Функция для применения трансформаций
+        const applyTransform = () => {
+            lightboxImage.style.transform = `translate(${transformX}px, ${transformY}px) scale(${currentScale})`;
+        };
+
+        const openLightbox = (src) => {
+            lightboxImage.src = src;
+            lightboxOverlay.classList.add('show');
+            document.body.classList.add('lightbox-active');
+            // Сбрасываем зум и позицию при открытии нового изображения
+            setTimeout(resetTransform, 50); // Небольшая задержка для CSS-анимации
+        };
+
+        const closeLightbox = () => {
+            lightboxOverlay.classList.remove('show');
+            document.body.classList.remove('lightbox-active');
+        };
+
+        // Делегирование событий: слушаем клики в основном контенте
+        document.querySelector('.main-content').addEventListener('click', (e) => {
+            if (e.target.classList.contains('doc-image')) {
+                e.preventDefault();
+                openLightbox(e.target.src);
+            }
+        });
+
+        // Обработчики закрытия
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxOverlay.addEventListener('click', (e) => {
+            // Закрываем только если клик был по самому оверлею, а не по картинке
+            if (e.target === lightboxOverlay) {
+                closeLightbox();
+            }
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightboxOverlay.classList.contains('show')) {
+                closeLightbox();
+            }
+        });
+
+        // --- Логика зума и панорамирования ---
+        
+        // Зум по колесику мыши
+        lightboxContent.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            
+            const rect = lightboxImage.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            const delta = e.deltaY > 0 ? 0.9 : 1.1;
+            const newScale = Math.max(1, Math.min(8, currentScale * delta));
+            
+            if (newScale === currentScale) return;
+
+            transformX = mouseX - (mouseX - transformX) * (newScale / currentScale);
+            transformY = mouseY - (mouseY - transformY) * (newScale / currentScale);
+            currentScale = newScale;
+
+            lightboxImage.style.transition = 'none';
+            lightboxImage.classList.toggle('is-zoomed', currentScale > 1);
+            lightboxImage.style.cursor = currentScale > 1 ? 'grab' : 'default';
+
+            applyTransform();
+        }, { passive: false });
+        
+        // Панорамирование (перетаскивание)
+        lightboxImage.addEventListener('mousedown', (e) => {
+            if (currentScale > 1) {
+                e.preventDefault();
+                isPanning = true;
+                startX = e.clientX - transformX;
+                startY = e.clientY - transformY;
+                lightboxImage.style.cursor = 'grabbing';
+                lightboxImage.style.transition = 'none';
+            }
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (isPanning) {
+                transformX = e.clientX - startX;
+                transformY = e.clientY - startY;
+                applyTransform();
+            }
+        });
+
+        window.addEventListener('mouseup', () => {
+            if (isPanning) {
+                isPanning = false;
+                lightboxImage.style.cursor = 'grab';
+            }
+        });
+        
+        // Двойной клик для зума/сброса
+        lightboxContent.addEventListener('dblclick', (e) => {
+            if (e.target.classList.contains('lightbox-close')) return;
+            
+            if (currentScale > 1) {
+                resetTransform();
+            } else {
+                const rect = lightboxImage.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                currentScale = 2.5;
+                
+                transformX = -(mouseX * (currentScale - 1));
+                transformY = -(mouseY * (currentScale - 1));
+                
+                lightboxImage.style.transition = 'transform 0.3s ease';
+                lightboxImage.classList.add('is-zoomed');
+                lightboxImage.style.cursor = 'grab';
+                applyTransform();
+            }
+        });
+    };
+
+    // Инициализируем Lightbox
+    initLightbox();
+});
