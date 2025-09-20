@@ -203,8 +203,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const textAfter = node.nodeValue.slice(lastIndex);
             if(textAfter) fragment.appendChild(document.createTextNode(textAfter));
             if (node.parentNode) {
-                node.parentNode.replaceChild(fragment, node);
+            const parent = node.parentNode; // Сначала сохраняем родительский элемент
+            parent.replaceChild(fragment, node); // Затем производим замену текста
+            
+            // И теперь, если совпадение оказалось внутри <details>, открываем его
+            const detailsParent = parent.closest('details');
+            if (detailsParent && !detailsParent.open) {
+                detailsParent.open = true;
             }
+        }
         });
         
         allTocH1s.forEach(li => {
