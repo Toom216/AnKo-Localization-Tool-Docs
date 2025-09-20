@@ -131,13 +131,21 @@ mark.current-match {
 }
 
 /* ОГЛАВЛЕНИЕ И ПОИСК */
-.toc-search-container { position: relative; margin-bottom: 15px; }
+.toc-search-container { 
+    position: relative; 
+    margin-bottom: 15px; 
+}
 .toc-search-icon {
-    position: absolute; top: 50%; left: 12px; transform: translateY(-50%);
-    width: 16px; height: 16px; color: var(--secondary-text-color); pointer-events: none;
+    /* ИЗМЕНЕНИЕ: Убран transform, позиционирование через flex */
+    position: absolute; top: 0; left: 12px; height: 36px; /* Высота равна инпуту */
+    display: flex; align-items: center;
+    width: 16px; color: var(--secondary-text-color); 
+    pointer-events: none; z-index: 2;
 }
 #toc-search {
-    width: 100%; padding: 8px 12px 8px 36px; border-radius: 6px;
+    width: 100%; 
+    height: 36px; /* Задаем фиксированную высоту */
+    padding: 8px 12px 8px 36px; border-radius: 6px;
     border: 1px solid var(--border-color); background-color: var(--main-bg-color);
     color: var(--text-color); box-sizing: border-box; font-size: 14px;
     transition: border-color 0.2s, box-shadow 0.2s;
@@ -146,7 +154,7 @@ mark.current-match {
     outline: none; border-color: var(--link-color);
     box-shadow: 0 0 0 2px rgba(3, 102, 214, 0.3);
 }
-
+/* ИЗМЕНЕНИЕ: Контейнер с кнопками навигации поиска теперь не влияет на иконку */
 #search-nav-controls {
     display: flex;
     align-items: center;
@@ -173,49 +181,66 @@ mark.current-match {
     color: var(--text-color);
 }
 
+/* --- ИЗМЕНЕНИЕ: Полная переработка стилей оглавления --- */
 
-.sidebar nav, .sidebar nav ul { list-style: none; padding: 0; margin: 0; }
-.sidebar nav li { margin: 2px 0; }
+/* Общие стили для навигации */
+.sidebar nav, .sidebar nav ul { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+}
 .sidebar nav a {
-    text-decoration: none; color: var(--text-color); border-radius: 5px;
+    text-decoration: none; 
+    color: var(--text-color); 
+    border-radius: 5px;
     transition: background-color 0.2s ease, color 0.2s ease;
-    font-weight: 400;
-}
-.sidebar nav a:hover { background-color: var(--main-bg-color); }
-.sidebar nav a.active {
-    background-color: var(--active-nav-bg); color: var(--active-nav-text);
-    font-weight: 700;
-}
-
-/* ИЗМЕНЕНИЕ: Новая структура для выравнивания */
-.toc-h1-header {
-    display: flex;
-    align-items: flex-start; /* Выравнивание по верху */
-}
-.toc-h1-header > .toc-link-wrapper {
-    flex-grow: 1;
-}
-.toc-h1-header a {
-    font-weight: 700;
-    font-size: 16px;
-    display: block;
+    display: block; /* Ссылки занимают всю ширину */
     padding: 6px 10px;
 }
-/* Старый класс .no-children больше не нужен */
+.sidebar nav a:hover { 
+    background-color: var(--main-bg-color); 
+}
+.sidebar nav a.active {
+    background-color: var(--active-nav-bg); 
+    color: var(--active-nav-text);
+    font-weight: 600;
+}
 
-.toc-h2 a { font-size: 14px; color: var(--secondary-text-color); display: block; padding: 6px 10px; }
+/* Контейнер для элемента H1 (стрелка + ссылка) */
+.toc-h1-header {
+    display: flex;
+    align-items: center; /* Вертикальное выравнивание по центру */
+}
 
-/* ИЗМЕНЕНИЕ: Отступ для подменю */
+/* Ссылка внутри заголовка H1 */
+.toc-h1 a { 
+    font-weight: 700;
+    font-size: 16px;
+    flex-grow: 1; /* Ссылка занимает все доступное место */
+}
+
+/* Ссылка для подпункта H2 */
+.toc-h2 a { 
+    font-size: 14px; 
+    color: var(--secondary-text-color); 
+}
+
+/* Контейнер для подменю (список H2) */
 .toc-submenu {
-    padding-left: 28px; /* Отступ равен ширине элемента-стрелки */
+    padding-left: 28px; /* Отступ равен ширине стрелки, чтобы текст H2 был под текстом H1 */
     overflow: hidden; 
     max-height: 1000px; 
-    transition: max-height 0.15s ease-out, opacity 0.15s ease-out;
+    transition: max-height 0.15s ease-out, opacity 0.15s ease-out, visibility 0.15s;
     opacity: 1;
+    visibility: visible;
 }
-.toc-h1.is-collapsed .toc-submenu { max-height: 0; opacity: 0; visibility: hidden; }
+.toc-h1.is-collapsed .toc-submenu { 
+    max-height: 0; 
+    opacity: 0; 
+    visibility: hidden;
+}
 
-/* ИЗМЕНЕНИЕ: Стили для стрелки и плейсхолдера */
+/* Стили для стрелки/плейсхолдера */
 .toc-toggle {
     flex-shrink: 0;
     width: 28px;
@@ -225,8 +250,9 @@ mark.current-match {
     justify-content: center;
     color: var(--secondary-text-color);
     user-select: none;
+    transition: color 0.15s ease;
 }
-.toc-toggle:not(.is-placeholder) { /* Стили только для настоящих стрелок */
+.toc-toggle:not(.is-placeholder) { 
     cursor: pointer;
 }
 .toc-toggle:not(.is-placeholder):hover {
@@ -234,11 +260,11 @@ mark.current-match {
 }
 .toc-toggle:not(.is-placeholder)::before {
     content: '▶';
-    font-size: 13px;
+    font-size: 12px;
     display: inline-block;
     transition: transform 0.15s ease;
 }
-.toc-h1:not(.is-collapsed) .toc-toggle::before {
+.toc-h1:not(.is-collapsed) .toc-toggle:not(.is-placeholder)::before {
     transform: rotate(90deg);
 }
 
@@ -276,4 +302,3 @@ pre:hover .copy-code-btn { opacity: 1; }
     .content-wrapper { padding: 15px 20px; }
     .mobile-nav-toggle { display: block; position: fixed; top: 15px; left: 15px; z-index: 1001; background: var(--content-bg-color); border: 1px solid var(--border-color); border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: var(--text-color); }
 }
-
