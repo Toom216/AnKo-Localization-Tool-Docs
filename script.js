@@ -439,12 +439,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Обработчики закрытия
         lightboxClose.addEventListener('click', closeLightbox);
+        
         lightboxOverlay.addEventListener('click', (e) => {
-            // Закрываем только если клик был по самому оверлею, а не по картинке
-            if (e.target === lightboxOverlay) {
+            // Закрываем, если клик был по самому фону (overlay) 
+            // или по его дочернему контейнеру (content), но не по картинке.
+            if (e.target === lightboxOverlay || e.target === lightboxContent) {
                 closeLightbox();
             }
         });
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && lightboxOverlay.classList.contains('show')) {
                 closeLightbox();
@@ -531,3 +534,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Инициализируем Lightbox
     initLightbox();
 });
+
