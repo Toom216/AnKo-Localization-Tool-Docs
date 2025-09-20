@@ -136,15 +136,14 @@ mark.current-match {
     margin-bottom: 15px; 
 }
 .toc-search-icon {
-    /* ИЗМЕНЕНИЕ: Убран transform, позиционирование через flex */
-    position: absolute; top: 0; left: 12px; height: 36px; /* Высота равна инпуту */
+    position: absolute; top: 0; left: 12px; height: 36px;
     display: flex; align-items: center;
     width: 16px; color: var(--secondary-text-color); 
     pointer-events: none; z-index: 2;
 }
 #toc-search {
     width: 100%; 
-    height: 36px; /* Задаем фиксированную высоту */
+    height: 36px;
     padding: 8px 12px 8px 36px; border-radius: 6px;
     border: 1px solid var(--border-color); background-color: var(--main-bg-color);
     color: var(--text-color); box-sizing: border-box; font-size: 14px;
@@ -154,7 +153,6 @@ mark.current-match {
     outline: none; border-color: var(--link-color);
     box-shadow: 0 0 0 2px rgba(3, 102, 214, 0.3);
 }
-/* ИЗМЕНЕНИЕ: Контейнер с кнопками навигации поиска теперь не влияет на иконку */
 #search-nav-controls {
     display: flex;
     align-items: center;
@@ -181,20 +179,21 @@ mark.current-match {
     color: var(--text-color);
 }
 
-/* --- ИЗМЕНЕНИЕ: Полная переработка стилей оглавления --- */
+/* --- ИЗМЕНЕНИЕ: Скорректированные стили для оглавления --- */
 
-/* Общие стили для навигации */
 .sidebar nav, .sidebar nav ul { 
     list-style: none; 
     padding: 0; 
     margin: 0; 
 }
+
+/* Общий стиль для ссылок в оглавлении */
 .sidebar nav a {
     text-decoration: none; 
     color: var(--text-color); 
     border-radius: 5px;
     transition: background-color 0.2s ease, color 0.2s ease;
-    display: block; /* Ссылки занимают всю ширину */
+    display: block;
     padding: 6px 10px;
 }
 .sidebar nav a:hover { 
@@ -206,28 +205,31 @@ mark.current-match {
     font-weight: 600;
 }
 
-/* Контейнер для элемента H1 (стрелка + ссылка) */
+/* Контейнер для кликабельной части H1 */
 .toc-h1-header {
     display: flex;
-    align-items: center; /* Вертикальное выравнивание по центру */
+    align-items: center;
 }
-
-/* Ссылка внутри заголовка H1 */
 .toc-h1 a { 
     font-weight: 700;
     font-size: 16px;
-    flex-grow: 1; /* Ссылка занимает все доступное место */
+    flex-grow: 1; 
 }
 
-/* Ссылка для подпункта H2 */
+/* Стили для подпунктов H2 */
 .toc-h2 a { 
     font-size: 14px; 
     color: var(--secondary-text-color); 
 }
+/* Отступ для вложенных элементов H2 */
+.toc-submenu .toc-h2 {
+    padding-left: 28px; /* Отступ равен ширине стрелки */
+}
+
 
 /* Контейнер для подменю (список H2) */
 .toc-submenu {
-    padding-left: 28px; /* Отступ равен ширине стрелки, чтобы текст H2 был под текстом H1 */
+    /* Убрали отступ отсюда, он теперь на каждом элементе .toc-h2 */
     overflow: hidden; 
     max-height: 1000px; 
     transition: max-height 0.15s ease-out, opacity 0.15s ease-out, visibility 0.15s;
@@ -244,7 +246,7 @@ mark.current-match {
 .toc-toggle {
     flex-shrink: 0;
     width: 28px;
-    height: 35px; /* Высота равна кликабельной области ссылки */
+    height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -267,6 +269,7 @@ mark.current-match {
 .toc-h1:not(.is-collapsed) .toc-toggle:not(.is-placeholder)::before {
     transform: rotate(90deg);
 }
+
 
 /* Стилизация контента */
 h1, h2 { border-bottom: 1px solid var(--border-color); padding-bottom: 0.5em; margin-top: 2em; margin-bottom: 1em; scroll-margin-top: 20px; transition: border-color 0.3s ease; }
@@ -302,3 +305,4 @@ pre:hover .copy-code-btn { opacity: 1; }
     .content-wrapper { padding: 15px 20px; }
     .mobile-nav-toggle { display: block; position: fixed; top: 15px; left: 15px; z-index: 1001; background: var(--content-bg-color); border: 1px solid var(--border-color); border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: var(--text-color); }
 }
+
