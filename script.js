@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let originalMainContentHTML = mainContent.innerHTML;
     let searchMatches = [];
     let currentMatchIndex = -1;
-    // ИЗМЕНЕНИЕ: Сохраняем все заголовки H1 для быстрого определения секции
     const sectionHeaders = Array.from(mainContent.querySelectorAll('h1[id]'));
 
 
@@ -46,9 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
         applyTheme(newTheme);
     });
 
-    // --- ЛОГИКА ГЕНЕРАЦИИ ОГЛАВЛЕНИЯ (ToC) ---
+    // --- ИЗМЕНЕНИЕ: Полностью переработанная логика генерации оглавления ---
     const generateCollapsibleTOC = () => {
-        tocContainer.innerHTML = ''; 
+        tocContainer.innerHTML = '';
         const headings = mainContent.querySelectorAll('h1[id], h2[id]');
         const mainList = document.createElement('ul');
         let currentH1LI = null;
@@ -57,55 +56,65 @@ document.addEventListener('DOMContentLoaded', function() {
         headings.forEach(heading => {
             if (heading.tagName === 'H1') {
                 h1Counter++;
+                // Создаем основной элемент списка для H1
                 currentH1LI = document.createElement('li');
                 currentH1LI.classList.add('toc-h1');
-                
+
+                // Создаем контейнер для кликабельной части (стрелка + ссылка)
                 const headerDiv = document.createElement('div');
                 headerDiv.classList.add('toc-h1-header');
 
-                const linkWrapper = document.createElement('div');
-                linkWrapper.classList.add('toc-link-wrapper');
-                
+                // Создаем ссылку H1
                 const a = document.createElement('a');
                 a.href = '#' + heading.id;
                 a.dataset.key = heading.dataset.key.replace(/^h1_/, 'nav_');
                 
-                linkWrapper.appendChild(a);
-                headerDiv.appendChild(linkWrapper);
+                // Добавляем ссылку в контейнер
+                headerDiv.appendChild(a);
+                // Добавляем контейнер в li
                 currentH1LI.appendChild(headerDiv);
-                
+
+                // Создаем список для подпунктов (H2)
                 const subList = document.createElement('ul');
                 subList.classList.add('toc-submenu');
+                // ВАЖНО: Вкладываем список подпунктов ПРЯМО В LI основного пункта
                 currentH1LI.appendChild(subList);
                 
                 mainList.appendChild(currentH1LI);
+                // Сворачиваем все, кроме первого
                 currentH1LI.classList.toggle('is-collapsed', h1Counter > 1);
 
             } else if (heading.tagName === 'H2' && currentH1LI) {
+                // Если это H2, добавляем его в список подпунктов текущего H1
                 const li = document.createElement('li');
                 li.classList.add('toc-h2');
                 const a = document.createElement('a');
                 a.href = '#' + heading.id;
                 a.dataset.key = heading.dataset.key.replace(/^h2_/, 'nav_');
                 li.appendChild(a);
+                // Находим список подпунктов и добавляем элемент
                 currentH1LI.querySelector('.toc-submenu').appendChild(li);
             }
         });
         
+        // Добавляем стрелки/плейсхолдеры
         mainList.querySelectorAll('.toc-h1').forEach(h1li => {
             const subMenu = h1li.querySelector('.toc-submenu');
             const headerDiv = h1li.querySelector('.toc-h1-header');
             
             const toggle = document.createElement('span');
             toggle.classList.add('toc-toggle');
-            headerDiv.prepend(toggle); 
+            // Вставляем стрелку/плейсхолдер в самое начало кликабельного контейнера
+            headerDiv.prepend(toggle);
 
             if (subMenu && subMenu.children.length > 0) {
+                 // Если есть подпункты, делаем стрелку кликабельной
                  toggle.addEventListener('click', (e) => {
                     e.stopPropagation();
                     h1li.classList.toggle('is-collapsed');
                 });
             } else {
+                 // Иначе это просто плейсхолдер для выравнивания
                  toggle.classList.add('is-placeholder');
             }
         });
@@ -113,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
         tocContainer.appendChild(mainList);
     };
     
-    // --- ИЗМЕНЕНИЕ: ЛОГИКА ПОИСКА И НАВИГАЦИИ ПО НЕМУ ---
+    // --- ЛОГИКА ПОИСКА (без изменений) ---
     const updateSearchFocus = () => {
         searchMatches.forEach(match => match.classList.remove('current-match'));
         if (currentMatchIndex >= 0 && currentMatchIndex < searchMatches.length) {
@@ -128,30 +137,26 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     const performSearch = (searchTerm) => {
-        // 1. Восстанавливаем исходный HTML, чтобы убрать предыдущие подсветки
         mainContent.innerHTML = originalMainContentHTML;
         searchMatches = [];
         currentMatchIndex = -1;
         searchNavControls.style.display = 'none';
     
-        // 2. Сбрасываем видимость оглавления
         const allTocH1s = tocContainer.querySelectorAll('.toc-h1');
         allTocH1s.forEach(li => {
             li.style.display = '';
-            // Если поиск очищен, раскрываем все свернутые секции
             if (!searchTerm) {
                  li.classList.remove('is-collapsed');
             }
         });
     
         if (!searchTerm) {
-            return; // Выходим, если поисковый запрос пуст
+            return;
         }
     
         const regex = new RegExp(searchTerm.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi');
         const matchedTocLIs = new Set();
         
-        // 3. Собираем все текстовые узлы, в которых есть совпадения
         const walker = document.createTreeWalker(mainContent, NodeFilter.SHOW_TEXT, null, false);
         const nodesToReplace = [];
         let node;
@@ -161,9 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     
-        // 4. Обрабатываем найденные узлы: подсвечиваем и определяем секцию
         nodesToReplace.forEach(node => {
-            // Определяем, к какой секции H1 относится найденный текст
             const nodePosition = node.parentElement.getBoundingClientRect().top + window.scrollY;
             let parentH1 = null;
             for (let i = sectionHeaders.length - 1; i >= 0; i--) {
@@ -174,19 +177,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
     
-            // Если секция найдена, отмечаем ее в оглавлении
             if (parentH1 && parentH1.id) {
                 const tocLink = tocContainer.querySelector(`a[href="#${parentH1.id}"]`);
                 if (tocLink) {
                     const tocLI = tocLink.closest('.toc-h1');
                     if (tocLI) {
                         matchedTocLIs.add(tocLI);
-                        tocLI.classList.remove('is-collapsed'); // Раскрываем секцию с результатами
+                        tocLI.classList.remove('is-collapsed');
                     }
                 }
             }
     
-            // Оборачиваем найденный текст в <mark> для подсветки
             const fragment = document.createDocumentFragment();
             let lastIndex = 0;
             node.nodeValue.replace(regex, (match, offset) => {
@@ -206,14 +207,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // 5. Фильтруем оглавление: скрываем секции без совпадений
         allTocH1s.forEach(li => {
             if (!matchedTocLIs.has(li)) {
                 li.style.display = 'none';
             }
         });
     
-        // 6. Обновляем навигацию по результатам поиска
         searchMatches = Array.from(mainContent.querySelectorAll('mark'));
         if (searchMatches.length > 0) {
             currentMatchIndex = 0;
@@ -222,7 +221,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // ИЗМЕНЕНИЕ: Функция "debounce" для задержки выполнения поиска
     const debounce = (func, delay) => {
         let timeoutId;
         return (...args) => {
@@ -235,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const debouncedSearch = debounce((term) => {
         performSearch(term);
-    }, 300); // Задержка в 300ms
+    }, 300);
 
     tocSearch.addEventListener('input', (e) => {
         debouncedSearch(e.target.value.toLowerCase().trim());
@@ -252,6 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentMatchIndex = (currentMatchIndex - 1 + searchMatches.length) % searchMatches.length;
         updateSearchFocus();
     });
+
 
     // --- ЛОГИКА ЛОКАЛИЗАЦИИ ---
     const applyLanguage = (lang) => {
@@ -319,14 +318,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     originalMainContentHTML = mainContent.innerHTML;
 
-    // --- ЛОГИКА ВЫПАДАЮЩЕГО МЕНЮ ЯЗЫКА, СКРОЛЛА И МОБИЛЬНОЙ НАВИГАЦИИ... ---
-    
+    // --- ОСТАЛЬНАЯ ЛОГИКА (без изменений) ---
     const handleScroll = () => { scrollTopBtn.style.display = window.scrollY > 300 ? 'block' : 'none'; };
     window.addEventListener('scroll', handleScroll);
     handleScroll();
     scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     
-    // --- Переопределение функций для демонстрации (stub) ---
     const initCopyCodeButtons_stub = () => {
         document.querySelectorAll('pre').forEach(block => {
             if (block.querySelector('code')) {
@@ -376,3 +373,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
