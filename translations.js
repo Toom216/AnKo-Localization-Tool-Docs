@@ -325,6 +325,11 @@ public class CustomComponentParser_Template : ITextComponentParser
 
         'h2_faq_window': '9.3. Окно "Localization Tool"',
         'h3_faq_window_preview': 'In-Editor Preview',
+        'h3_faq_window_settings': 'Вкладка "Settings"',
+        'h3_faq_window_content': 'Вкладка "Content"',
+        'h3_faq_window_actions': 'Вкладка "Actions"',
+        'h3_faq_window_assets': 'Вкладка "Assets"',
+        'h3_faq_window_report': 'Вкладка "Report"',
         'q_faq_window_preview_1': 'Я открыл префаб в режиме Prefab Mode, применил In-Editor Preview и нажал Ctrl+S. Сохранятся ли временные preview-данные в ассете префаба? Как LocalizationPreviewProtector обрабатывает этот случай?',
         'a_faq_window_preview_1': 'Нет, не сохранятся. LocalizationPreviewProtector перехватывает событие сохранения ассета (OnWillSaveAssets) и автоматически вызывает RevertEditorPreview() до того, как Unity запишет изменения на диск. Таким образом, префаб будет сохранен в своем исходном, нелокализованном состоянии.',
         'q_faq_window_preview_2': 'Если я включу In-Editor Preview и редактор Unity аварийно завершит работу, а файл Temp/localization_preview_recovery.json окажется поврежден (например, пустой или с некорректным JSON), что произойдет при следующем запуске?',
