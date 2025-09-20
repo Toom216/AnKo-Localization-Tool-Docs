@@ -21,7 +21,6 @@
             <div class="toc-search-container">
                 <svg class="toc-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18ZM10,4a6,6,0,1,0,6,6A6.007,6.007,0,0,0,10,4Z"/><path d="M21,22a1,1,0,0,1-.707-0.293l-4-4a1,1,0,0,1,1.414-1.414l4,4A1,1,0,0,1,21,22Z"/></svg>
                 <input type="search" id="toc-search" placeholder="Поиск..." data-key="toc_search_placeholder">
-                <!-- ИЗМЕНЕНИЕ: Добавлен блок навигации по результатам поиска -->
                 <div id="search-nav-controls" style="display: none;">
                     <span id="search-results-count"></span>
                     <button id="search-prev" title="Предыдущее совпадение">▲</button>
@@ -45,7 +44,6 @@
 
     <main class="main-content">
         <div class="content-wrapper">
-            <!-- Контент страницы без изменений -->
             <h1 id="introduction" data-key="h1_introduction"><span class="emoji">🚀</span> Введение</h1>
             <p data-key="p_intro_1"></p>
             
@@ -76,7 +74,9 @@
                 <li data-key="li_install_6"></li>
             </ol>
             <img src="img/quickstart_installer.jpg" alt="Окно установщика зависимостей" class="doc-image">
-            
+            <!-- НОВОЕ ИЗОБРАЖЕНИЕ -->
+            <img src="img/quickstart_open_window.gif" alt="Анимация открытия окна инструмента через меню Tools" class="doc-image">
+
             <h2 id="initial-setup" data-key="h2_initial_setup"></h2>
             <ol>
                 <li data-key="li_setup_1"></li>
@@ -85,38 +85,46 @@
                 <li data-key="li_setup_4"></li>
             </ol>
             <img src="img/quickstart_initial_setup.gif" alt="Пошаговая первоначальная настройка" class="doc-image">
+             <!-- НОВОЕ ИЗОБРАЖЕНИЕ -->
+            <img src="img/quickstart_first_parse.gif" alt="Анимация нажатия Update Keys и результат в виде созданных файлов" class="doc-image">
 
             <h1 id="core-components" data-key="h1_components"><span class="emoji">🧩</span></h1>
             <div class="warning-box" data-key="warning_box_components"></div>
             <p data-key="p_components_intro"></p>
             
-            <h2 id="component-localizedtext" data-key="h2_localizedtext"></h2>
+            <h2 id="localized-text" data-key="h2_localizedtext"></h2>
             <p data-key="p_localizedtext_1"></p>
             <img src="img/components_localized_text.jpg" alt="Компонент LocalizedText в инспекторе" class="doc-image">
+             <!-- НОВОЕ ИЗОБРАЖЕНИЕ -->
+            <img src="img/components_localized_text_demo.gif" alt="Демонстрация изменения текста на кнопке при смене языка в Live Preview" class="doc-image">
             <ul>
                 <li data-key="li_localizedtext_1"></li>
                 <li data-key="li_localizedtext_2"></li>
                 <li data-key="li_localizedtext_3"></li>
             </ul>
 
-            <h2 id="component-localizedasset" data-key="h2_localizedasset"></h2>
+            <h2 id="localized-asset" data-key="h2_localizedasset"></h2>
             <p data-key="p_localizedasset_1"></p>
             <img src="img/components_localized_asset.jpg" alt="Компонент LocalizedAsset в инспекторе" class="doc-image">
+             <!-- НОВОЕ ИЗОБРАЖЕНИЕ -->
+            <img src="img/components_localized_asset_demo.gif" alt="Демонстрация смены спрайта флага при смене языка" class="doc-image">
             <p data-key="p_localizedasset_2"></p>
 
-            <h2 id="component-localizedprefab" data-key="h2_localizedprefab"></h2>
+            <h2 id="localized-prefab" data-key="h2_localizedprefab"></h2>
             <p data-key="p_localizedprefab_1"></p>
             <img src="img/components_localized_prefab.gif" alt="Демонстрация работы LocalizedPrefab" class="doc-image">
 
-            <h2 id="component-uitklocalization" data-key="h2_uitklocalization"></h2>
+            <h2 id="uitk-localization" data-key="h2_uitklocalization"></h2>
             <p data-key="p_uitklocalization_1"></p>
             <img src="img/components_uitk_localization.jpg" alt="Компонент UITKLocalization в инспекторе" class="doc-image">
+             <!-- НОВОЕ ИЗОБРАЖЕНИЕ -->
+            <img src="img/components_uitk_localization_demo.gif" alt="Анимация локализации элементов UI Toolkit" class="doc-image">
             
-            <h2 id="component-localizeddropdown" data-key="h2_localizeddropdown"></h2>
+            <h2 id="localized-dropdown" data-key="h2_localizeddropdown"></h2>
             <p data-key="p_localizeddropdown_1"></p>
             <img src="img/components_localized_dropdown.jpg" alt="Компонент LocalizedDropdown в инспекторе" class="doc-image">
 
-            <h2 id="component-localizedbehaviour" data-key="h2_localizedbehaviour"></h2>
+            <h2 id="localized-behaviour" data-key="h2_localizedbehaviour"></h2>
             <p data-key="p_localizedbehaviour_1"></p>
             <img src="img/components_localized_behaviour.jpg" alt="Компонент LocalizedBehaviour в инспекторе" class="doc-image">
 
@@ -129,6 +137,8 @@
             <h2 id="in-editor-preview" data-key="h2_in_editor_preview"></h2>
             <p data-key="p_preview_1"></p>
             <img src="img/window_live_preview.gif" alt="Демонстрация работы Live Preview" class="doc-image">
+             <!-- НОВОЕ ИЗОБРАЖЕНИЕ -->
+            <img src="img/window_placeholder_styles.jpg" alt="Скриншот, показывающий разные стили плейсхолдеров (Accents, Brackets)" class="doc-image">
             <ul>
                 <li data-key="li_preview_1"></li>
                 <li data-key="li_preview_2"></li>
@@ -136,7 +146,7 @@
                 <li data-key="li_preview_4"></li>
             </ul>
 
-            <h2 id="tab-settings" data-key="h2_tab_settings"></h2>
+            <h2 id="settings-tab" data-key="h2_tab_settings"></h2>
             <p data-key="p_settings_1"></p>
             <img src="img/window_tab_settings_overview.jpg" alt="Обзор вкладки Settings" class="doc-image">
             <ul>
@@ -166,9 +176,11 @@
                 </li>
             </ul>
 
-            <h2 id="tab-content" data-key="h2_tab_content"></h2>
+            <h2 id="content-tab" data-key="h2_tab_content"></h2>
             <p data-key="p_content_1"></p>
             <img src="img/window_tab_content.jpg" alt="Вкладка Content с настройками" class="doc-image">
+             <!-- НОВОЕ ИЗОБРАЖЕНИЕ -->
+            <img src="img/window_tab_content_pin_ignore.gif" alt="Анимация закрепления (Pin) объекта в список игнорирования" class="doc-image">
             <ul>
                 <li data-key="li_content_1"></li>
                 <li data-key="li_content_2"></li>
@@ -177,7 +189,7 @@
                 <li data-key="li_content_5"></li>
             </ul>
 
-            <h2 id="tab-actions" data-key="h2_tab_actions"></h2>
+            <h2 id="actions-tab" data-key="h2_tab_actions"></h2>
             <p data-key="p_actions_1"></p>
             <img src="img/window_tab_actions_overview.jpg" alt="Обзор вкладки Actions" class="doc-image">
             <ul>
@@ -186,6 +198,8 @@
                 <li>
                     <span data-key="li_actions_3"></span>
                     <img src="img/window_tab_actions_data_management.jpg" alt="Секция Data Management" class="doc-image">
+                     <!-- НОВОЕ ИЗОБРАЖЕНИЕ -->
+                    <img src="img/window_tab_actions_import_export.gif" alt="Анимация процесса экспорта в CSV и импорта из Google Sheets" class="doc-image">
                 </li>
                 <li>
                      <span data-key="li_actions_4"></span>
@@ -197,9 +211,11 @@
                 </li>
             </ul>
 
-            <h2 id="tab-assets" data-key="h2_tab_assets"></h2>
+            <h2 id="assets-tab" data-key="h2_tab_assets"></h2>
             <p data-key="p_assets_1"></p>
             <img src="img/window_tab_assets.gif" alt="Процесс работы с ассетами" class="doc-image">
+             <!-- НОВОЕ ИЗОБРАЖЕНИЕ -->
+            <img src="img/window_tab_assets_folder_gen.jpg" alt="Скриншот сгенерированной структуры папок для ассетов" class="doc-image">
             <ol>
                 <li data-key="li_assets_1"></li>
                 <li data-key="li_assets_2"></li>
@@ -208,9 +224,11 @@
                 <li data-key="li_assets_5"></li>
             </ol>
 
-            <h2 id="tab-report" data-key="h2_tab_report"></h2>
+            <h2 id="report-tab" data-key="h2_tab_report"></h2>
             <p data-key="p_report_1"></p>
             <img src="img/window_tab_report.gif" alt="Вкладка Report с результатами сканирования" class="doc-image">
+             <!-- НОВОЕ ИЗОБРАЖЕНИЕ -->
+            <img src="img/window_tab_report_find_usage.gif" alt="Анимация поиска использования ключа по кнопке Find" class="doc-image">
             <ul>
                 <li data-key="li_report_1"></li>
                 <li data-key="li_report_2"></li>
@@ -228,6 +246,8 @@
                 <li>
                     <span data-key="li_editor_3"></span>
                     <img src="img/editor_placeholder_validation.jpg" alt="Валидация плейсхолдеров" class="doc-image">
+                     <!-- НОВОЕ ИЗОБРАЖЕНИЕ -->
+                    <img src="img/editor_multiline_window.gif" alt="Анимация работы окна MultiLineEditWindow с подсветкой ошибок плейсхолдеров" class="doc-image">
                 </li>
                 <li data-key="li_editor_4"></li>
                 <li data-key="li_editor_5"></li>
@@ -239,27 +259,29 @@
             
             <h1 id="usage-examples" data-key="h1_usage_examples"><span class="emoji">💡</span></h1>
 
-            <h2 id="example-ready-components" data-key="h2_example_components"></h2>
+            <h2 id="ready-made-components" data-key="h2_example_components"></h2>
             <p data-key="p_example_components_1"></p>
             <ul>
                 <li>
                     <span data-key="li_example_components_1"></span>
                     <img src="img/examples_language_selector.jpg" alt="Настройка компонента LanguageSelector" class="doc-image">
+                     <!-- НОВОЕ ИЗОБРАЖЕНИЕ -->
+                    <img src="img/examples_language_selector_runtime.gif" alt="Демонстрация работы переключателя языка в запущенной игре" class="doc-image">
                 </li>
                 <li data-key="li_example_components_2"></li>
             </ul>
 
-            <h2 id="example-attribute" data-key="h2_example_attribute"></h2>
+            <h2 id="localizable-field-attribute" data-key="h2_example_attribute"></h2>
             <p data-key="p_example_attribute_1"></p>
             <img src="img/examples_localizable_field_inspector.jpg" alt="Отображение LocalizableField в инспекторе" class="doc-image">
             <pre><code class="language-csharp" data-key="code_example_attribute"></code></pre>
 
-            <h2 id="example-function" data-key="h2_example_function"></h2>
+            <h2 id="onlanguagechange-function" data-key="h2_example_function"></h2>
             <p data-key="p_example_function_1"></p>
             <pre><code class="language-csharp" data-key="code_example_function"></code></pre>
             <img src="img/examples_localized_behaviour_auto.jpg" alt="Автоматически добавленный LocalizedBehaviour" class="doc-image">
 
-            <h2 id="example-plurals" data-key="h2_example_plurals"></h2>
+            <h2 id="plurals-and-gender" data-key="h2_example_plurals"></h2>
             <p data-key="p_example_plurals_1"></p>
             <pre><code class="language-csharp" data-key="code_example_plurals"></code></pre>
             <img src="img/examples_plurals_editor.jpg" alt="Пример ключей для множественного числа в редакторе" class="doc-image">
@@ -278,7 +300,7 @@
             </div>
             
             <h1 id="extending-functionality" data-key="h1_extending"><span class="emoji">🧬</span></h1>
-            <h2 id="creating-a-parser" data-key="h2_custom_parser"></h2>
+            <h2 id="custom-parser" data-key="h2_custom_parser"></h2>
             <p data-key="p_custom_parser_1"></p>
             <ol>
                 <li data-key="li_custom_parser_1"></li>
@@ -286,6 +308,8 @@
                 <li data-key="li_custom_parser_3"></li>
             </ol>
             <pre><code class="language-csharp" data-key="code_custom_parser"></code></pre>
+            <!-- НОВОЕ ИЗОБРАЖЕНИЕ -->
+            <img src="img/extending_custom_parser_script.jpg" alt="Скриншот файла кастомного парсера в окне проекта Unity" class="doc-image">
 
         </div>
     </main>
@@ -294,3 +318,4 @@
 
 </body>
 </html>
+
