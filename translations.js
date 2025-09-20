@@ -293,7 +293,7 @@ public class CustomComponentParser_Template : ITextComponentParser
 #endif`,
         
         'h1_faq': '<span class="emoji">❓</span> FAQ и Решение проблем',
-        'h2_faq_installation': 'Установка и Быстрый старт',
+        'h2_faq_installation': '9.1. Установка и Быстрый старт',
         'q_faq_installation_1': 'Что произойдет, если в моем проекте уже есть пакет com.unity.nuget.newtonsoft-json от другого ассета? Попытается ли установщик зависимостей его обновить или проигнорирует?',
         'a_faq_installation_1': 'Установщик проверяет наличие типа Newtonsoft.Json.JsonConvert. Если тип существует, он считает зависимость удовлетворенной и не будет пытаться установить или обновить пакет. Это сделано для предотвращения конфликтов версий.',
         'q_faq_installation_2': 'Я случайно нажал "Skip for Now" и поставил галочку "Don\'t ask again" для опциональных зависимостей (например, для поддержки CSV). Как мне снова вызвать окно установщика, чтобы их установить?',
@@ -305,7 +305,7 @@ public class CustomComponentParser_Template : ITextComponentParser
         'q_faq_installation_5': 'Установщик зависимостей завис или выдал ошибку. Могу ли я установить зависимости (Newtonsoft Json, Editor Coroutines) вручную через Unity Package Manager?',
         'a_faq_installation_5': 'Да. Вы можете открыть Window -> Package Manager, нажать на "+" и выбрать "Add package by name...". Введите имена пакетов: com.unity.nuget.newtonsoft-json и com.unity.editorcoroutines.',
         
-        'h2_faq_components': 'Основные компоненты',
+        'h2_faq_components': '9.2. Основные компоненты',
         'q_faq_components_1': 'Компонент LocalizedPrefab отключает MonoBehaviour на оригинальном объекте. Что если на оригинальном объекте есть скрипт, который в Awake() создает другие объекты или подписывается на события? Будет ли этот код выполнен?',
         'a_faq_components_1': 'Нет, не будет. Отключение MonoBehaviour предотвращает вызов всех "магических" методов Unity, включая Awake(), OnEnable() и Start(). Это сделано намеренно, чтобы избежать двойного выполнения логики. Вся инициализация должна происходить в скриптах на локализованных версиях префаба.',
         'q_faq_components_2': 'Если на оригинальном префабе (LocalizedPrefab) есть компонент Rigidbody или другой физический компонент, будет ли он отключен? Повлияет ли это на физику, если локализованный префаб его не имеет?',
@@ -323,7 +323,7 @@ public class CustomComponentParser_Template : ITextComponentParser
         'q_faq_components_8': 'Компонент LocalizedAsset перехватывает Play on Awake. Что произойдет, если на том же объекте есть другой скрипт, который в Awake() или Start() пытается получить доступ к ассету (например, audioSource.clip.length) до того, как LocalizedAsset его подменит? Возможен ли NullReferenceException или использование старого ассета?',
         'a_faq_components_8': 'Возможна работа со старым (нелокализованным) ассетом. LocalizedAsset выполняет подмену в своем OnEnable(). Методы Awake() всех скриптов выполняются до OnEnable(). Если ваш скрипт в Awake() обратится к audioSource.clip, он получит исходный клип. Если же он обратится в Start(), то результат будет зависеть от порядка выполнения скриптов. Чтобы гарантировать доступ к локализованному ассету, либо установите вашему скрипту более поздний порядок выполнения, либо получайте доступ к ассету в методе, помеченном [OnLanguageChange].',
 
-        'h2_faq_window': 'Окно "Localization Tool"',
+        'h2_faq_window': '9.3. Окно "Localization Tool"',
         'h3_faq_window_preview': 'In-Editor Preview',
         'q_faq_window_preview_1': 'Я открыл префаб в режиме Prefab Mode, применил In-Editor Preview и нажал Ctrl+S. Сохранятся ли временные preview-данные в ассете префаба? Как LocalizationPreviewProtector обрабатывает этот случай?',
         'a_faq_window_preview_1': 'Нет, не сохранятся. LocalizationPreviewProtector перехватывает событие сохранения ассета (OnWillSaveAssets) и автоматически вызывает RevertEditorPreview() до того, как Unity запишет изменения на диск. Таким образом, префаб будет сохранен в своем исходном, нелокализованном состоянии.',
@@ -724,7 +724,7 @@ public class CustomComponentParser_Template : ITextComponentParser
 }
 #endif`,
         'h1_faq': '<span class="emoji">❓</span> FAQ & Troubleshooting',
-        'h2_faq_installation': 'Installation & Quick Start',
+        'h2_faq_installation': '9.1. Installation & Quick Start',
         'q_faq_installation_1': 'What happens if my project already has the com.unity.nuget.newtonsoft-json package from another asset? Will the dependency installer try to update or ignore it?',
         'a_faq_installation_1': 'The installer checks for the existence of the Newtonsoft.Json.JsonConvert type. If the type exists, it considers the dependency satisfied and will not attempt to install or update the package. This is done to prevent version conflicts.',
         'q_faq_installation_2': 'I accidentally clicked "Skip for Now" and checked "Don\'t ask again" for optional dependencies (e.g., for CSV support). How can I bring up the installer window again to install them?',
@@ -736,7 +736,7 @@ public class CustomComponentParser_Template : ITextComponentParser
         'q_faq_installation_5': 'The dependency installer froze or gave an error. Can I install the dependencies (Newtonsoft Json, Editor Coroutines) manually through the Unity Package Manager?',
         'a_faq_installation_5': 'Yes. You can open Window -> Package Manager, click the "+" icon, and select "Add package by name...". Enter the package names: com.unity.nuget.newtonsoft-json and com.unity.editorcoroutines.',
         
-        'h2_faq_components': 'Core Components',
+        'h2_faq_components': '9.2. Core Components',
         'q_faq_components_1': 'The LocalizedPrefab component disables MonoBehaviours on the original object. What if the original object has a script that creates other objects or subscribes to events in Awake()? Will this code be executed?',
         'a_faq_components_1': 'No, it will not. Disabling a MonoBehaviour prevents all of Unity\'s "magic" methods from being called, including Awake(), OnEnable(), and Start(). This is intentional to avoid duplicate logic execution. All initialization should occur in scripts on the localized versions of the prefab.',
         'q_faq_components_2': 'If the original prefab (LocalizedPrefab) has a Rigidbody or another physics component, will it be disabled? Will this affect physics if the localized prefab does not have it?',
@@ -754,7 +754,7 @@ public class CustomComponentParser_Template : ITextComponentParser
         'q_faq_components_8': 'The LocalizedAsset component intercepts Play on Awake. What happens if another script on the same object tries to access the asset (e.g., audioSource.clip.length) in Awake() or Start() before LocalizedAsset has swapped it? Is a NullReferenceException or usage of the old asset possible?',
         'a_faq_components_8': 'Usage of the old (unlocalized) asset is possible. LocalizedAsset performs the swap in its OnEnable(). The Awake() methods of all scripts are executed before OnEnable(). If your script accesses audioSource.clip in Awake(), it will get the original clip. If it accesses it in Start(), the result will depend on the script execution order. To guarantee access to the localized asset, either set a later execution order for your script or access the asset in a method marked with [OnLanguageChange].',
         
-        'h2_faq_window': '"Localization Tool" Window',
+        'h2_faq_window': '9.3. "Localization Tool" Window',
         'h3_faq_window_preview': 'In-Editor Preview',
         'q_faq_window_preview_1': 'I opened a prefab in Prefab Mode, applied the In-Editor Preview, and pressed Ctrl+S. Will the temporary preview data be saved to the prefab asset? How does LocalizationPreviewProtector handle this case?',
         'a_faq_window_preview_1': 'No, it will not be saved. LocalizationPreviewProtector intercepts the asset saving event (OnWillSaveAssets) and automatically calls RevertEditorPreview() before Unity writes the changes to disk. Thus, the prefab will be saved in its original, unlocalized state.',
