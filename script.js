@@ -534,4 +534,3 @@ document.addEventListener('DOMContentLoaded', function() {
     // Инициализируем Lightbox
     initLightbox();
 });
-
