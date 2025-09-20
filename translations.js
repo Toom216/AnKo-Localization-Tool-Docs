@@ -36,6 +36,13 @@ const translations = {
         'nav_faq_installation': '9.1. Установка и Быстрый старт',
         'nav_faq_components': '9.2. Основные компоненты',
         'nav_faq_window': '9.3. Окно "Localization Tool"',
+        'nav_faq_window_actions': '9.3. Окно "Localization Tool" - Вкладка "Actions"',
+        'nav_faq_window_assets': '9.3. Окно "Localization Tool" - Вкладка "Assets"',
+        'nav_faq_window_report': '9.3. Окно "Localization Tool" - Вкладка "Report"',
+        'nav_faq_editor': '9.4. Редактор переводов',
+        'nav_faq_examples': '9.5. Примеры использования и работа с кодом',
+        'nav_faq_notes': '9.6. Важные нюансы и предупреждения',
+        'nav_faq_extending': '9.7. Расширение функционала',
         'h1_introduction': '<span class="emoji">🚀</span> Введение',
         'p_intro_1': 'Этот инструмент представляет собой комплексное решение для локализации игр и приложений в Unity. Он позволяет автоматизировать процесс сбора текста и ассетов, управлять переводами через мощный интерфейс, интегрироваться с сервисами машинного перевода и динамически обновлять локализованный контент в игре.',
         'h2_key_features': 'Ключевые возможности',
@@ -345,8 +352,83 @@ public class CustomComponentParser_Template : ITextComponentParser
         'q_faq_window_content_4': 'В документации сказано, что "Pin" сохраняет полный путь к объекту и сломается при переименовании. А если я сделаю из объекта префаб, а потом переименую исходный объект — "Pin" продолжит работать для экземпляров префаба?',
         'a_faq_window_content_4': 'Нет, не продолжит. "Pin" сохраняет абсолютный путь в иерархии сцены на момент нажатия кнопки (например, Canvas/Panel/Button). Этот путь никак не связан с логикой префабов. Экземпляры префаба будут иметь такой же путь, но если вы переименуете родительский объект в сцене, "Pin" перестанет работать как для оригинала, так и для экземпляров.',
         'q_faq_window_content_5': 'Если я использую "Pin" для дочернего объекта внутри экземпляра префаба, какой путь будет сохранен: относительно корня префаба или корня сцены? Будет ли он работать в других сценах?',
-        'a_faq_window_content_5': 'Будет сохранен полный путь от корня сцены. Например, MyPrefab(Clone)/Content/Icon. Этот "закрепленный" путь будет работать только в той сцене, где вы его создали. В других сценах такой путь, скорее всего, не будет найден.'
+        'a_faq_window_content_5': 'Будет сохранен полный путь от корня сцены. Например, MyPrefab(Clone)/Content/Icon. Этот "закрепленный" путь будет работать только в той сцене, где вы его создали. В других сценах такой путь, скорее всего, не будет найден.',
+// --- Section Titles ---
+        'h3_faq_window_actions': 'Вкладка "Actions"',
+        'h3_faq_window_assets': 'Вкладка "Assets"',
+        'h3_faq_window_report': 'Вкладка "Report"',
+        'h2_faq_editor': '9.4. Редактор переводов',
+        'h2_faq_examples': '9.5. Примеры использования и работа с кодом',
+        'h2_faq_notes': '9.6. Важные нюансы и предупреждения',
+        'h2_faq_extending': '9.7. Расширение функционала',
 
+        // --- FAQ: Window - Actions ---
+        'q_faq_window_actions_1': 'Что произойдет, если во время пакетного авто-перевода пропадет интернет-соединение? Инструмент попытается повторить неудачный пакет (batch) согласно настройкам Retry Policy или процесс прервется полностью?',
+        'a_faq_window_actions_1': 'Инструмент попытается повторить отправку именно того пакета, который не удался, согласно настройкам Retry Policy (количество попыток и задержка). Если все попытки для этого пакета закончатся неудачей, процесс перевода для текущего языка прервется, и в консоль будет выведена ошибка. Перевод для следующих языков в очереди не начнется.',
+        'q_faq_window_actions_2': 'Если я импортирую CSV-файл, в котором есть ключи, уже существующие в проекте, но с пустыми значениями для некоторых языков, эти пустые значения заменят мои существующие переводы или будут проигнорированы?',
+        'a_faq_window_actions_2': 'Пустые значения заменят существующие переводы. Процесс импорта рассматривает CSV-файл как "источник правды". Если для ключа welcome_message в колонке ru стоит пустое значение, то текущий русский перевод для этого ключа будет затерт.',
+        'q_faq_window_actions_3': 'Секция "Danger Zone" позволяет удалить все компоненты. Удалит ли она компоненты с префабов, которые находятся в папках, не указанных в Prefab Folders на вкладке Content?',
+        'a_faq_window_actions_3': 'Да, удалит. Функции из "Danger Zone" сканируют все префабы в проекте (AssetDatabase.FindAssets("t:Prefab")), а не только те, что указаны в списке для парсинга, чтобы обеспечить максимально полную очистку.',
+        'q_faq_window_actions_4': 'При импорте из Google Sheets, как правильно оформить колонку с комментариями, чтобы работала валидация плейсхолдеров через директиву @placeholders:?',
+        'a_faq_window_actions_4': 'В вашей таблице Google Sheets колонка должна иметь заголовок Developer Notes. В ячейках этой колонки вы можете писать комментарии как обычно. Чтобы указать плейсхолдеры, просто добавьте строку вида @placeholders: {username}, {score} в текст комментария. Инструмент автоматически распознает эту директиву при импорте.',
+        'q_faq_window_actions_5': 'Может ли инструмент импортировать данные с нескольких листов (sheets) одного документа Google Sheets, или он работает только с одним листом по GID?',
+        'a_faq_window_actions_5': 'Инструмент работает только с одним листом за раз. URL для импорта включает параметр gid=..., который однозначно указывает на конкретный лист в документе. Чтобы импортировать данные с другого листа, вам нужно скопировать его URL (с другим gid) и выполнить импорт повторно.',
+
+        // --- FAQ: Window - Assets ---
+        'q_faq_window_assets_1': 'Что если у меня есть два ассета с одинаковым ключом, но разным типом в одной и той же папке сканирования (например, sound_effect_en.mp3 и sound_effect_en.wav)? Какой из них попадет в таблицу ассетов?',
+        'a_faq_window_assets_1': 'Сканер ассетов загружает их с указанием ожидаемого типа (AssetDatabase.LoadAssetAtPath(path, expectedType)). Для категории AudioClip он будет искать и загружать только файлы, которые Unity распознает как AudioClip. Если оба файла являются валидными аудиоклипами, то в таблицу попадет тот, который будет обработан последним, фактически перезаписав предыдущий. Рекомендуется избегать таких дубликатов.',
+        'q_faq_window_assets_2': 'Если я нажму Scan Assets & Analyze Project, а на сцене есть объект Image, для которого уже есть локализованный спрайт, но на самом объекте Image еще нет компонента LocalizedAsset, добавит ли инструмент компонент и автоматически подставит ключ?',
+        'a_faq_window_assets_2': 'Да, именно так он и работает. "Analyze Project" находит компонент Image, смотрит на имя назначенного ему спрайта (например, icon_play_en), извлекает из него ключ (icon_play) и язык (en), а затем добавляет на этот GameObject компонент LocalizedAsset и вписывает в него ключ icon_play.',
+        'q_faq_window_assets_3': 'Могу ли я использовать одно и то же правило Naming Rule для разных категорий ассетов, если у них разные Scan Folder? Не вызовет ли это конфликтов?',
+        'a_faq_window_assets_3': 'Да, можете. Конфликтов не будет, так как для каждой категории создается своя таблица ассетов (LocalizedAssetTable). Ключи из категории "Sprites" не пересекаются с ключами из категории "AudioClips", даже если они называются одинаково.',
+        'q_faq_window_assets_4': 'Если локализуемый ассет (например, button_ok_en.png) находится не в корне Scan Folder, а во вложенной папке, найдет ли его сканер?',
+        'a_faq_window_assets_4': 'Да, найдет. Сканер использует опцию SearchOption.AllDirectories, что означает, что он будет рекурсивно проверять все вложенные папки внутри указанной вами Scan Folder.',
+
+        // --- FAQ: Window - Report ---
+        'q_faq_window_report_1': 'Кнопка "Find" ищет объект асинхронно. Что если я запущу поиск, а затем сразу же нажму Update Keys? Прервется ли поиск?',
+        'a_faq_window_report_1': 'Да, прервется. Любое новое действие, требующее блокировки UI (как Update Keys), остановит текущую корутину поиска. Появится диалоговое окно, предлагающее остановить текущий поиск, чтобы начать новый.',
+        'q_faq_window_report_2': 'Если ключ используется в нескольких местах (например, на двух разных кнопках в разных сценах), как это будет отображено в отчете в категории "Duplicates"?',
+        'a_faq_window_report_2': 'В категории "Duplicates" будут показаны все источники для данного ключа. Вы увидите одну запись для ключа, а в поле "Source" будут перечислены все пути (и в сцене 1, и в сцене 2). Кнопка "Find" в этом случае откроет выпадающий список, позволяя вам выбрать, к какому именно объекту перейти.',
+        'q_faq_window_report_3': 'Если я нажму "Find" для ключа, который используется только в коде (через функцию _()), что произойдет? Сможет ли инструмент найти и подсветить C# скрипт?',
+        'a_faq_window_report_3': 'Да. Система поиска специально обучена распознавать источники вида script MyScript.cs. При нажатии "Find" она выполнит поиск ассета MyScript.cs в проекте и подсветит (пропингует) его в окне Project.',
+
+        // --- FAQ: Editor ---
+        'q_faq_editor_1': 'Что имеет больший приоритет для валидации плейсхолдеров: директива @placeholders: в комментарии или плейсхолдеры, найденные в тексте исходного языка? Например, если в исходном тексте есть {name}, а в комментарии написано @placeholders: {username}.',
+        'a_faq_editor_1': 'Приоритет имеет директива @placeholders: в комментарии. Она рассматривается как явное указание разработчика и "источник правды". В вашем примере редактор будет требовать наличия {username} в переводе и проигнорирует {name} из исходного текста.',
+        'q_faq_editor_2': 'Если я допущу опечатку в директиве (например, @placeholder: вместо @placeholders:), будет ли она проигнорирована или инструмент выдаст предупреждение?',
+        'a_faq_editor_2': 'Она будет просто проигнорирована. Инструмент ищет точное совпадение @placeholders:. Если директива написана с ошибкой, она будет считаться частью обычного комментария, и валидация будет работать по старинке — на основе плейсхолдеров из исходного текста.',
+        'q_faq_editor_3': 'Система автосохранения создает файлы в папке Backups/AutoSaves. Будут ли эти файлы автоматически удаляться после успешного ручного сохранения или закрытия окна?',
+        'a_faq_editor_3': 'Да. При успешном ручном сохранении или штатном закрытии окна (когда вы сохраняете изменения) все файлы автосохранения удаляются, чтобы не предлагать восстановление при следующем запуске. Они остаются только в случае аварийного завершения работы редактора.',
+        'q_faq_editor_4': 'Если я изменю ширину колонок в редакторе, эти настройки сохранятся между сессиями Unity?',
+        'a_faq_editor_4': 'Да. Ширина колонок сохраняется в EditorPrefs каждый раз, когда вы закрываете окно редактора переводов, и будет восстановлена при следующем открытии.',
+        'q_faq_editor_5': 'Поддерживает ли всплывающее окно редактирования текста (MultiLineEditWindow) свой собственный стек операций Undo/Redo (через Ctrl+Z) для изменений, сделанных внутри него?',
+        'a_faq_editor_5': 'Да. MultiLineEditWindow имеет свой собственный, временный стек Undo/Redo, который работает, пока окно открыто. Это позволяет вам отменять и возвращать изменения текста внутри этого окна. Как только вы сохраняете результат (закрывая окно), это изменение записывается как единое действие в глобальный стек Undo/Redo основного редактора.',
+
+        // --- FAQ: Examples & Code ---
+        'q_faq_examples_1': 'Что произойдет, если имена свойств в анонимном типе, переданном в функцию _(), не совпадут с плейсхолдерами в строке? Например, _("Hello, {username}", new { user_name = "Bob" }). Будет ли ошибка или плейсхолдер просто не заменится?',
+        'a_faq_examples_1': 'Ошибки не будет. Плейсхолдер {username} просто не будет заменен, и в результате вы получите строку "Hello, {username}". Замена происходит только при точном совпадении имен.',
+        'q_faq_examples_2': 'Атрибут [LocalizableField] работает для private полей. Будет ли он работать для static полей?',
+        'a_faq_examples_2': 'Да, будет. Парсер использует рефлексию для поиска полей с флагами BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, поэтому он найдет и обработает статические поля.',
+        'q_faq_examples_3': 'Если я повешу атрибут [OnLanguageChange] на метод с параметрами (например, void UpdateUI(string newLang)), что произойдет? Будет ли ошибка компиляции или предупреждение в рантайме?',
+        'a_faq_examples_3': 'Ошибки компиляции не будет, но в консоли Unity при запуске появится предупреждение от LocalizedBehaviour. Он сообщит, что нашел метод с атрибутом, но проигнорировал его, так как метод имеет параметры. Вызываться такой метод не будет.',
+        'q_faq_examples_4': 'Я использую _("apple_count", count). Если для текущего языка нет ключа apple_count_one (для count = 1), какую форму выберет система? Будет ли она использовать apple_count_other как запасной вариант?',
+        'a_faq_examples_4': 'Да. Если конкретная форма (_one, _few и т.д.) не найдена, система в качестве запасного варианта попытается использовать ключ с суффиксом _other. Если и он не найден, будет использован перевод для базового ключа apple_count.',
+        'q_faq_examples_5': 'Функция _("key", new { username = "Alex" }) использует анонимный тип. Не создаст ли это избыточную "нагрузку" на сборщик мусора (GC) при частом вызове в методе Update() по сравнению с передачей заранее созданного словаря Dictionary<string, object>?',
+        'a_faq_examples_5': 'Да, создаст. Каждый вызов new { ... } приводит к выделению памяти в управляемой куче, что создает дополнительную работу для сборщика мусора. Для текста, который обновляется каждый кадр (в Update или LateUpdate), значительно производительнее будет создать Dictionary<string, object> один раз в Start(), а в Update() только обновлять значения в нем и передавать его в функцию _().',
+        
+        // --- FAQ: Notes ---
+        'q_faq_notes_1': 'В документации рекомендуется добавлять LanguageSelector в список игнорирования. Что конкретно сломается, если я забуду это сделать? Будут ли создаваться лишние ключи для опций "Option A, Option B"?',
+        'a_faq_notes_1': 'Да. Если не добавить LanguageSelector в игнор, парсер обработает его TMP_Dropdown как обычный выпадающий список. Он найдет стандартные опции "Option A, Option B, Option C", которые Unity создает по умолчанию, и добавит для них ключи в ваши файлы переводов. Это "замусорит" ваши файлы ненужными ключами, так как LanguageSelector все равно удалит эти опции в рантайме и создаст свои.',
+        'q_faq_notes_2': 'Если я забуду добавить пустой LocalizedText с галочкой isStyleOnly на Label внутри TMP_Dropdown, который используется в LanguageSelector, шрифт не будет меняться? Почему это необходимо?',
+        'a_faq_notes_2': 'Да, шрифт не будет меняться. Это необходимо, потому что LanguageSelector напрямую меняет свойство label.text. Без LocalizedText на этом объекте система локализации не знает, что этому элементу нужно применять стили (шрифт, RTL) при смене языка. Пустой LocalizedText с isStyleOnly служит "маркером" для системы, говоря: "Следи за этим объектом и применяй к нему стили, но не трогай его текст".',
+        'q_faq_notes_3': 'Вызов _() в методе Update() не рекомендуется. Но что если мне нужно обновлять текст каждый кадр (например, таймер)? Какой самый производительный способ это сделать, кэшируя только форматную строку?',
+        'a_faq_notes_3': 'Самый производительный подход — кэшировать форматную строку в Start() или в методе [OnLanguageChange], а в Update() использовать обычный string.Format. Пример: private string timerFormat; [OnLanguageChange] void UpdateTimerFormat() { timerFormat = _("timer_format"); } void Update() { myTextComponent.text = string.Format(timerFormat, timeLeft); } Это позволяет избежать поиска ключа в словаре каждый кадр, что значительно быстрее.',
+
+        // --- FAQ: Extending ---
+        'q_faq_extending_1': 'Мой кастомный парсер будет вызываться автоматически после каждого Update Keys? Нужно ли мне где-то его регистрировать, или достаточно просто наличия класса, реализующего ITextComponentParser, в проекте?',
+        'a_faq_extending_1': 'Достаточно просто наличия класса. При запуске TextParser использует рефлексию, чтобы найти все классы в проекте, которые реализуют интерфейс ITextComponentParser, и автоматически вызывает их метод Parse() для каждого GameObject. Никакой ручной регистрации не требуется.',
+        'q_faq_extending_2': 'Что если в моем кастомном парсере произойдет исключение (exception)? Прервет ли это весь процесс парсинга или инструмент безопасно продолжит работу с другими парсерами?',
+        'a_faq_extending_2': 'Основной цикл парсинга обернут в try-catch. Если ваш парсер выбросит исключение, ошибка будет выведена в консоль Unity, но процесс не прервется. Инструмент продолжит работу со следующим GameObject и вызовет другие парсеры.'
     },
     'en': {
         'page_title': 'Unity Localization Tool Documentation',
@@ -385,6 +467,14 @@ public class CustomComponentParser_Template : ITextComponentParser
         'nav_faq_installation': '9.1. Installation & Quick Start',
         'nav_faq_components': '9.2. Core Components',
         'nav_faq_window': '9.3. "Localization Tool" Window',
+        // --- Navigation ---
+        'nav_faq_window_actions': '9.3. "Localization Tool" Window - "Actions" Tab',
+        'nav_faq_window_assets': '9.3. "Localization Tool" Window - "Assets" Tab',
+        'nav_faq_window_report': '9.3. "Localization Tool" Window - "Report" Tab',
+        'nav_faq_editor': '9.4. Translation Editor',
+        'nav_faq_examples': '9.5. Usage Examples & Code',
+        'nav_faq_notes': '9.6. Important Nuances & Warnings',
+        'nav_faq_extending': '9.7. Extending Functionality',
         'h1_introduction': '<span class="emoji">🚀</span> Introduction',
         'p_intro_1': 'This tool is a comprehensive solution for localizing games and applications in Unity. It automates the process of collecting text and assets, managing translations through a powerful interface, integrating with machine translation services, and dynamically updating localized content in the game.',
         'h2_key_features': 'Key Features',
@@ -693,6 +783,82 @@ public class CustomComponentParser_Template : ITextComponentParser
         'q_faq_window_content_4': 'The documentation says that "Pin" saves the full path to the object and will break if it is renamed. What if I make a prefab from the object and then rename the original object — will "Pin" continue to work for the prefab instances?',
         'a_faq_window_content_4': 'No, it will not. "Pin" saves the absolute path in the scene hierarchy at the moment the button is clicked (e.g., Canvas/Panel/Button). This path is not related to prefab logic. Prefab instances will have the same path, but if you rename the parent object in the scene, "Pin" will stop working for both the original and the instances.',
         'q_faq_window_content_5': 'If I use "Pin" for a child object inside a prefab instance, what path will be saved: relative to the prefab root or the scene root? Will it work in other scenes?',
-        'a_faq_window_content_5': 'The full path from the scene root will be saved. For example, MyPrefab(Clone)/Content/Icon. This "pinned" path will only work in the scene where you created it. In other scenes, such a path is unlikely to be found.'
+        'a_faq_window_content_5': 'The full path from the scene root will be saved. For example, MyPrefab(Clone)/Content/Icon. This "pinned" path will only work in the scene where you created it. In other scenes, such a path is unlikely to be found.',
+        // --- Section Titles ---
+        'h3_faq_window_actions': '"Actions" Tab',
+        'h3_faq_window_assets': '"Assets" Tab',
+        'h3_faq_window_report': '"Report" Tab',
+        'h2_faq_editor': '9.4. Translation Editor',
+        'h2_faq_examples': '9.5. Usage Examples & Code',
+        'h2_faq_notes': '9.6. Important Nuances & Warnings',
+        'h2_faq_extending': '9.7. Extending Functionality',
+
+        // --- FAQ: Window - Actions ---
+        'q_faq_window_actions_1': 'What happens if the internet connection is lost during a batch auto-translation? Will the tool retry the failed batch according to the Retry Policy, or will the process be completely interrupted?',
+        'a_faq_window_actions_1': 'The tool will attempt to resend the exact batch that failed, according to the Retry Policy settings (number of attempts and delay). If all attempts for this batch fail, the translation process for the current language will be interrupted, and an error will be logged to the console. Translation for the next languages in the queue will not start.',
+        'q_faq_window_actions_2': 'If I import a CSV file that contains keys that already exist in the project but with empty values for some languages, will these empty values replace my existing translations or be ignored?',
+        'a_faq_window_actions_2': 'Empty values will replace existing translations. The import process considers the CSV file as the "source of truth". If the value for the key welcome_message in the ru column is empty, the current Russian translation for this key will be overwritten.',
+        'q_faq_window_actions_3': 'The "Danger Zone" section allows deleting all components. Will it remove components from prefabs that are in folders not specified in the Prefab Folders on the Content tab?',
+        'a_faq_window_actions_3': 'Yes, it will. The functions in the "Danger Zone" scan all prefabs in the project (AssetDatabase.FindAssets("t:Prefab")), not just those specified in the parsing list, to ensure the most complete cleanup possible.',
+        'q_faq_window_actions_4': 'When importing from Google Sheets, how should I format the comments column for placeholder validation using the @placeholders: directive to work?',
+        'a_faq_window_actions_4': 'In your Google Sheets document, the column must be titled "Developer Notes". In the cells of this column, you can write comments as usual. To specify placeholders, simply add a line like @placeholders: {username}, {score} in the comment text. The tool will automatically recognize this directive upon import.',
+        'q_faq_window_actions_5': 'Can the tool import data from multiple sheets of a single Google Sheets document, or does it only work with one sheet per GID?',
+        'a_faq_window_actions_5': 'The tool only works with one sheet at a time. The import URL includes a gid=... parameter, which uniquely identifies a specific sheet in the document. To import data from another sheet, you need to copy its URL (with a different gid) and perform the import again.',
+
+        // --- FAQ: Window - Assets ---
+        'q_faq_window_assets_1': 'What if I have two assets with the same key but different types in the same scan folder (e.g., sound_effect_en.mp3 and sound_effect_en.wav)? Which one will end up in the asset table?',
+        'a_faq_window_assets_1': 'The asset scanner loads them specifying the expected type (AssetDatabase.LoadAssetAtPath(path, expectedType)). For the AudioClip category, it will only search for and load files that Unity recognizes as AudioClips. If both files are valid audio clips, the one that is processed last will be included in the table, effectively overwriting the previous one. It is recommended to avoid such duplicates.',
+        'q_faq_window_assets_2': 'If I click Scan Assets & Analyze Project, and there is an Image object in the scene for which a localized sprite already exists, but the Image object itself does not yet have a LocalizedAsset component, will the tool add the component and automatically insert the key?',
+        'a_faq_window_assets_2': 'Yes, that is exactly how it works. "Analyze Project" finds the Image component, looks at the name of the sprite assigned to it (e.g., icon_play_en), extracts the key (icon_play) and language (en) from it, and then adds a LocalizedAsset component to that GameObject and writes the key icon_play into it.',
+        'q_faq_window_assets_3': 'Can I use the same Naming Rule for different asset categories if they have different Scan Folders? Will this cause conflicts?',
+        'a_faq_window_assets_3': 'Yes, you can. There will be no conflicts, as a separate asset table (LocalizedAssetTable) is created for each category. Keys from the "Sprites" category do not overlap with keys from the "AudioClips" category, even if they are named the same.',
+        'q_faq_window_assets_4': 'If a localizable asset (e.g., button_ok_en.png) is not in the root of the Scan Folder, but in a subfolder, will the scanner find it?',
+        'a_faq_window_assets_4': 'Yes, it will. The scanner uses the SearchOption.AllDirectories option, which means it will recursively check all subfolders within the Scan Folder you specify.',
+
+        // --- FAQ: Window - Report ---
+        'q_faq_window_report_1': 'The "Find" button searches for the object asynchronously. What if I start a search and then immediately click Update Keys? Will the search be interrupted?',
+        'a_faq_window_report_1': 'Yes, it will be interrupted. Any new action that requires UI blocking (like Update Keys) will stop the current search coroutine. A dialog box will appear, prompting you to stop the current search to start a new one.',
+        'q_faq_window_report_2': 'If a key is used in multiple places (e.g., on two different buttons in different scenes), how will this be displayed in the report under the "Duplicates" category?',
+        'a_faq_window_report_2': 'The "Duplicates" category will show all sources for that key. You will see one entry for the key, and the "Source" field will list all paths (in scene 1 and scene 2). The "Find" button in this case will open a dropdown list, allowing you to choose which object to navigate to.',
+        'q_faq_window_report_3': 'If I click "Find" for a key that is only used in code (via the _() function), what will happen? Will the tool be able to find and highlight the C# script?',
+        'a_faq_window_report_3': 'Yes. The search system is specifically trained to recognize sources like script MyScript.cs. When you click "Find", it will search for the MyScript.cs asset in the project and highlight (ping) it in the Project window.',
+
+        // --- FAQ: Editor ---
+        'q_faq_editor_1': 'What has higher priority for placeholder validation: the @placeholders: directive in the comment or the placeholders found in the source language text? For example, if the source text has {name} and the comment says @placeholders: {username}.',
+        'a_faq_editor_1': 'The @placeholders: directive in the comment has priority. It is considered an explicit instruction from the developer and the "source of truth". In your example, the editor will require {username} in the translation and will ignore {name} from the source text.',
+        'q_faq_editor_2': 'If I make a typo in the directive (e.g., @placeholder: instead of @placeholders:), will it be ignored or will the tool issue a warning?',
+        'a_faq_editor_2': 'It will simply be ignored. The tool looks for an exact match of @placeholders:. If the directive is misspelled, it will be treated as part of a regular comment, and validation will work the old way - based on the placeholders from the source text.',
+        'q_faq_editor_3': 'The autosave system creates files in the Backups/AutoSaves folder. Will these files be automatically deleted after a successful manual save or closing the window?',
+        'a_faq_editor_3': 'Yes. Upon a successful manual save or normal window closure (when you save changes), all autosave files are deleted to avoid prompting for recovery on the next launch. They only remain in case of an editor crash.',
+        'q_faq_editor_4': 'If I change the column widths in the editor, will these settings be saved between Unity sessions?',
+        'a_faq_editor_4': 'Yes. Column widths are saved to EditorPrefs each time you close the translation editor window and will be restored the next time you open it.',
+        'q_faq_editor_5': 'Does the text editing popup window (MultiLineEditWindow) support its own Undo/Redo stack (via Ctrl+Z) for changes made within it?',
+        'a_faq_editor_5': 'Yes. The MultiLineEditWindow has its own temporary Undo/Redo stack that works while the window is open. This allows you to undo and redo text changes within that window. Once you save the result (by closing the window), this change is recorded as a single action in the global Undo/Redo stack of the main editor.',
+
+        // --- FAQ: Examples & Code ---
+        'q_faq_examples_1': 'What happens if the property names in the anonymous type passed to the _() function do not match the placeholders in the string? For example, _("Hello, {username}", new { user_name = "Bob" }). Will there be an error, or will the placeholder simply not be replaced?',
+        'a_faq_examples_1': 'There will be no error. The {username} placeholder will simply not be replaced, and you will get the string "Hello, {username}" as a result. Replacement only occurs with an exact name match.',
+        'q_faq_examples_2': 'The [LocalizableField] attribute works for private fields. Will it work for static fields?',
+        'a_faq_examples_2': 'Yes, it will. The parser uses reflection to find fields with the flags BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, so it will find and process static fields.',
+        'q_faq_examples_3': 'If I put the [OnLanguageChange] attribute on a method with parameters (e.g., void UpdateUI(string newLang)), what will happen? Will there be a compile error or a runtime warning?',
+        'a_faq_examples_3': 'There will be no compile error, but a warning from LocalizedBehaviour will appear in the Unity console at runtime. It will report that it found a method with the attribute but ignored it because the method has parameters. Such a method will not be called.',
+        'q_faq_examples_4': 'I am using _("apple_count", count). If there is no key apple_count_one for the current language (for count = 1), which form will the system choose? Will it use apple_count_other as a fallback?',
+        'a_faq_examples_4': 'Yes. If a specific form (_one, _few, etc.) is not found, the system will try to use the key with the _other suffix as a fallback. If that is also not found, the translation for the base key apple_count will be used.',
+        'q_faq_examples_5': 'The function _("key", new { username = "Alex" }) uses an anonymous type. Won\'t this create an excessive "load" on the garbage collector (GC) with frequent calls in an Update() method compared to passing a pre-created Dictionary<string, object>?',
+        'a_faq_examples_5': 'Yes, it will. Each call to new { ... } allocates memory on the managed heap, which creates extra work for the garbage collector. For text that is updated every frame (in Update or LateUpdate), it is significantly more performant to create a Dictionary<string, object> once in Start(), and only update its values in Update() before passing it to the _() function.',
+
+        // --- FAQ: Notes ---
+        'q_faq_notes_1': 'The documentation recommends adding LanguageSelector to the ignore list. What exactly will break if I forget to do this? Will extra keys be created for "Option A, Option B"?',
+        'a_faq_notes_1': 'Yes. If you don\'t add LanguageSelector to the ignore list, the parser will treat its TMP_Dropdown as a regular dropdown. It will find the default "Option A, Option B, Option C" that Unity creates and add keys for them to your translation files. This will clutter your files with unnecessary keys, as LanguageSelector will remove these options at runtime and create its own anyway.',
+        'q_faq_notes_2': 'If I forget to add an empty LocalizedText with the isStyleOnly checkbox enabled on the Label inside the TMP_Dropdown used by LanguageSelector, will the font not change? Why is this necessary?',
+        'a_faq_notes_2': 'Yes, the font will not change. This is necessary because LanguageSelector directly changes the label.text property. Without a LocalizedText on this object, the localization system does not know that this element needs styles (font, RTL) applied when the language changes. An empty LocalizedText with isStyleOnly serves as a "marker" for the system, saying: "Watch this object and apply styles to it, but don\'t touch its text".',
+        'q_faq_notes_3': 'Calling _() in the Update() method is not recommended. But what if I need to update text every frame (e.g., a timer)? What is the most performant way to do this, caching only the format string?',
+        'a_faq_notes_3': 'The most performant approach is to cache the format string in Start() or in an [OnLanguageChange] method, and use regular string.Format in Update(). Example: private string timerFormat; [OnLanguageChange] void UpdateTimerFormat() { timerFormat = _("timer_format"); } void Update() { myTextComponent.text = string.Format(timerFormat, timeLeft); } This avoids looking up the key in the dictionary every frame, which is significantly faster.',
+
+        // --- FAQ: Extending ---
+        'q_faq_extending_1': 'Will my custom parser be called automatically after every Update Keys? Do I need to register it somewhere, or is it enough to just have a class that implements ITextComponentParser in the project?',
+        'a_faq_extending_1': 'Just having the class is enough. When TextParser runs, it uses reflection to find all classes in the project that implement the ITextComponentParser interface and automatically calls their Parse() method for each GameObject. No manual registration is required.',
+        'q_faq_extending_2': 'What if an exception occurs in my custom parser? Will it interrupt the entire parsing process, or will the tool safely continue with other parsers?',
+        'a_faq_extending_2': 'The main parsing loop is wrapped in a try-catch block. If your parser throws an exception, the error will be logged to the Unity console, but the process will not be interrupted. The tool will continue with the next GameObject and call other parsers.'
     }
 };
