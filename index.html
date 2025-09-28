@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-key="page_title">Unity Localization Tool Documentation</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Code Highlighting Styles (via CDN) -->
+    <link rel="stylesheet" id="hljs-theme"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+
+    <!-- Vis.js Network Graph Library Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.css"
+        xintegrity="sha512-NJXM8vzS6bL2+itDJr2DAf8dLcwQpxMlo7uFfM/0iA/QZ1VdQwT2stkC2aE9y2aFjY/2kC2UJ2zKkI28a1B5hA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Code Highlighting Library (via CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- Specify languages for highlighting to optimize loading -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+
+    <!-- Search Highlighting Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
+
+    <!-- Vis.js Network Graph Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"
+        xintegrity="sha512-XHDM2hYgGIEbMIsNLpKo0d2K9oUiBfzhs2QjAxtPNO9IeO/Q2GGNs_T5W59P/qM2B0J4e82sJ6edkHtu2uFtwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- IMPORTANT: The script tag now has type="module" and points to the new entry point -->
+    <script type="module" src="js/main.js" defer></script>
+</head>
+
+<body>
+
+    <button class="mobile-nav-toggle" aria-label="Open menu">
+        <!-- MODIFIED: Added separate icons for open/close states -->
+        <svg class="icon-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24"
+            height="24">
+            <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
+        </svg>
+        <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24"
+            height="24">
+            <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+        </svg>
+    </button>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-controls">
+                <div class="lang-switcher-dropdown">
+                    <button id="current-lang-btn" class="control-btn lang-btn" aria-label="Select language">
+                        <span id="current-lang-flag"></span>
+                    </button>
+                    <div id="lang-options" class="dropdown-content"></div>
+                </div>
+                <button class="control-btn" id="toggle-notes-btn" title="Toggle Notes" data-key="toggle_notes_title">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22"
+                        height="22">
+                        <path
+                            d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z" />
+                    </svg>
+                </button>
+                <button class="control-btn" id="mindmap-toggle" title="Show Mind Map" data-key="mindmap_toggle_title">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 0 24 24" width="22px"
+                        fill="currentColor">
+                        <path d="M0 0h24v24H0V0z" fill="none" />
+                        <path d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z" />
+                    </svg>
+                </button>
+                <button class="control-btn theme-switcher" id="theme-toggle" aria-label="Toggle theme"></button>
+            </div>
+            <h3 data-key="toc_title">Table of Contents</h3>
+        </div>
+
+        <div class="sidebar-content">
+            <div class="toc-search-container">
+                <svg class="toc-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18ZM10,4a6,6,0,1,0,6,6A6.007,6.007,0,0,0,10,4Z" />
+                    <path d="M21,22a1,1,0,0,1-.707-0.293l-4-4a1,1,0,0,1,1.414-1.414l4,4A1,1,0,0,1,21,22Z" />
+                </svg>
+                <input type="search" id="toc-search" placeholder="Search..." data-key="toc_search_placeholder">
+                <div id="search-nav-controls" style="display: none;">
+                    <span id="search-results-count"></span>
+                    <button id="search-prev" title="Previous match"><svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
+                            <path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z" />
+                        </svg></button>
+                    <button id="search-next" title="Next match"><svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
+                            <path d="M12 16l-6-6 1.41-1.41L12 13.17l4.59-4.58L18 10z" />
+                        </svg></button>
+                </div>
+            </div>
+            <nav id="table-of-contents"></nav>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="content-wrapper">
+            <h1 id="introduction"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f680.svg"
+                    class="emoji" alt=""><span data-key="h1_introduction"></span></h1>
+            <p data-key="p_intro_1"></p>
+
+            <h2 id="key-features" data-key="h2_key_features"></h2>
+            <ul>
+                <li data-key="li_feature_1"></li>
+                <li data-key="li_feature_2"></li>
+                <li data-key="li_feature_3"></li>
+                <li data-key="li_feature_4"></li>
+                <li data-key="li_feature_5"></li>
+                <li data-key="li_feature_6"></li>
+                <li data-key="li_feature_7"></li>
+                <li data-key="li_feature_8"></li>
+                <li data-key="li_feature_9"></li>
+                <li data-key="li_feature_10"></li>
+            </ul>
+
+            <h1 id="quick-start"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6e0.svg"
+                    class="emoji" alt=""><span data-key="h1_quick_start"></span></h1>
+
+            <h2 id="installation" data-key="h2_installation"></h2>
+            <ol>
+                <li data-key="li_install_1"></li>
+                <li data-key="li_install_2"></li>
+                <li data-key="li_install_3"></li>
+                <li data-key="li_install_4"></li>
+                <li data-key="li_install_5"></li>
+                <li data-key="li_install_6"></li>
+            </ol>
+
+            <h2 id="initial-setup" data-key="h2_initial_setup"></h2>
+            <video src="img/quickstart_vid.mp4" class="doc-image" controls loading="lazy">
+                Your browser does not support video playback.
+            </video>
+            <ol>
+                <li data-key="li_setup_1"></li>
+                <li data-key="li_setup_2"></li>
+                <li data-key="li_setup_3"></li>
+                <li data-key="li_setup_4"></li>
+
+            </ol>
+
+
+            <h1 id="core-components"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f9e9.svg"
+                    class="emoji" alt=""><span data-key="h1_components"></span></h1>
+            <div class="warning-box" data-key="warning_box_components"></div>
+            <p data-key="p_components_intro"></p>
+
+            <h2 id="localized-text" data-key="h2_localizedtext"></h2>
+            <p data-key="p_localizedtext_1"></p>
+            <img src="img/components_localized_text.jpg" alt="LocalizedText component in the inspector"
+                class="doc-image" loading="lazy">
+            <img src="img/components_localized_text_demo.gif"
+                alt="Demonstration of text change on a button when changing language in Live Preview" class="doc-image"
+                loading="lazy">
+            <ul>
+                <li data-key="li_localizedtext_1"></li>
+                <li data-key="li_localizedtext_2"></li>
+                <li data-key="li_localizedtext_3"></li>
+            </ul>
+
+            <h2 id="localized-asset" data-key="h2_localizedasset"></h2>
+            <p data-key="p_localizedasset_1"></p>
+            <img src="img/components_localized_asset.jpg" alt="LocalizedAsset component in the inspector"
+                class="doc-image" loading="lazy">
+            <img src="img/components_localized_asset_demo.gif"
+                alt="Demonstration of changing the flag sprite when changing language" class="doc-image" loading="lazy">
+            <p data-key="p_localizedasset_2"></p>
+
+            <h2 id="localized-prefab" data-key="h2_localizedprefab"></h2>
+            <p data-key="p_localizedprefab_1"></p>
+            <img src="img/components_localized_prefab.gif" alt="Demonstration of LocalizedPrefab functionality"
+                class="doc-image" loading="lazy">
+
+            <h2 id="uitk-localization" data-key="h2_uitklocalization"></h2>
+            <p data-key="p_uitklocalization_1"></p>
+            <img src="img/components_uitk_localization.jpg" alt="UITKLocalization component in the inspector"
+                class="doc-image" loading="lazy">
+
+            <h2 id="localized-dropdown" data-key="h2_localizeddropdown"></h2>
+            <p data-key="p_localizeddropdown_1"></p>
+            <img src="img/components_localized_dropdown.jpg" alt="LocalizedDropdown component in the inspector"
+                class="doc-image" loading="lazy">
+
+            <h2 id="localized-behaviour" data-key="h2_localizedbehaviour"></h2>
+            <p data-key="p_localizedbehaviour_1"></p>
+            <img src="img/components_localized_behaviour.jpg" alt="LocalizedBehaviour component in the inspector"
+                class="doc-image" loading="lazy">
+
+            <h2 id="context-menu" data-key="h2_context_menu"></h2>
+            <p data-key="p_context_menu_1"></p>
+            <img src="img/components_context_menu.gif" alt="Analyze for Localization context menu" class="doc-image"
+                loading="lazy">
+
+            <h1 id="localization-tool-window"><img
+                    src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f5bc.svg" class="emoji" alt=""><span
+                    data-key="h1_loc_tool_window"></span></h1>
+
+            <h2 id="in-editor-preview" data-key="h2_in_editor_preview"></h2>
+            <p data-key="p_preview_1"></p>
+            <img src="img/window_live_preview.gif" alt="Live Preview demonstration" class="doc-image" loading="lazy">
+
+            <ul>
+                <li data-key="li_preview_1"></li>
+                <li data-key="li_preview_2"></li>
+                <img src="img/window_placeholder_styles.jpg"
+                    alt="Screenshot showing different placeholder styles (Accents, Brackets)" class="doc-image"
+                    loading="lazy">
+                <li data-key="li_preview_3"></li>
+                <li data-key="li_preview_4"></li>
+            </ul>
+
+            <h2 id="settings-tab" data-key="h2_tab_settings"></h2>
+            <p data-key="p_settings_1"></p>
+            <img src="img/window_tab_settings_overview.jpg" alt="Settings tab overview" class="doc-image"
+                loading="lazy">
+            <ul>
+                <li>
+                    <span data-key="li_settings_1"></span>
+                    <img src="img/window_tab_settings_key_gen.jpg" alt="Key Generation Mode setup" class="doc-image"
+                        loading="lazy">
+                </li>
+                <li>
+                    <span data-key="li_settings_2"></span>
+                    <img src="img/window_tab_settings_lang_management.jpg" alt="Language management" class="doc-image"
+                        loading="lazy">
+                </li>
+                <li>
+                    <span data-key="li_settings_3"></span>
+                    <img src="img/window_tab_settings_general.jpg" alt="General Settings section" class="doc-image"
+                        loading="lazy">
+                </li>
+                <li>
+                    <span data-key="li_settings_4"></span>
+                    <img src="img/window_tab_settings_debugging.jpg" alt="Debugging & Testing section" class="doc-image"
+                        loading="lazy">
+                </li>
+                <li>
+                    <span data-key="li_settings_5"></span>
+                    <img src="img/window_tab_settings_live_updates.jpg" alt="Live Updates section" class="doc-image"
+                        loading="lazy">
+                </li>
+                <li>
+                    <span data-key="li_settings_6"></span>
+                    <img src="img/window_tab_settings_runtime_api.jpg" alt="Runtime API Key section" class="doc-image"
+                        loading="lazy">
+                </li>
+            </ul>
+
+            <h2 id="content-tab" data-key="h2_tab_content"></h2>
+            <p data-key="p_content_1"></p>
+            <img src="img/window_tab_content.jpg" alt="Content tab with settings" class="doc-image" loading="lazy">
+            <ul>
+                <li data-key="li_content_1"></li>
+                <img src="img/scenes_to_parse.gif" alt="Scenes to parse gif" class="doc-image" loading="lazy">
+                <li data-key="li_content_2"></li>
+                <img src="img/prefab_folders.gif" alt="Prefab folders gif" class="doc-image" loading="lazy">
+                <li data-key="li_content_3"></li>
+                <img src="img/dynamic_texts.gif" alt="Dynamic texts gif" class="doc-image" loading="lazy">
+                <li data-key="li_content_4"></li>
+                <li>
+                    <span data-key="li_content_5"></span>
+                    <img src="img/window_tab_content_pin_ignore.gif"
+                        alt="Animation of pinning an object to the ignore list" class="doc-image" loading="lazy">
+                </li>
+            </ul>
+
+            <h2 id="actions-tab" data-key="h2_tab_actions"></h2>
+            <p data-key="p_actions_1"></p>
+            <img src="img/window_tab_actions_overview.jpg" alt="Actions tab overview" class="doc-image" loading="lazy">
+            <ul>
+                <li data-key="li_actions_1"></li>
+                <img src="img/quickstart_first_parse.gif"
+                    alt="Animation of clicking Update Keys and the result as created files" class="doc-image"
+                    loading="lazy">
+                <li data-key="li_actions_2"></li>
+                <img src="img/open_translation_editor.gif" alt="Open translation editor" class="doc-image"
+                    loading="lazy">
+                <li>
+                    <span data-key="li_actions_3"></span>
+                    <img src="img/window_tab_actions_data_management.jpg" alt="Data Management section"
+                        class="doc-image" loading="lazy">
+                    <img src="img/window_tab_actions_import_export.gif"
+                        alt="Animation of exporting to CSV and importing from Google Sheets" class="doc-image"
+                        loading="lazy">
+                </li>
+                <li>
+                    <span data-key="li_actions_4"></span>
+                    <img src="img/window_tab_actions_autotranslate.gif" alt="Automatic translation process"
+                        class="doc-image" loading="lazy">
+                </li>
+                <li>
+                    <span data-key="li_actions_5"></span>
+                    <img src="img/window_tab_actions_danger_zone.jpg" alt="Danger Zone section" class="doc-image"
+                        loading="lazy">
+                </li>
+            </ul>
+
+            <h2 id="assets-tab" data-key="h2_tab_assets"></h2>
+            <p data-key="p_assets_1"></p>
+            <img src="img/window_tab_assets.gif" alt="Asset workflow process" class="doc-image" loading="lazy">
+
+            <ol>
+                <li data-key="li_assets_1"></li>
+                <li data-key="li_assets_2"></li>
+                <li data-key="li_assets_3"></li>
+                <li data-key="li_assets_4"></li>
+                <li data-key="li_assets_5"></li>
+                <img src="img/window_tab_assets_folder_gen.jpg"
+                    alt="Screenshot of the generated folder structure for assets" class="doc-image" loading="lazy">
+            </ol>
+
+
+            <h2 id="report-tab" data-key="h2_tab_report"></h2>
+            <p data-key="p_report_1"></p>
+            <img src="img/window_tab_report.gif" alt="Report tab with scan results" class="doc-image" loading="lazy">
+            <ul>
+                <li data-key="li_report_1"></li>
+                <li data-key="li_report_2"></li>
+            </ul>
+
+            <h1 id="translation-editor"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f4dd.svg"
+                    class="emoji" alt=""><span data-key="h1_translation_editor"></span></h1>
+            <p data-key="p_editor_1"></p>
+
+            <ul>
+                <li>
+                    <span data-key="li_editor_1"></span>
+                    <img src="img/editor_smart_grouping.gif" alt="Smart key grouping" class="doc-image" loading="lazy">
+                </li>
+                <li>
+                    <span data-key="li_editor_2"></span>
+                    <img src="img/editor_multiline_window.gif"
+                        alt="Animation of the MultiLineEditWindow with placeholder error highlighting" class="doc-image"
+                        loading="lazy">
+                </li>
+                <li>
+                    <span data-key="li_editor_3"></span>
+                    <img src="img/editor_placeholder_validation.jpg" alt="Placeholder validation" class="doc-image"
+                        loading="lazy">
+                </li>
+                <li data-key="li_editor_4"></li>
+                <li data-key="li_editor_5"></li>
+                <li>
+                    <span data-key="li_editor_6"></span>
+                    <img src="img/editor_backup_manager.gif" alt="Backup manager" class="doc-image" loading="lazy">
+                </li>
+            </ul>
+
+            <h1 id="usage-examples"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f4a1.svg"
+                    class="emoji" alt=""><span data-key="h1_usage_examples"></span></h1>
+
+            <h2 id="ready-made-components" data-key="h2_example_components"></h2>
+            <p data-key="p_example_components_1"></p>
+            <ul>
+                <li>
+                    <span data-key="li_example_components_1"></span>
+                    <img src="img/examples_language_selector_runtime.gif"
+                        alt="Demonstration of the language switcher in a running game" class="doc-image" loading="lazy">
+                </li>
+                <li data-key="li_example_components_2"></li>
+            </ul>
+
+            <h2 id="localizable-field-attribute" data-key="h2_example_attribute"></h2>
+            <p data-key="p_example_attribute_1"></p>
+            <pre><code class="language-csharp" data-key="code_example_attribute"></code></pre>
+
+            <h2 id="onlanguagechange-function" data-key="h2_example_function"></h2>
+            <p data-key="p_example_function_1"></p>
+            <pre><code class="language-csharp" data-key="code_example_function"></code></pre>
+
+            <h2 id="plurals-and-gender" data-key="h2_example_plurals"></h2>
+            <p data-key="p_example_plurals_1"></p>
+            <pre><code class="language-csharp" data-key="code_example_plurals"></code></pre>
+            <img src="img/examples_plurals_editor.jpg" alt="Example of plural keys in the editor" class="doc-image"
+                loading="lazy">
+
+            <h1 id="important-notes"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/26a0.svg"
+                    class="emoji" alt=""><span data-key="h1_important_notes"></span></h1>
+            <div class="warning-box">
+                <ul>
+                    <li data-key="li_notes_1"></li>
+                    <li data-key="li_notes_2"></li>
+                    <li data-key="li_notes_3"></li>
+                    <li data-key="li_notes_4"></li>
+                    <li data-key="li_notes_5"></li>
+                    <li data-key="li_notes_6"></li>
+                    <li data-key="li_notes_7"></li>
+                </ul>
+            </div>
+
+            <h1 id="extending-functionality"><img
+                    src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f9ec.svg" class="emoji" alt=""><span
+                    data-key="h1_extending"></span></h1>
+            <h2 id="custom-parser" data-key="h2_custom_parser"></h2>
+            <p data-key="p_custom_parser_1"></p>
+            <ol>
+                <li data-key="li_custom_parser_1"></li>
+                <li data-key="li_custom_parser_2"></li>
+                <li data-key="li_custom_parser_3"></li>
+            </ol>
+            <pre><code class="language-csharp" data-key="code_custom_parser"></code></pre>
+
+            <h1 id="faq"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2753.svg" class="emoji"
+                    alt=""><span data-key="h1_faq"></span></h1>
+            <div class="faq-section">
+
+                <h2 id="faq-installation" data-key="h2_faq_installation"></h2>
+                <details>
+                    <summary data-key="q_faq_installation_1"></summary>
+                    <p data-key="a_faq_installation_1"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_installation_2"></summary>
+                    <p data-key="a_faq_installation_2"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_installation_3"></summary>
+                    <p data-key="a_faq_installation_3"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_installation_4"></summary>
+                    <p data-key="a_faq_installation_4"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_installation_5"></summary>
+                    <p data-key="a_faq_installation_5"></p>
+                </details>
+
+                <h2 id="faq-components" data-key="h2_faq_components"></h2>
+                <details>
+                    <summary data-key="q_faq_components_1"></summary>
+                    <p data-key="a_faq_components_1"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_components_2"></summary>
+                    <p data-key="a_faq_components_2"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_components_3"></summary>
+                    <p data-key="a_faq_components_3"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_components_4"></summary>
+                    <p data-key="a_faq_components_4"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_components_5"></summary>
+                    <p data-key="a_faq_components_5"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_components_6"></summary>
+                    <p data-key="a_faq_components_6"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_components_7"></summary>
+                    <p data-key="a_faq_components_7"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_components_8"></summary>
+                    <p data-key="a_faq_components_8"></p>
+                </details>
+
+                <h2 id="faq-window" data-key="h2_faq_window"></h2>
+                <h3 id="faq-window-preview" data-key="h3_faq_window_preview"></h3>
+                <details>
+                    <summary data-key="q_faq_window_preview_1"></summary>
+                    <p data-key="a_faq_window_preview_1"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_preview_2"></summary>
+                    <p data-key="a_faq_window_preview_2"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_preview_3"></summary>
+                    <p data-key="a_faq_window_preview_3"></p>
+                </details>
+
+                <h3 id="faq-window-settings" data-key="h3_faq_window_settings"></h3>
+                <details>
+                    <summary data-key="q_faq_window_settings_1"></summary>
+                    <p data-key="a_faq_window_settings_1"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_settings_2"></summary>
+                    <p data-key="a_faq_window_settings_2"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_settings_3"></summary>
+                    <p data-key="a_faq_window_settings_3"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_settings_4"></summary>
+                    <p data-key="a_faq_window_settings_4"></p>
+                </details>
+
+                <h3 id="faq-window-content" data-key="h3_faq_window_content"></h3>
+                <details>
+                    <summary data-key="q_faq_window_content_1"></summary>
+                    <p data-key="a_faq_window_content_1"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_content_2"></summary>
+                    <p data-key="a_faq_window_content_2"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_content_3"></summary>
+                    <p data-key="a_faq_window_content_3"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_content_4"></summary>
+                    <p data-key="a_faq_window_content_4"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_content_5"></summary>
+                    <p data-key="a_faq_window_content_5"></p>
+                </details>
+
+                <h3 id="faq-window-actions" data-key="h3_faq_window_actions"></h3>
+                <details>
+                    <summary data-key="q_faq_window_actions_1"></summary>
+                    <p data-key="a_faq_window_actions_1"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_actions_2"></summary>
+                    <p data-key="a_faq_window_actions_2"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_actions_3"></summary>
+                    <p data-key="a_faq_window_actions_3"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_actions_4"></summary>
+                    <p data-key="a_faq_window_actions_4"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_actions_5"></summary>
+                    <p data-key="a_faq_window_actions_5"></p>
+                </details>
+
+                <h3 id="faq-window-assets" data-key="h3_faq_window_assets"></h3>
+                <details>
+                    <summary data-key="q_faq_window_assets_1"></summary>
+                    <p data-key="a_faq_window_assets_1"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_assets_2"></summary>
+                    <p data-key="a_faq_window_assets_2"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_assets_3"></summary>
+                    <p data-key="a_faq_window_assets_3"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_assets_4"></summary>
+                    <p data-key="a_faq_window_assets_4"></p>
+                </details>
+
+                <h3 id="faq-window-report" data-key="h3_faq_window_report"></h3>
+                <details>
+                    <summary data-key="q_faq_window_report_1"></summary>
+                    <p data-key="a_faq_window_report_1"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_report_2"></summary>
+                    <p data-key="a_faq_window_report_2"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_window_report_3"></summary>
+                    <p data-key="a_faq_window_report_3"></p>
+                </details>
+
+                <h2 id="faq-editor" data-key="h2_faq_editor"></h2>
+                <details>
+                    <summary data-key="q_faq_editor_1"></summary>
+                    <p data-key="a_faq_editor_1"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_editor_2"></summary>
+                    <p data-key="a_faq_editor_2"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_editor_3"></summary>
+                    <p data-key="a_faq_editor_3"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_editor_4"></summary>
+                    <p data-key="a_faq_editor_4"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_editor_5"></summary>
+                    <p data-key="a_faq_editor_5"></p>
+                </details>
+
+                <h2 id="faq-examples" data-key="h2_faq_examples"></h2>
+                <details>
+                    <summary data-key="q_faq_examples_1"></summary>
+                    <p data-key="a_faq_examples_1"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_examples_2"></summary>
+                    <p data-key="a_faq_examples_2"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_examples_3"></summary>
+                    <p data-key="a_faq_examples_3"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_examples_4"></summary>
+                    <p data-key="a_faq_examples_4"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_examples_5"></summary>
+                    <p data-key="a_faq_examples_5"></p>
+                </details>
+
+                <h2 id="faq-notes" data-key="h2_faq_notes"></h2>
+                <details>
+                    <summary data-key="q_faq_notes_1"></summary>
+                    <p data-key="a_faq_notes_1"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_notes_2"></summary>
+                    <p data-key="a_faq_notes_2"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_notes_3"></summary>
+                    <p data-key="a_faq_notes_3"></p>
+                </details>
+
+                <h2 id="faq-extending" data-key="h2_faq_extending"></h2>
+                <details>
+                    <summary data-key="q_faq_extending_1"></summary>
+                    <p data-key="a_faq_extending_1"></p>
+                </details>
+                <details>
+                    <summary data-key="q_faq_extending_2"></summary>
+                    <p data-key="a_faq_extending_2"></p>
+                </details>
+
+            </div>
+            <!-- Notes panel for mobile devices will be displayed here -->
+            <div id="mobile-notes-container"></div>
+        </div>
+    </main>
+
+    <!-- "ON THIS PAGE" PANEL -->
+    <aside class="on-page-nav">
+        <h4 data-key="on_this_page_title">On This Page</h4>
+        <nav id="on-page-toc"></nav>
+    </aside>
+
+    <button id="scrollTopBtn" title="To top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+            fill="currentColor" width="24" height="24">
+            <path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z" />
+        </svg></button>
+
+    <!-- Mind Map Overlay -->
+    <div id="mindmap-overlay">
+        <button id="mindmap-close" aria-label="Close mind map">&times;</button>
+        <div id="mindmap-container"></div>
+    </div>
+
+</body>
+
+</html>
