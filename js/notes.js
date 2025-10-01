@@ -175,7 +175,7 @@ export const NotesManager = {
             if (elementId.startsWith('note-target-media-')) {
                 const sanitizedSrc = elementId.replace('note-target-media-', '');
                 element = document.querySelector(`.doc-image[src*="${sanitizedSrc.replace(/-/g, '/')}"]`)
-                       || document.querySelector(`.doc-image[src*="${sanitizedSrc.replace(/-/g, '_')}"]`);
+                    || document.querySelector(`.doc-image[src*="${sanitizedSrc.replace(/-/g, '_')}"]`);
             } else {
                 const key = elementId.replace(/^note-target-/, '');
                 const keySource = document.querySelector(`[data-key="${key}"]`);
@@ -397,15 +397,28 @@ export const NotesManager = {
                     contextText = sourceElement.textContent.trim().substring(0, 80) + '...';
                 }
 
-                card.innerHTML = `
-                    <div class="note-context" data-key="notes_goto_title" title="Go to text">${contextText}</div>
-                    <p class="note-preview">${noteText.substring(0, 100).replace(/\n/g, ' ')}${noteText.length > 100 ? '...' : ''}</p>
-                    <div class="note-card-actions">
-                        <button class="edit-note-btn" data-key="notes_edit_title" title="Edit note"><span data-key="notes_edit_text">Edit</span></button>
-                        <button class="delete-note-btn" data-key="notes_delete_title" title="Delete note">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M19,6.41L17.59,5,12,10.59,6.41,5,5,6.41,10.59,12,5,17.59,6.41,19,12,13.41,17.59,19,19,17.59,13.41,12,19,6.41Z"/></svg>
-                        </button>
-                    </div>`;
+                const contextDiv = document.createElement('div');
+                contextDiv.className = 'note-context';
+                contextDiv.setAttribute('data-key', 'notes_goto_title');
+                contextDiv.setAttribute('title', 'Go to text');
+                contextDiv.textContent = contextText;
+
+                const previewP = document.createElement('p');
+                previewP.className = 'note-preview';
+                const previewText = noteText.substring(0, 100).replace(/\n/g, ' ') + (noteText.length > 100 ? '...' : '');
+                previewP.textContent = previewText;
+
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'note-card-actions';
+                actionsDiv.innerHTML = `
+                    <button class="edit-note-btn" data-key="notes_edit_title" title="Edit note"><span data-key="notes_edit_text">Edit</span></button>
+                    <button class="delete-note-btn" data-key="notes_delete_title" title="Delete note">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M19,6.41L17.59,5,12,10.59,6.41,5,5,6.41,10.59,12,5,17.59,6.41,19,12,13.41,17.59,19,19,17.59,13.41,12,19,6.41Z"/></svg>
+                    </button>`;
+
+                card.appendChild(contextDiv);
+                card.appendChild(previewP);
+                card.appendChild(actionsDiv);
 
                 const goToText = () => {
                     sourceElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
