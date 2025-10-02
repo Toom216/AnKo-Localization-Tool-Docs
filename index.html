@@ -5,17 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
-                 script-src 'self' https://cdnjs.cloudflare.com; 
-                 style-src 'self' https://cdnjs.cloudflare.com; 
-                 img-src 'self' https://cdnjs.cloudflare.com; 
-                 connect-src 'self'; 
-                 font-src 'self'; 
-                 object-src 'none'; 
-                 base-uri 'self'; 
-                 form-action 'self';">
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self'; 
+        script-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline' 'unsafe-eval'; 
+        style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline' blob:; 
+        img-src 'self' https://cdnjs.cloudflare.com data:; 
+        connect-src 'self' https://cdnjs.cloudflare.com; 
+        font-src 'self' https://cdnjs.cloudflare.com; 
+        object-src 'none'; 
+        base-uri 'self'; 
+        form-action 'self';
+    ">
 
     <title data-key="page_title">Unity Localization Tool Documentation</title>
+
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="style.css">
 
