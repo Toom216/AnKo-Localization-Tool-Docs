@@ -136,7 +136,14 @@ export const App = {
 
             const copyBtn = document.createElement('button');
             copyBtn.className = 'copy-code-btn';
-            copyBtn.textContent = 'Copy';
+            
+            const translations = LanguageHandler.translationsCache[localStorage.getItem('language') || 'en'] || {};
+            const copyText = translations['copy_code_copy'] || 'Copy';
+            const copiedText = translations['copy_code_copied'] || 'Copied!';
+            const errorText = translations['copy_code_error'] || 'Error';
+
+            copyBtn.textContent = copyText;
+            copyBtn.setAttribute('title', copyText);
 
             preElement.prepend(copyBtn);
 
@@ -144,15 +151,15 @@ export const App = {
                 const code = preElement.querySelector('code');
                 if (code) {
                     this.copyTextToClipboard(code.textContent).then(() => {
-                        copyBtn.textContent = 'Copied!';
+                        copyBtn.textContent = copiedText;
                         copyBtn.classList.add('copied');
                         setTimeout(() => {
-                            copyBtn.textContent = 'Copy';
+                            copyBtn.textContent = copyText;
                             copyBtn.classList.remove('copied');
                         }, 2000);
                     }).catch(err => {
                         console.error('Failed to copy text: ', err);
-                        copyBtn.textContent = 'Error';
+                        copyBtn.textContent = errorText;
                     });
                 }
             });

@@ -20,10 +20,12 @@ export const MindMap = {
     presets: {
         'full_view': {
             name: 'Full View',
+            nameKey: 'mindmap_preset_full',
             nodes: null // null means all nodes are visible
         },
         'quick_start': {
             name: 'Quick Start',
+            nameKey: 'mindmap_preset_quick_start',
             nodes: [
                 'hub', 'pillar_setup', 'setup_install', 'setup_initial',
                 'tab_settings', 'tab_content', 'tab_actions', 'pillar_translation',
@@ -32,6 +34,7 @@ export const MindMap = {
         },
         'developer_flow': {
             name: 'Developer Workflow',
+            nameKey: 'mindmap_preset_dev',
             nodes: [
                 'hub', 'pillar_automation', 'comp_text', 'comp_asset', 'comp_prefab', 'comp_behaviour',
                 'pillar_integration', 'integ_attribute', 'integ_function', 'integ_plurals',
@@ -41,6 +44,7 @@ export const MindMap = {
         },
         'translator_flow': {
             name: 'Translator Workflow',
+            nameKey: 'mindmap_preset_translator',
             nodes: [
                 'hub', 'pillar_management', 'tab_actions', 'pillar_translation',
                 'note_backups', 'faq_editor'
@@ -127,36 +131,36 @@ export const MindMap = {
             // --- Logical Connections (Relationships & Workflows) ---
 
             // Quick Start Workflow
-            { from: 'setup_initial', to: 'tab_settings', label: '1. Configure' },
-            { from: 'tab_settings', to: 'tab_content', label: '2. Specify Content' },
-            { from: 'tab_content', to: 'tab_actions', label: '3. Parse Project' },
+            { from: 'setup_initial', to: 'tab_settings', labelKey: 'mindmap_edge_configure' },
+            { from: 'tab_settings', to: 'tab_content', labelKey: 'mindmap_edge_specify_content' },
+            { from: 'tab_content', to: 'tab_actions', labelKey: 'mindmap_edge_parse_project' },
 
             // Tool Window Workflow & Interactions
-            { from: 'tab_actions', to: 'pillar_automation', label: 'Creates Components' },
-            { from: 'tab_actions', to: 'tab_report', label: 'Generates' },
-            { from: 'tab_actions', to: 'pillar_translation', label: 'Opens' },
-            { from: 'tab_assets', to: 'comp_asset', label: 'Manages assets for' },
-            { from: 'tab_settings', to: 'integ_plurals', label: 'Defines rules for' },
-            { from: 'tab_report', to: 'pillar_automation', label: 'Reports on' },
+            { from: 'tab_actions', to: 'pillar_automation', labelKey: 'mindmap_edge_creates_components' },
+            { from: 'tab_actions', to: 'tab_report', labelKey: 'mindmap_edge_generates' },
+            { from: 'tab_actions', to: 'pillar_translation', labelKey: 'mindmap_edge_opens' },
+            { from: 'tab_assets', to: 'comp_asset', labelKey: 'mindmap_edge_manages_assets' },
+            { from: 'tab_settings', to: 'integ_plurals', labelKey: 'mindmap_edge_defines_rules' },
+            { from: 'tab_report', to: 'pillar_automation', labelKey: 'mindmap_edge_reports_on' },
 
             // Code Integration Relationships
-            { from: 'comp_behaviour', to: 'integ_function', label: 'Enables reaction via' }, // [OnLanguageChange] methods use _()
-            { from: 'integ_attribute', to: 'pillar_automation', label: 'Processed by' },
-            { from: 'integ_plurals', to: 'pillar_translation', label: 'Edited in' },
-            { from: 'extend_parser', to: 'pillar_automation', label: 'Extends' },
+            { from: 'comp_behaviour', to: 'integ_function', labelKey: 'mindmap_edge_enables_reaction' }, // [OnLanguageChange] methods use _()
+            { from: 'integ_attribute', to: 'pillar_automation', labelKey: 'mindmap_edge_processed_by' },
+            { from: 'integ_plurals', to: 'pillar_translation', labelKey: 'mindmap_edge_edited_in' },
+            { from: 'extend_parser', to: 'pillar_automation', labelKey: 'mindmap_edge_extends' },
 
             // Notes -> Relevant Section
-            { from: 'note_lang_selector', to: 'example_lang_selector', label: 'Warns about' },
-            { from: 'note_streaming_assets', to: 'tab_settings', label: 'Relates to' },
-            { from: 'note_api_keys', to: 'tab_settings', label: 'Relates to' },
-            { from: 'note_backups', to: 'pillar_translation', label: 'Recommends for' },
+            { from: 'note_lang_selector', to: 'example_lang_selector', labelKey: 'mindmap_edge_warns_about' },
+            { from: 'note_streaming_assets', to: 'tab_settings', labelKey: 'mindmap_edge_relates_to' },
+            { from: 'note_api_keys', to: 'tab_settings', labelKey: 'mindmap_edge_relates_to' },
+            { from: 'note_backups', to: 'pillar_translation', labelKey: 'mindmap_edge_recommends_for' },
 
             // Cross-referencing to FAQ
-            { from: 'pillar_automation', to: 'faq_components', label: 'See FAQ' },
-            { from: 'pillar_management', to: 'faq_window', label: 'See FAQ' },
-            { from: 'pillar_setup', to: 'faq_install', label: 'See FAQ' },
-            { from: 'pillar_advanced', to: 'faq_extending', label: 'See FAQ' },
-            { from: 'pillar_translation', to: 'faq_editor', label: 'See FAQ' },
+            { from: 'pillar_automation', to: 'faq_components', labelKey: 'mindmap_edge_see_faq' },
+            { from: 'pillar_management', to: 'faq_window', labelKey: 'mindmap_edge_see_faq' },
+            { from: 'pillar_setup', to: 'faq_install', labelKey: 'mindmap_edge_see_faq' },
+            { from: 'pillar_advanced', to: 'faq_extending', labelKey: 'mindmap_edge_see_faq' },
+            { from: 'pillar_translation', to: 'faq_editor', labelKey: 'mindmap_edge_see_faq' },
         ]
     },
 
@@ -175,13 +179,16 @@ export const MindMap = {
         const selector = document.getElementById('mindmap-preset-selector');
         if (!selector) return;
         selector.innerHTML = '';
+        const translations = LanguageHandler.translationsCache[localStorage.getItem('language') || 'en'] || {};
         for (const key in this.presets) {
+            const preset = this.presets[key];
             const option = document.createElement('option');
             option.value = key;
-            option.textContent = this.presets[key].name; // Use hardcoded names
+            option.textContent = translations[preset.nameKey] || preset.name;
             selector.appendChild(option);
         }
     },
+
 
     /**
      * Wraps a string to a new line if it exceeds a maximum width.
@@ -283,12 +290,15 @@ export const MindMap = {
             return { ...node, label: this.wordWrap(cleanText) };
         });
 
-        // Add IDs to edges if they don't have them, as vis.js needs them for updates
-        const edges = this.mindMapData.edges.map((edge, index) => ({
-            ...edge,
-            id: edge.id || `edge-${index}`
-        }));
-        
+        // Add IDs to edges and translate labels if they have a key
+        const edges = this.mindMapData.edges.map((edge, index) => {
+            const newEdge = { ...edge, id: edge.id || `edge-${index}` };
+            if (edge.labelKey && translations[edge.labelKey]) {
+                newEdge.label = translations[edge.labelKey];
+            }
+            return newEdge;
+        });
+
         return { nodes, edges };
     },
 

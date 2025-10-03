@@ -93,7 +93,7 @@ export const LanguageHandler = {
             for (const lang in this.languages) {
                 if (this.translationsCache[lang]?.[key]) {
                     const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = this.translationsCache[lang][key];
+                    tempDiv.innerHTML = DOMPurify.sanitize(this.translationsCache[lang][key]);
                     allText += (tempDiv.textContent || tempDiv.innerText || '') + ' ';
                 }
             }
@@ -131,12 +131,21 @@ export const LanguageHandler = {
                 localStorage.setItem('language', 'en');
                 location.reload();
             } else {
-                DOM.mainContent.innerHTML = '<h1>Loading Error</h1><p>Please check your connection and refresh.</p>';
+                DOM.mainContent.innerHTML = `
+                    <h1 data-key="error_loading_title">Loading Error</h1>
+                    <p data-key="error_loading_message">Please check your connection and refresh.</p>
+                `;
             }
         }
     },
 
     async applyTranslationsToContainer(container, lang) {
+        // Ensure DOMPurify is available before proceeding.
+        if (typeof DOMPurify === 'undefined') {
+            console.error('DOMPurify is not loaded. Cannot apply translations securely.');
+            return;
+        }
+
         const translations = this.translationsCache[lang];
         if (!translations) return;
 
@@ -145,8 +154,9 @@ export const LanguageHandler = {
             const translation = translations[key];
             if (translation === undefined) return;
 
-            // CORRECTED: Use textContent for code blocks to prevent HTML injection and fix the highlight.js warning.
-            // For all other elements, use innerHTML to support formatting tags like <strong>.
+            // Use textContent for code blocks to prevent HTML injection and fix highlight.js warnings.
+            // For all other elements, sanitize the translation with DOMPurify before setting innerHTML
+            // to support formatting tags like <strong> while preventing XSS.
             if (elem.tagName === 'CODE') {
                 elem.textContent = translation;
             } else if (elem.matches('input[placeholder]')) {
@@ -154,7 +164,7 @@ export const LanguageHandler = {
             } else if (elem.matches('[title]')) {
                 elem.title = translation;
             } else {
-                elem.innerHTML = translation;
+                elem.innerHTML = DOMPurify.sanitize(translation);
             }
         });
     },
@@ -164,7 +174,7 @@ export const LanguageHandler = {
         for (const [langCode, langData] of Object.entries(this.languages)) {
             const option = document.createElement('button');
             option.dataset.lang = langCode;
-            option.innerHTML = `<img src="${langData.flag}" class="flag-img" alt="${langCode}"><span>${langData.name}</span>`;
+            option.innerHTML = DOMPurify.sanitize(`<img src="${langData.flag}" class="flag-img" alt="${langCode}"><span>${langData.name}</span>`);
             option.addEventListener('click', (e) => {
                 e.stopPropagation();
                 if (langCode !== (localStorage.getItem('language') || 'en')) {

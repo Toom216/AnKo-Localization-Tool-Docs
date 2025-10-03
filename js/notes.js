@@ -23,6 +23,10 @@ export const NotesManager = {
      * Initializes the module: creates UI elements, binds events, and loads saved notes.
      */
     init() {
+        if (typeof DOMPurify === 'undefined') {
+            console.error('DOMPurify is not loaded. NotesManager will not initialize for security reasons.');
+            return;
+        }
         this.createUI();
         // Bind `this` to handlers for correct listener management
         this.handleOutsideClick = this.handleOutsideClick.bind(this);
@@ -98,7 +102,8 @@ export const NotesManager = {
         popupTextarea.addEventListener('input', debounce(() => {
             if (this.activePopupTarget) {
                 const elementId = this.activePopupTarget.id;
-                this.notes[elementId] = popupTextarea.value;
+                const sanitizedText = DOMPurify.sanitize(popupTextarea.value);
+                this.notes[elementId] = sanitizedText;
                 this.saveNotes();
                 this.updateNoteCard(elementId);
             }
@@ -319,7 +324,7 @@ export const NotesManager = {
 
         const elementId = activeTarget.id;
         const textarea = this.notePopup.querySelector('textarea');
-        const finalNoteText = textarea.value;
+        const finalNoteText = DOMPurify.sanitize(textarea.value);
 
         this.notePopup.classList.remove('visible');
         document.removeEventListener('click', this.handlePopupOutsideClick, true);

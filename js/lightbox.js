@@ -19,15 +19,16 @@ export class Lightbox {
         this.overlay.className = 'lightbox-overlay';
         this.overlay.innerHTML = `
             <div class="lightbox-content">
-                <img id="lightbox-image" alt="Enlarged view">
+                <img id="lightbox-image" alt="Enlarged view" data-key="lightbox_image_alt">
             </div>
-            <button class="lightbox-close" aria-label="Close image viewer">&times;</button>
+            <button class="lightbox-close" aria-label="Close image viewer" data-key="lightbox_aria_close">&times;</button>
         `;
         document.body.appendChild(this.overlay);
         this.image = document.getElementById('lightbox-image');
         this.content = this.overlay.querySelector('.lightbox-content');
         this.closeBtn = this.overlay.querySelector('.lightbox-close');
     }
+
 
     bindEvents() {
         DOM.mainContent.addEventListener('click', e => this.onContentClick(e));
