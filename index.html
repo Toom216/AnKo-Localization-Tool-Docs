@@ -9,7 +9,7 @@
         default-src 'self'; 
         script-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline' 'unsafe-eval' blob:;
         style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline' blob:; 
-        img-src 'self' https://cdnjs.cloudflare.com data:; 
+        img-src 'self' https://cdnjs.cloudflare.com https://placehold.co data:; 
         connect-src 'self' https://cdnjs.cloudflare.com; 
         font-src 'self' https://cdnjs.cloudflare.com; 
         object-src 'none'; 
@@ -66,6 +66,12 @@
     </button>
 
     <aside class="sidebar">
+        <!-- Блок для логотипа -->
+        <div class="sidebar-logo-area">
+            <img src="img/logo_loc_tool.png" alt="Logo">
+            <span class="logo-text">AnKo Complete Localization Toolkit</span>
+        </div>
+        <!-- Конец блока для логотипа -->
         <div class="sidebar-header">
             <div class="sidebar-controls">
                 <div class="lang-switcher-dropdown">
