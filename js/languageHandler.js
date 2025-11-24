@@ -120,7 +120,17 @@ export const LanguageHandler = {
     async apply(lang) {
         const validLang = this.languages[lang] ? lang : 'en';
         try {
-            await this.loadFile(validLang);
+            // MODIFIED: Fallback strategy.
+            // Ensure we load the requested language.
+            // If the requested language is NOT English, allow loading English as well to ensure fallback availability.
+            const promises = [this.loadFile(validLang)];
+
+            if (validLang !== 'en') {
+                promises.push(this.loadFile('en'));
+            }
+
+            await Promise.all(promises);
+
             document.documentElement.lang = validLang;
             DOM.currentLangFlag.innerHTML = `<img src="${this.languages[validLang].flag}" class="flag-img" alt="${validLang}">`;
             await this.applyTranslationsToContainer(document.body, validLang);
@@ -147,11 +157,21 @@ export const LanguageHandler = {
         }
 
         const translations = this.translationsCache[lang];
+        // MODIFIED: Get fallback translations (English)
+        const fallbackTranslations = this.translationsCache['en'];
+
         if (!translations) return;
 
         container.querySelectorAll('[data-key]').forEach(elem => {
             const key = elem.getAttribute('data-key');
-            const translation = translations[key];
+            let translation = translations[key];
+
+            // MODIFIED: Fallback logic. 
+            // If translation is missing in current lang, and we are not in EN, try EN.
+            if (translation === undefined && lang !== 'en' && fallbackTranslations) {
+                translation = fallbackTranslations[key];
+            }
+
             if (translation === undefined) return;
 
             // Use textContent for code blocks to prevent HTML injection and fix highlight.js warnings.
