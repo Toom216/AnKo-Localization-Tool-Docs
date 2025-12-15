@@ -155,6 +155,48 @@ html[data-theme="dark"] {
     --note-highlight-bg: #3a321d;
 }
 
+/* Dark theme specific styles for warning boxes */
+html[data-theme="dark"] .warning-box {
+    background-color: #4d4417;
+    border-left: 5px solid #ffc107;
+}
+
+/* Dark theme specific styles for toc-search */
+html[data-theme="dark"] #toc-search {
+    background-color: #0d1117;
+    border-color: #30363d;
+    color: #c9d1d9;
+}
+
+html[data-theme="dark"] #toc-search::placeholder {
+    color: #8b949e;
+}
+
+html[data-theme="dark"] #toc-search:focus {
+    color: #c9d1d9;
+    background-color: #0d1117;
+    border-color: #58a6ff;
+    box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.3);
+}
+
+/* Dark theme specific styles for sidebar-content scrollbar */
+html[data-theme="dark"] .sidebar-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+html[data-theme="dark"] .sidebar-content::-webkit-scrollbar-track {
+    background: #0d1117;
+}
+
+html[data-theme="dark"] .sidebar-content::-webkit-scrollbar-thumb {
+    background-color: #30363d;
+    border-radius: 4px;
+}
+
+html[data-theme="dark"] .sidebar-content::-webkit-scrollbar-thumb:hover {
+    background-color: #58a6ff;
+}
+
 html { scroll-behavior: smooth; }
 html, body {
     overflow-x: hidden;
