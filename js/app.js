@@ -120,7 +120,39 @@ export const App = {
                 DOM.sidebar.classList.remove('is-open');
                 document.body.classList.remove('sidebar-is-open');
             }
+            
+            // 1. При клике на любое другое место кроме как на менюшки выбора языка\темы нужно чтобы менюшки закрывались.
+            
+            // Проверка для меню Языка
+            // Если меню открыто (имеет класс show) И клик был НЕ по кнопке И НЕ по самому меню
+            if (DOM.langOptionsContainer.classList.contains('show') && 
+                !DOM.currentLangBtn.contains(e.target) && 
+                !DOM.langOptionsContainer.contains(e.target)) {
+                DOM.langOptionsContainer.classList.remove('show');
+                DOM.langOptionsContainer.classList.remove('adaptive');
+            }
+            
+            // Проверка для меню Темы
+            // Если меню открыто И клик был НЕ по кнопке И НЕ по самому меню
+            if (DOM.themeOptionsContainer && DOM.themeOptionsContainer.classList.contains('show') && 
+                !DOM.themeToggle.contains(e.target) && 
+                !DOM.themeOptionsContainer.contains(e.target)) {
+                DOM.themeOptionsContainer.classList.remove('show');
+                DOM.themeOptionsContainer.classList.remove('adaptive');
+            }
         });
+        
+        // Prevent closing dropdowns when clicking INSIDE them (e.g. padding areas)
+        // This ensures the document click listener doesn't fire when interacting with the menu itself
+        DOM.langOptionsContainer.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+        
+        if (DOM.themeOptionsContainer) {
+            DOM.themeOptionsContainer.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
     },
 
     /**

@@ -8,6 +8,8 @@ export const DOM = {
     mobileNavToggle: document.querySelector('.mobile-nav-toggle'),
     sidebar: document.querySelector('.sidebar'),
     themeToggle: document.getElementById('theme-toggle'),
+    // NEW: Added explicit reference to theme options container
+    themeOptionsContainer: document.getElementById('theme-options'),
     toggleNotesBtn: document.getElementById('toggle-notes-btn'),
     tocContainer: document.getElementById('table-of-contents'),
     tocSearch: document.getElementById('toc-search'),

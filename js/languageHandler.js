@@ -26,12 +26,7 @@ export const LanguageHandler = {
     async init() {
         this.populateOptions();
         DOM.currentLangBtn.addEventListener('click', (e) => this.toggleLanguageDropdown(e));
-        window.addEventListener('click', () => {
-            if (DOM.langOptionsContainer.classList.contains('show')) {
-                DOM.langOptionsContainer.classList.remove('show');
-            }
-        });
-
+        
         this.prepareSearchIndex();
 
         const savedLang = localStorage.getItem('language') || 'en';
@@ -42,12 +37,30 @@ export const LanguageHandler = {
      * Manages the language dropdown and its adaptive display.
      */
     toggleLanguageDropdown(e) {
-        e.stopPropagation();
+        e.stopPropagation(); // Stops event from reaching document listener
+
+        // 2. При открытии другой менюшки, пока активна предыдущая - нужно закрывать предыдущую
+        // Close theme dropdown if it's open
+        if (DOM.themeOptionsContainer && DOM.themeOptionsContainer.classList.contains('show')) {
+            DOM.themeOptionsContainer.classList.remove('show');
+            DOM.themeOptionsContainer.classList.remove('adaptive');
+        }
+
         const container = DOM.langOptionsContainer;
         const isOpening = !container.classList.contains('show');
 
         // Always remove adaptive first to re-calculate
         container.classList.remove('adaptive');
+
+        // Close other dropdowns if opening this one (generic fallback)
+        if (isOpening) {
+            document.querySelectorAll('.dropdown-content.show').forEach(dropdown => {
+                if (dropdown !== container) {
+                    dropdown.classList.remove('show');
+                    dropdown.classList.remove('adaptive');
+                }
+            });
+        }
 
         container.classList.toggle('show', isOpening);
 
@@ -58,8 +71,6 @@ export const LanguageHandler = {
                 const isMobile = window.innerWidth <= 900;
 
                 // MODIFIED: Enhanced condition for adding 'adaptive' class.
-                // On mobile, always add it to apply mobile-specific compact styles.
-                // On desktop, add it if it overflows the window or sidebar.
                 if (isMobile || rect.bottom > window.innerHeight || rect.right > sidebarRect.right) {
                     container.classList.add('adaptive');
                 }
@@ -121,8 +132,6 @@ export const LanguageHandler = {
         const validLang = this.languages[lang] ? lang : 'en';
         try {
             // MODIFIED: Fallback strategy.
-            // Ensure we load the requested language.
-            // If the requested language is NOT English, allow loading English as well to ensure fallback availability.
             const promises = [this.loadFile(validLang)];
 
             if (validLang !== 'en') {
@@ -196,12 +205,16 @@ export const LanguageHandler = {
             option.dataset.lang = langCode;
             option.innerHTML = DOMPurify.sanitize(`<img src="${langData.flag}" class="flag-img" alt="${langCode}"><span>${langData.name}</span>`);
             option.addEventListener('click', (e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // Stops propagation so document click doesn't fire (we handle close here)
+                
+                // 3. при выборе... менюшка... должна закрыться
+                DOM.langOptionsContainer.classList.remove('show');
+                DOM.langOptionsContainer.classList.remove('adaptive');
+
                 if (langCode !== (localStorage.getItem('language') || 'en')) {
                     localStorage.setItem('language', langCode);
                     location.reload();
                 }
-                DOM.langOptionsContainer.classList.remove('show');
             });
             DOM.langOptionsContainer.appendChild(option);
         }
