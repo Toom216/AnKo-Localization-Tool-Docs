@@ -60,10 +60,21 @@ export const App = {
         const mainContent = document.querySelector('.main-content');
         const mobileToggle = document.querySelector('.mobile-nav-toggle');
         
-        if (banner && toggleButton && mainContent) {
+        if (banner && toggleButton) {
+            // Automatically collapse the banner after 2 seconds with smooth transition
+            setTimeout(() => {
+                if (!banner.classList.contains('collapsed')) {
+                    banner.classList.add('collapsed');
+                    
+                    // Adjust mobile toggle position if it exists
+                    if (mobileToggle) {
+                        mobileToggle.classList.add('with-collapsed-banner');
+                    }
+                }
+            }, 2000);
+            
             toggleButton.addEventListener('click', () => {
                 banner.classList.toggle('collapsed');
-                mainContent.classList.toggle('with-collapsed-banner', banner.classList.contains('collapsed'));
                 
                 // Adjust mobile toggle position if it exists
                 if (mobileToggle) {
