@@ -46,6 +46,29 @@ export const App = {
         // Setup listeners and dynamic elements that are not language-dependent
         this.setupStaticListeners();
         this.setupCodeBlocks();
+        this.setupBannerToggle(); // Add banner toggle functionality
+    },
+
+    /**
+     * Sets up the notification banner toggle functionality
+     */
+    setupBannerToggle() {
+        const banner = document.getElementById('notificationBanner');
+        const toggleButton = document.getElementById('bannerToggle');
+        const mainContent = document.querySelector('.main-content');
+        const mobileToggle = document.querySelector('.mobile-nav-toggle');
+        
+        if (banner && toggleButton && mainContent) {
+            toggleButton.addEventListener('click', () => {
+                banner.classList.toggle('collapsed');
+                mainContent.classList.toggle('with-collapsed-banner', banner.classList.contains('collapsed'));
+                
+                // Adjust mobile toggle position if it exists
+                if (mobileToggle) {
+                    mobileToggle.classList.toggle('with-collapsed-banner', banner.classList.contains('collapsed'));
+                }
+            });
+        }
     },
 
     /**
