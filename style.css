@@ -433,7 +433,9 @@ pre code { padding: 0; margin: 0; font-size: 100%; background-color: transparent
 pre:hover .copy-code-btn { opacity: 1; }
 .copy-code-btn:hover { background-color: var(--border-color); }
 .copy-code-btn.copied { background-color: #28a745; color: white; border-color: #28a745; opacity: 1; }
-.warning-box { background-color: var(--warning-bg-color); border-left: 5px solid var(--warning-border-color); padding: 15px; margin: 20px 0; border-radius: 0 5px 5px 0; transition: background-color 0.3s ease, border-color 0.3s ease; font-weight: bold; font-size: 1.1em; text-align: center; animation: pulseWarning 2s infinite; }
+.warning-box { background-color: #fff3cd; border-left: 5px solid #ffc107; padding: 15px; margin: 20px 0; border-radius: 0 5px 5px 0; font-size: 1em; text-align: left; }
+
+.warning-box.discord-warning { background-color: var(--warning-bg-color); border-left: 5px solid var(--warning-border-color); padding: 15px; margin: 20px 0; border-radius: 0 5px 5px 0; transition: background-color 0.3s ease, border-color 0.3s ease; font-weight: bold; font-size: 1.1em; text-align: left; animation: pulseWarning 2s infinite; }
 
 .warning-box a { color: var(--link-color); text-decoration: underline; transition: color 0.2s ease; }
 
