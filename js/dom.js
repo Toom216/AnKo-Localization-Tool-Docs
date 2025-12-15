@@ -22,4 +22,7 @@ export const DOM = {
     mindmapOverlay: document.getElementById('mindmap-overlay'),
     mindmapContainer: document.getElementById('mindmap-container'),
     mindmapClose: document.getElementById('mindmap-close'),
+    modeToggle: document.getElementById('mode-toggle'),
+    viewSimple: document.getElementById('view-simple'),
+    viewAdvanced: document.getElementById('view-advanced')
 };

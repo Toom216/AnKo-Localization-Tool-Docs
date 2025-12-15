@@ -37,6 +37,15 @@
     --note-highlight-bg: #fffbdd;
 }
 
+/* View Modes */
+.mode-simple #view-advanced {
+    display: none;
+}
+
+.mode-advanced #view-simple {
+    display: none;
+}
+
 /* Notification Banner Styles */
 .notification-banner {
     background-color: var(--warning-bg-color);

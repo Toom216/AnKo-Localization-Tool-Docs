@@ -5,9 +5,21 @@ import { DOM } from './dom.js';
  * based on h1 and h2 tags in the main content.
  */
 export const TOC = {
-    generate() {
+    generate(rootElement = null) {
         DOM.tocContainer.innerHTML = '';
-        const headings = DOM.mainContent.querySelectorAll('h1[id], h2[id]');
+        
+        // Determine which view is currently visible if no rootElement is provided
+        if (!rootElement) {
+            if (document.body.classList.contains('mode-simple') && DOM.viewSimple) {
+                rootElement = DOM.viewSimple;
+            } else if (DOM.viewAdvanced) {
+                rootElement = DOM.viewAdvanced;
+            } else {
+                rootElement = DOM.mainContent;
+            }
+        }
+        
+        const headings = rootElement.querySelectorAll('h1[id], h2[id]');
         const mainList = document.createElement('ul');
         let currentH1LI = null;
         let h1Counter = 0;
