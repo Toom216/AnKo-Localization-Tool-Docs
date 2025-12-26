@@ -447,13 +447,16 @@
   "li_cheat_serializable": "Nested <code>[Serializable] class</code> (Inventory items, Dialog nodes)",
   "li_cheat_headers": "Attributes like <code>[Header(\"...\")]</code> (if added to Settings)",
   "li_cheat_properties": "<strong>Properties</strong> <code>{ get; set; }</code> (Fields only!)",
-  "li_cheat_dictionaries": "<strong>Dictionaries</strong> <code>Dictionary&lt;K,V&gt;</code>",
-  "li_cheat_scriptable_objects": "<strong>ScriptableObjects</strong> in Project view (Must be referenced by a MonoBehaviour)",
-  "li_cheat_structs": "<strong>Structs</strong> (Only <code>class</code> types are recursed)",
+  "li_cheat_dictionaries": "<strong>Dictionaries</strong> (Not serializable by Unity inspector naturally)",
+  "li_cheat_scriptable_objects": "<strong>ScriptableObjects</strong> (Must be referenced by a MonoBehaviour)",
+  "li_cheat_structs": "<strong>Structs</strong> (Only Classes are supported for recursion)",
   "li_cheat_nested_lists": "<strong>Lists of Nested Objects</strong> (e.g. <code>List&lt;ItemData&gt;</code>)",
   "tip_best_practice": "<strong>Pro Tip:</strong> If you need to localize a Property, create a backing field with <code>[LocalizableField]</code> and expose the property separately.",
   "li_cheat_concatenation": "<strong>String Concatenation:</strong> <code>\"A\" + \"B\"</code> (Regex captures only the first part: \"A\")",
   "li_cheat_non_literals": "<strong>Variables & Constants:</strong> Assignments like <code>string s = MyConst;</code> (Must be a String Literal)",
   "li_cheat_ternary": "<strong>Logic/Ternary:</strong> <code>cond ? \"A\" : \"B\"</code> (Parser cannot determine the value)",
-  "li_cheat_constructor_args": "<strong>Complex Constructor Args:</strong> <code>new Item(\"Name\" + index)</code>"
+  "li_cheat_constructor_args": "<strong>Complex Constructor Args:</strong> <code>new Item(\"Name\" + index)</code>",
+  "li_cheat_static": "<strong>Static Fields:</strong> <code>public static string</code> (Parser scans instances only)",
+  "li_cheat_unattached": "<strong>Unattached Scripts:</strong> Scripts must be on a GameObject in a Scene or Prefab",
+  "li_cheat_base_private": "<strong>Base Private Fields:</strong> <code>private</code> fields in a Parent Class (Inheritance limitation)"
 }

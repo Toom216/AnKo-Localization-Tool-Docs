@@ -508,104 +508,88 @@
 
                 <h3 data-key="h3_attribute_cheat_sheet">Quick Reference: Do's and Don'ts</h3>
 
-                <div class="comparison-container" style="display: flex; gap: 20px; flex-wrap: wrap;">
-                    <div
-                        style="flex: 1; min-width: 250px; background: rgba(0, 255, 0, 0.05); border: 1px solid #4caf50; border-radius: 8px; padding: 15px;">
-                        <h4 style="color: #2e7d32; margin-top: 0; display: flex; align-items: center; gap: 8px;">
-                            <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2705.svg" class="emoji"
-                                alt="✅">
-                            <span data-key="lbl_supported">Fully Supported</span>
-                        </h4>
-                        <ul style="list-style: none; padding-left: 0;">
-                            <li style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;">
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg"
-                                    class="emoji" alt="✔️" style="margin-top: 3px;">
-                                <span data-key="li_cheat_private"></span>
-                            </li>
-                            <li style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;">
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg"
-                                    class="emoji" alt="✔️" style="margin-top: 3px;">
-                                <span data-key="li_cheat_collections"></span>
-                            </li>
-                            <li style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;">
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg"
-                                    class="emoji" alt="✔️" style="margin-top: 3px;">
-                                <span data-key="li_cheat_serializable"></span>
-                            </li>
-                            <li style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;">
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg"
-                                    class="emoji" alt="✔️" style="margin-top: 3px;">
-                                <span data-key="li_cheat_nested_lists"></span>
-                            </li>
-                            <li style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;">
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg"
-                                    class="emoji" alt="✔️" style="margin-top: 3px;">
-                                <span data-key="li_cheat_headers"></span>
-                            </li>
-                        </ul>
-                        <pre><code class="language-csharp" style="font-size: 0.85em;">[LocalizableField] 
+<div class="comparison-container">
+    <div class="comparison-column supported">
+        <h4 data-key="lbl_supported">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2705.svg" class="emoji" alt="OK">
+            <span data-key="lbl_supported">Fully Supported</span>
+        </h4>
+        <ul>
+            <li>
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg" class="emoji" alt="YES">
+                <span data-key="li_cheat_private"></span>
+            </li>
+            <li>
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg" class="emoji" alt="YES">
+                <span data-key="li_cheat_collections"></span>
+            </li>
+            <li>
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg" class="emoji" alt="YES">
+                <span data-key="li_cheat_serializable"></span>
+            </li>
+            <li>
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg" class="emoji" alt="YES">
+                <span data-key="li_cheat_nested_lists"></span>
+            </li>
+            <li>
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg" class="emoji" alt="YES">
+                <span data-key="li_cheat_headers"></span>
+            </li>
+        </ul>
+        <pre><code class="language-csharp">[LocalizableField] 
 private string _validField; // OK!</code></pre>
-                    </div>
+    </div>
 
-                    <div
-                        style="flex: 1; min-width: 250px; background: rgba(255, 0, 0, 0.05); border: 1px solid #ef5350; border-radius: 8px; padding: 15px;">
-                        <h4 style="color: #c62828; margin-top: 0; display: flex; align-items: center; gap: 8px;">
-                            <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/274c.svg" class="emoji"
-                                alt="❌">
-                            <span data-key="lbl_not_supported">NOT Supported</span>
-                        </h4>
-                        <ul style="list-style: none; padding-left: 0;">
-                            <li style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;">
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg"
-                                    class="emoji" alt="🚫" style="margin-top: 3px;">
-                                <span data-key="li_cheat_properties"></span>
-                            </li>
-                            <li style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;">
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg"
-                                    class="emoji" alt="🚫" style="margin-top: 3px;">
-                                <span data-key="li_cheat_concatenation"></span>
-                            </li>
-                            <li style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;">
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg"
-                                    class="emoji" alt="🚫" style="margin-top: 3px;">
-                                <span data-key="li_cheat_non_literals"></span>
-                            </li>
-                            <li style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;">
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg"
-                                    class="emoji" alt="🚫" style="margin-top: 3px;">
-                                <span data-key="li_cheat_ternary"></span>
-                            </li>
-                            <li style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;">
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg"
-                                    class="emoji" alt="🚫" style="margin-top: 3px;">
-                                <span data-key="li_cheat_dictionaries"></span>
-                            </li>
-                            <li style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;">
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg"
-                                    class="emoji" alt="🚫" style="margin-top: 3px;">
-                                <span data-key="li_cheat_structs"></span>
-                            </li>
-                            <li style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;">
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg"
-                                    class="emoji" alt="🚫" style="margin-top: 3px;">
-                                <span data-key="li_cheat_scriptable_objects"></span>
-                            </li>
-                        </ul>
-                        <pre><code class="language-csharp" style="font-size: 0.85em;">[LocalizableField] 
+    <div class="comparison-column not-supported">
+        <h4 data-key="lbl_not_supported">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/274c.svg" class="emoji" alt="NO">
+            <span data-key="lbl_not_supported">NOT Supported</span>
+        </h4>
+        <ul>
+            <li>
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg" class="emoji" alt="NO">
+                <span data-key="li_cheat_properties"></span>
+            </li>
+            <li>
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg" class="emoji" alt="NO">
+                <span data-key="li_cheat_static"></span> </li>
+            <li>
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg" class="emoji" alt="NO">
+                <span data-key="li_cheat_concatenation"></span>
+            </li>
+            <li>
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg" class="emoji" alt="NO">
+                <span data-key="li_cheat_non_literals"></span>
+            </li>
+            <li>
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg" class="emoji" alt="NO">
+                <span data-key="li_cheat_unattached"></span> </li>
+            <li>
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg" class="emoji" alt="NO">
+                <span data-key="li_cheat_base_private"></span> </li>
+            <li>
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg" class="emoji" alt="NO">
+                <span data-key="li_cheat_dictionaries"></span>
+            </li>
+            <li>
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg" class="emoji" alt="NO">
+                <span data-key="li_cheat_scriptable_objects"></span>
+            </li>
+        </ul>
+        <pre><code class="language-csharp">[LocalizableField] 
 public string Prop { get; set; } // FAIL: Property
 
 [LocalizableField]
-// FAIL: Parser only sees "Title: "
-public string Header = "Title: " + "{0}"; 
+public static string St = "X"; // FAIL: Static
 
 [LocalizableField]
-public string Status = MyConstants.Status; // FAIL: Not a literal</code></pre>
-                    </div>
-                </div>
+public string Head = "A" + "B"; // FAIL: Concatenation</code></pre>
+    </div>
+</div>
 
-                <div class="info-box" style="margin-top: 15px;">
-                    <p data-key="tip_best_practice"></p>
-                </div>
+<div class="info-box">
+    <p data-key="tip_best_practice"></p>
+</div>
                 <h2 id="onlanguagechange-function" data-key="h2_example_function"></h2>
                 <p data-key="p_example_function_1"></p>
                 <pre><code class="language-csharp" data-key="code_example_function"></code></pre>
