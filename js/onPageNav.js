@@ -41,19 +41,33 @@ export const OnPageNav = {
 
     async buildNavForSection(h1) {
         this.tocContainer.innerHTML = '';
+
+        // 1. Calculate the H1 index relative to its container (Simple or Advanced view)
+        // This ensures the numbering matches the main content numbering (e.g. "4. Tool Window")
+        const sectionContainer = h1.closest('.view-section');
+        const allH1s = sectionContainer ? Array.from(sectionContainer.querySelectorAll('h1[id]')) : [];
+        const h1Index = allH1s.indexOf(h1) + 1; // 1-based index (e.g., 4)
+
+        // 2. Collect all relevant sub-headings for this section
         const headingsInSection = [h1];
         let nextEl = h1.nextElementSibling;
         while (nextEl && nextEl.tagName !== 'H1') {
             if ((nextEl.tagName === 'H2' || nextEl.tagName === 'H3') && nextEl.id) {
                 headingsInSection.push(nextEl);
             }
+            // Support for grouped FAQs inside details
             if (nextEl.classList.contains('faq-section')) {
                 nextEl.querySelectorAll('h2[id], h3[id]').forEach(h => headingsInSection.push(h));
             }
             nextEl = nextEl.nextElementSibling;
         }
 
+        // 3. Build the list with numbering
         const list = document.createElement('ul');
+
+        let h2Count = 0;
+        let h3Count = 0;
+
         headingsInSection.forEach(heading => {
             const keySourceElement = heading.querySelector('[data-key]') || heading;
             const originalKey = keySourceElement.dataset.key;
@@ -65,9 +79,31 @@ export const OnPageNav = {
                 navKey = originalKey.replace(/^(h[1-2]_)/, 'nav_');
             }
 
+            // Calculate the number string (e.g. "4.1.")
+            let numberString = '';
+            if (heading.tagName === 'H1') {
+                numberString = `${h1Index}.`;
+                // Reset sub-counters for new H1 (though logically we only process one H1 here)
+                h2Count = 0;
+            } else if (heading.tagName === 'H2') {
+                h2Count++;
+                h3Count = 0; // Reset H3 counter when new H2 starts
+                numberString = `${h1Index}.${h2Count}.`;
+            } else if (heading.tagName === 'H3') {
+                h3Count++;
+                // Handle edge case where H3 appears without H2 (fallback to 0)
+                numberString = `${h1Index}.${h2Count > 0 ? h2Count : 1}.${h3Count}.`;
+            }
+
             const a = document.createElement('a');
             a.href = `#${heading.id}`;
             a.dataset.key = navKey;
+
+            // Store the calculated number in a data attribute for CSS to display
+            if (numberString) {
+                a.dataset.number = numberString;
+            }
+
             a.className = `toc-level-${heading.tagName.charAt(1)}`;
 
             const li = document.createElement('li');
@@ -100,4 +136,3 @@ export const OnPageNav = {
         }
     }
 };
-

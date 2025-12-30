@@ -3,169 +3,204 @@ import { LanguageHandler } from './languageHandler.js';
 
 /**
  * Manages the mind map functionality using the vis.js library.
- * It provides a visual, interactive graph of the documentation structure.
+ * Updated for v1.4.7 content structure.
  */
 export const MindMap = {
     network: null,
     storageKey: 'mindmapNodePositions',
-    presetStorageKey: 'mindmapCurrentPreset', // Key for saving the selected preset
+    presetStorageKey: 'mindmapCurrentPreset',
     currentPreset: 'full_view',
     fullNodesDataSet: null,
     fullEdgesDataSet: null,
 
     /**
      * Defines different views (presets) for the mind map.
-     * Each preset contains a list of node IDs to display.
      */
     presets: {
         'full_view': {
-            name: 'Full View',
+            name: 'Full View (All Nodes)',
             nameKey: 'mindmap_preset_full',
-            nodes: null // null means all nodes are visible
+            nodes: null
         },
         'quick_start': {
             name: 'Quick Start',
             nameKey: 'mindmap_preset_quick_start',
             nodes: [
                 'hub', 'pillar_setup', 'setup_install', 'setup_initial',
-                'tab_settings', 'tab_content', 'tab_actions', 'pillar_translation',
-                'pillar_automation', 'comp_text', 'note_streaming_assets'
+                'pillar_window', 'tab_settings', 'tab_content', 'tab_actions',
+                'pillar_components', 'comp_text', 'comp_asset'
             ]
         },
-        'developer_flow': {
-            name: 'Developer Workflow',
+        'ai_power_user': {
+            name: 'AI & Automation',
+            nameKey: 'mindmap_preset_ai', // New key needed
+            nodes: [
+                'hub', 'pillar_ai', 'ai_profiles', 'ai_context', 'ai_assistant', 'ai_audio',
+                'pillar_editor', 'edit_mass', 'edit_context',
+                'pillar_window', 'tab_actions', 'act_autotranslate'
+            ]
+        },
+        'coder_flow': {
+            name: 'Programmer / API',
             nameKey: 'mindmap_preset_dev',
             nodes: [
-                'hub', 'pillar_automation', 'comp_text', 'comp_asset', 'comp_prefab', 'comp_behaviour',
-                'pillar_integration', 'integ_attribute', 'integ_function', 'integ_plurals',
-                'pillar_advanced', 'extend_parser', 'pillar_notes', 'note_api_keys',
-                'note_lang_selector', 'faq_components', 'faq_extending'
+                'hub', 'pillar_usage', 'code_attr', 'code_func', 'code_async',
+                'pillar_advanced', 'adv_parser', 'adv_addressables',
+                'pillar_components', 'comp_behaviour'
             ]
         },
-        'translator_flow': {
-            name: 'Translator Workflow',
-            nameKey: 'mindmap_preset_translator',
+        'tools_integrations': {
+            name: 'Tools & Integrations',
+            nameKey: 'mindmap_preset_tools', // New key needed
             nodes: [
-                'hub', 'pillar_management', 'tab_actions', 'pillar_translation',
-                'note_backups', 'faq_editor'
+                'hub', 'pillar_tools', 'tool_tms', 'tool_migration', 'tool_fonts', 'tool_pseudo',
+                'pillar_window', 'tab_assets'
             ]
         }
     },
 
-
     /**
-     * The data structure for the mind map, defining nodes and their connections.
+     * The data structure for the mind map.
      */
     mindMapData: {
         nodes: [
-            // Level 0: Central Hub
+            // --- Level 0: Hub ---
             { id: 'hub', labelKey: 'page_title', href: '#introduction', group: 'level0', level: 0 },
 
-            // Level 1: Main Pillars of the documentation
-            { id: 'pillar_intro', labelKey: 'nav_introduction', href: '#introduction', group: 'level1', level: 1 },
-            { id: 'pillar_setup', labelKey: 'h1_quick_start', href: '#quick-start', group: 'level1', level: 1 },
-            { id: 'pillar_automation', labelKey: 'h1_components', href: '#core-components', group: 'level1', level: 1 },
-            { id: 'pillar_management', labelKey: 'h1_loc_tool_window', href: '#localization-tool-window', group: 'level1', level: 1 },
-            { id: 'pillar_translation', labelKey: 'h1_translation_editor', href: '#translation-editor', group: 'level1', level: 1 },
-            { id: 'pillar_integration', labelKey: 'h1_usage_examples', href: '#usage-examples', group: 'level1', level: 1 },
-            { id: 'pillar_advanced', labelKey: 'h1_extending', href: '#extending-functionality', group: 'level1', level: 1 },
-            { id: 'pillar_notes', labelKey: 'h1_important_notes', href: '#important-notes', group: 'level1', level: 1 },
-            { id: 'pillar_faq', labelKey: 'h1_faq', href: '#faq', group: 'level1', level: 1 },
+            // --- Level 1: Pillars ---
+            { id: 'pillar_setup', labelKey: 'nav_quick_start', href: '#quick-start', group: 'level1', level: 1 },
+            { id: 'pillar_components', labelKey: 'nav_components', href: '#core-components', group: 'level1', level: 1 },
+            { id: 'pillar_window', labelKey: 'nav_loc_tool_window', href: '#localization-tool-window', group: 'level1', level: 1 },
+            { id: 'pillar_editor', labelKey: 'nav_translation_editor', href: '#translation-editor', group: 'level1', level: 1 },
+            { id: 'pillar_ai', labelKey: 'mindmap_node_ai_ecosystem', href: '#ai-profiles', group: 'level1', level: 1 }, // New Label
+            { id: 'pillar_usage', labelKey: 'nav_usage_examples', href: '#usage-examples', group: 'level1', level: 1 },
+            { id: 'pillar_tools', labelKey: 'mindmap_node_dev_tools', href: '#migration-tool', group: 'level1', level: 1 }, // New Label
+            { id: 'pillar_advanced', labelKey: 'nav_extending', href: '#extending-functionality', group: 'level1', level: 1 },
+            { id: 'pillar_faq', labelKey: 'nav_faq', href: '#faq', group: 'level1', level: 1 },
 
-            // Level 2: Sub-sections
-            { id: 'setup_install', labelKey: 'h2_installation', href: '#installation', group: 'level2', level: 2 },
-            { id: 'setup_initial', labelKey: 'h2_initial_setup', href: '#initial-setup', group: 'level2', level: 2 },
-            { id: 'comp_text', labelKey: 'h2_localizedtext', href: '#localized-text', group: 'level2', level: 2 },
-            { id: 'comp_asset', labelKey: 'h2_localizedasset', href: '#localized-asset', group: 'level2', level: 2 },
-            { id: 'comp_prefab', labelKey: 'h2_localizedprefab', href: '#localized-prefab', group: 'level2', level: 2 },
-            { id: 'comp_uitk', labelKey: 'h2_uitklocalization', href: '#uitk-localization', group: 'level2', level: 2 },
-            { id: 'comp_dropdown', labelKey: 'h2_localizeddropdown', href: '#localized-dropdown', group: 'level2', level: 2 },
-            { id: 'comp_behaviour', labelKey: 'h2_localizedbehaviour', href: '#localized-behaviour', group: 'level2', level: 2 },
-            { id: 'tab_preview', labelKey: 'h2_in_editor_preview', href: '#in-editor-preview', group: 'level2', level: 2 },
-            { id: 'tab_settings', labelKey: 'h2_tab_settings', href: '#settings-tab', group: 'level2', level: 2 },
-            { id: 'tab_content', labelKey: 'h2_tab_content', href: '#content-tab', group: 'level2', level: 2 },
-            { id: 'tab_actions', labelKey: 'h2_tab_actions', href: '#actions-tab', group: 'level2', level: 2 },
-            { id: 'tab_assets', labelKey: 'h2_tab_assets', href: '#assets-tab', group: 'level2', level: 2 },
-            { id: 'tab_report', labelKey: 'h2_tab_report', href: '#report-tab', group: 'level2', level: 2 },
-            { id: 'integ_attribute', labelKey: 'h2_example_attribute', href: '#localizable-field-attribute', group: 'level2', level: 2 },
-            { id: 'integ_function', labelKey: 'h2_example_function', href: '#onlanguagechange-function', group: 'level2', level: 2 },
-            { id: 'integ_plurals', labelKey: 'h2_example_plurals', href: '#plurals-and-gender', group: 'level2', level: 2 },
-            { id: 'extend_parser', labelKey: 'h2_custom_parser', href: '#custom-parser', group: 'level2', level: 2 },
+            // --- Level 2 & 3: Details ---
+
+            // 1. Setup
+            { id: 'setup_install', labelKey: 'nav_installation', href: '#installation', group: 'level2', level: 2 },
+            { id: 'setup_initial', labelKey: 'nav_initial_setup', href: '#initial-setup', group: 'level2', level: 2 },
+
+            // 2. Components
+            { id: 'comp_text', labelKey: 'nav_localizedtext', href: '#localized-text', group: 'level2', level: 2 },
+            { id: 'comp_asset', labelKey: 'nav_localizedasset', href: '#localized-asset', group: 'level2', level: 2 },
+            { id: 'comp_prefab', labelKey: 'nav_localizedprefab', href: '#localized-prefab', group: 'level2', level: 2 },
+            { id: 'comp_uitk', labelKey: 'nav_uitklocalization', href: '#uitk-localization', group: 'level2', level: 2 },
+            { id: 'comp_dropdown', labelKey: 'nav_localizeddropdown', href: '#localized-dropdown', group: 'level2', level: 2 },
+            { id: 'comp_behaviour', labelKey: 'nav_localizedbehaviour', href: '#localized-behaviour', group: 'level2', level: 2 },
+            { id: 'comp_context', labelKey: 'nav_context_menu', href: '#context-menu', group: 'level3', level: 3 },
+
+            // 3. Window
+            { id: 'tab_preview', labelKey: 'nav_in_editor_preview', href: '#in-editor-preview', group: 'level2', level: 2 },
+            { id: 'tab_settings', labelKey: 'nav_tab_settings', href: '#settings-tab', group: 'level2', level: 2 },
+            { id: 'tab_content', labelKey: 'nav_tab_content', href: '#content-tab', group: 'level2', level: 2 },
+            { id: 'tab_actions', labelKey: 'nav_tab_actions', href: '#actions-tab', group: 'level2', level: 2 },
+            { id: 'tab_assets', labelKey: 'nav_tab_assets', href: '#assets-tab', group: 'level2', level: 2 },
+            { id: 'tab_report', labelKey: 'nav_tab_report', href: '#report-tab', group: 'level2', level: 2 },
+
+            { id: 'set_updates', labelKey: 'li_feature_9', href: '#settings-tab', group: 'level3', level: 3 }, // Live Updates
+            { id: 'cnt_regex', labelKey: 'li_content_6', href: '#content-tab', group: 'level3', level: 3 }, // Regex Rules
+            { id: 'act_autotranslate', labelKey: 'li_actions_4', href: '#actions-tab', group: 'level3', level: 3 },
+
+            // 4. Editor
+            { id: 'edit_group', labelKey: 'li_editor_1', href: '#translation-editor', group: 'level2', level: 2 }, // Smart Grouping
+            { id: 'edit_mass', labelKey: 'li_editor_4', href: '#translation-editor', group: 'level2', level: 2 }, // Mass Actions
+            { id: 'edit_context', labelKey: 'li_editor_8', href: '#translation-editor', group: 'level2', level: 2 }, // AI Context Menu
+
+            // 5. AI Ecosystem
+            { id: 'ai_profiles', labelKey: 'nav_ai_profiles_overview', href: '#ai-profiles-overview', group: 'level2', level: 2 },
+            { id: 'ai_custom', labelKey: 'nav_custom_ai', href: '#custom-ai', group: 'level2', level: 2 },
+            { id: 'ai_context', labelKey: 'nav_ai_context', href: '#ai-context', group: 'level2', level: 2 },
+            { id: 'ai_assistant', labelKey: 'nav_ai_assistant', href: '#ai-assistant', group: 'level2', level: 2 },
+            { id: 'ai_audio', labelKey: 'nav_ai_audio', href: '#ai-audio', group: 'level2', level: 2 },
+
+            // 6. Usage / Code
+            { id: 'code_attr', labelKey: 'nav_example_attribute', href: '#localizable-field-attribute', group: 'level2', level: 2 },
+            { id: 'code_func', labelKey: 'nav_example_function', href: '#onlanguagechange-function', group: 'level2', level: 2 },
+            { id: 'code_plurals', labelKey: 'nav_example_plurals', href: '#plurals-and-gender', group: 'level2', level: 2 },
+            { id: 'code_async', labelKey: 'mindmap_node_async_code', href: '#h2_async_api', group: 'level2', level: 2 }, // New Label
+
+            // 7. Tools & Utils
+            { id: 'tool_migration', labelKey: 'nav_migration_tool', href: '#migration-tool', group: 'level2', level: 2 },
+            { id: 'tool_tms', labelKey: 'mindmap_node_tms_integration', href: '#tms-integration', group: 'level2', level: 2 }, // New Label
+            { id: 'tool_fonts', labelKey: 'nav_font_glyph_manager', href: '#font-glyph-manager', group: 'level2', level: 2 },
+            { id: 'tool_pseudo', labelKey: 'mindmap_node_pseudo', href: '#pseudo-tool', group: 'level2', level: 2 }, // New Label
+
+            // 8. Advanced / FAQ
+            { id: 'adv_parser', labelKey: 'nav_custom_parser', href: '#custom-parser', group: 'level2', level: 2 },
+            { id: 'adv_addressables', labelKey: 'li_settings_7', href: '#settings-tab', group: 'level2', level: 2 },
             { id: 'faq_install', labelKey: 'nav_faq_installation', href: '#faq-installation', group: 'level2', level: 2 },
-            { id: 'faq_components', labelKey: 'nav_faq_components', href: '#faq-components', group: 'level2', level: 2 },
-            { id: 'faq_window', labelKey: 'nav_faq_window', href: '#faq-window', group: 'level2', level: 2 },
-            { id: 'faq_editor', labelKey: 'nav_faq_editor', href: '#faq-editor', group: 'level2', level: 2 },
-            { id: 'faq_extending', labelKey: 'nav_faq_extending', href: '#faq-extending', group: 'level2', level: 2 },
-
-            // Level 3: Details
-            { id: 'note_backups', labelKey: 'li_notes_1', href: '#important-notes', group: 'level3', level: 3 },
-            { id: 'note_lang_selector', labelKey: 'li_notes_6', href: '#important-notes', group: 'level3', level: 3 },
-            { id: 'note_streaming_assets', labelKey: 'li_notes_3', href: '#important-notes', group: 'level3', level: 3 },
-            { id: 'note_api_keys', labelKey: 'li_notes_2', href: '#important-notes', group: 'level3', level: 3 },
-            { id: 'example_lang_selector', labelKey: 'li_example_components_1', href: '#ready-made-components', group: 'level3', level: 3 }
+            { id: 'faq_comp', labelKey: 'nav_faq_components', href: '#faq-components', group: 'level2', level: 2 },
         ],
         edges: [
-            // --- Hierarchical Connections (Core Structure) ---
-            // Level 0 -> 1
-            { from: 'hub', to: 'pillar_intro' },
+            // --- Hub Connections ---
             { from: 'hub', to: 'pillar_setup' },
-            { from: 'hub', to: 'pillar_automation' },
-            { from: 'hub', to: 'pillar_management' },
-            { from: 'hub', to: 'pillar_translation' },
-            { from: 'hub', to: 'pillar_integration' },
+            { from: 'hub', to: 'pillar_components' },
+            { from: 'hub', to: 'pillar_window' },
+            { from: 'hub', to: 'pillar_editor' },
+            { from: 'hub', to: 'pillar_ai' },
+            { from: 'hub', to: 'pillar_usage' },
+            { from: 'hub', to: 'pillar_tools' },
             { from: 'hub', to: 'pillar_advanced' },
-            { from: 'hub', to: 'pillar_notes' },
             { from: 'hub', to: 'pillar_faq' },
 
-            // Level 1 -> 2
+            // --- Structure Connections ---
             { from: 'pillar_setup', to: 'setup_install' }, { from: 'pillar_setup', to: 'setup_initial' },
-            { from: 'pillar_automation', to: 'comp_text' }, { from: 'pillar_automation', to: 'comp_asset' }, { from: 'pillar_automation', to: 'comp_prefab' }, { from: 'pillar_automation', to: 'comp_uitk' }, { from: 'pillar_automation', to: 'comp_dropdown' }, { from: 'pillar_automation', to: 'comp_behaviour' },
-            { from: 'pillar_management', to: 'tab_preview' }, { from: 'pillar_management', to: 'tab_settings' }, { from: 'pillar_management', to: 'tab_content' }, { from: 'pillar_management', to: 'tab_actions' }, { from: 'pillar_management', to: 'tab_assets' }, { from: 'pillar_management', to: 'tab_report' },
-            { from: 'pillar_integration', to: 'example_lang_selector' }, { from: 'pillar_integration', to: 'integ_attribute' }, { from: 'pillar_integration', to: 'integ_function' }, { from: 'pillar_integration', to: 'integ_plurals' },
-            { from: 'pillar_advanced', to: 'extend_parser' },
-            { from: 'pillar_faq', to: 'faq_install' }, { from: 'pillar_faq', to: 'faq_components' }, { from: 'pillar_faq', to: 'faq_window' }, { from: 'pillar_faq', to: 'faq_editor' }, { from: 'pillar_faq', to: 'faq_extending' },
 
-            // Level 1 -> 3 (Direct details)
-            { from: 'pillar_notes', to: 'note_backups' }, { from: 'pillar_notes', to: 'note_api_keys' }, { from: 'pillar_notes', to: 'note_streaming_assets' }, { from: 'pillar_notes', to: 'note_lang_selector' },
+            { from: 'pillar_components', to: 'comp_text' }, { from: 'pillar_components', to: 'comp_asset' },
+            { from: 'pillar_components', to: 'comp_prefab' }, { from: 'pillar_components', to: 'comp_uitk' },
+            { from: 'pillar_components', to: 'comp_dropdown' }, { from: 'pillar_components', to: 'comp_behaviour' },
+            { from: 'comp_asset', to: 'comp_context', labelKey: 'mindmap_edge_enables_reaction' },
 
-            // --- Logical Connections (Relationships & Workflows) ---
+            { from: 'pillar_window', to: 'tab_preview' }, { from: 'pillar_window', to: 'tab_settings' },
+            { from: 'pillar_window', to: 'tab_content' }, { from: 'pillar_window', to: 'tab_actions' },
+            { from: 'pillar_window', to: 'tab_assets' }, { from: 'pillar_window', to: 'tab_report' },
+            { from: 'tab_settings', to: 'set_updates' }, { from: 'tab_content', to: 'cnt_regex' },
 
-            // Quick Start Workflow
-            { from: 'setup_initial', to: 'tab_settings', labelKey: 'mindmap_edge_configure' },
-            { from: 'tab_settings', to: 'tab_content', labelKey: 'mindmap_edge_specify_content' },
-            { from: 'tab_content', to: 'tab_actions', labelKey: 'mindmap_edge_parse_project' },
+            { from: 'pillar_editor', to: 'edit_group' }, { from: 'pillar_editor', to: 'edit_mass' }, { from: 'pillar_editor', to: 'edit_context' },
 
-            // Tool Window Workflow & Interactions
-            { from: 'tab_actions', to: 'pillar_automation', labelKey: 'mindmap_edge_creates_components' },
-            { from: 'tab_actions', to: 'tab_report', labelKey: 'mindmap_edge_generates' },
-            { from: 'tab_actions', to: 'pillar_translation', labelKey: 'mindmap_edge_opens' },
+            { from: 'pillar_ai', to: 'ai_profiles' }, { from: 'pillar_ai', to: 'ai_custom' },
+            { from: 'pillar_ai', to: 'ai_context' }, { from: 'pillar_ai', to: 'ai_assistant' },
+            { from: 'pillar_ai', to: 'ai_audio' },
+
+            { from: 'pillar_usage', to: 'code_attr' }, { from: 'pillar_usage', to: 'code_func' },
+            { from: 'pillar_usage', to: 'code_plurals' }, { from: 'pillar_usage', to: 'code_async' },
+
+            { from: 'pillar_tools', to: 'tool_migration' }, { from: 'pillar_tools', to: 'tool_tms' },
+            { from: 'pillar_tools', to: 'tool_fonts' }, { from: 'pillar_tools', to: 'tool_pseudo' },
+
+            { from: 'pillar_advanced', to: 'adv_parser' }, { from: 'pillar_advanced', to: 'adv_addressables' },
+
+            { from: 'pillar_faq', to: 'faq_install' }, { from: 'pillar_faq', to: 'faq_comp' },
+
+            // --- Workflow Connections (Cross-Pillar) ---
+
+            // AI Integration
+            { from: 'ai_profiles', to: 'act_autotranslate', labelKey: 'mindmap_edge_enables_reaction' }, // Profiles power auto-translate
+            { from: 'ai_profiles', to: 'ai_audio', labelKey: 'mindmap_edge_generates' }, // Profiles config audio
+            { from: 'ai_assistant', to: 'edit_context', labelKey: 'mindmap_edge_opens' }, // Assistant is in editor context menu
+
+            // Assets & Addressables
+            { from: 'adv_addressables', to: 'code_async', labelKey: 'mindmap_edge_recommends_for' }, // Async required for Addressables
             { from: 'tab_assets', to: 'comp_asset', labelKey: 'mindmap_edge_manages_assets' },
-            { from: 'tab_settings', to: 'integ_plurals', labelKey: 'mindmap_edge_defines_rules' },
-            { from: 'tab_report', to: 'pillar_automation', labelKey: 'mindmap_edge_reports_on' },
 
-            // Code Integration Relationships
-            { from: 'comp_behaviour', to: 'integ_function', labelKey: 'mindmap_edge_enables_reaction' }, // [OnLanguageChange] methods use _()
-            { from: 'integ_attribute', to: 'pillar_automation', labelKey: 'mindmap_edge_processed_by' },
-            { from: 'integ_plurals', to: 'pillar_translation', labelKey: 'mindmap_edge_edited_in' },
-            { from: 'extend_parser', to: 'pillar_automation', labelKey: 'mindmap_edge_extends' },
+            // Code & Components
+            { from: 'code_attr', to: 'tab_content', labelKey: 'mindmap_edge_processed_by' }, // Parser reads attributes
+            { from: 'comp_behaviour', to: 'code_func', labelKey: 'mindmap_edge_enables_reaction' },
 
-            // Notes -> Relevant Section
-            { from: 'note_lang_selector', to: 'example_lang_selector', labelKey: 'mindmap_edge_warns_about' },
-            { from: 'note_streaming_assets', to: 'tab_settings', labelKey: 'mindmap_edge_relates_to' },
-            { from: 'note_api_keys', to: 'tab_settings', labelKey: 'mindmap_edge_relates_to' },
-            { from: 'note_backups', to: 'pillar_translation', labelKey: 'mindmap_edge_recommends_for' },
+            // TMS
+            { from: 'tool_tms', to: 'tab_settings', labelKey: 'mindmap_edge_configure' }, // TMS Configured in Settings
 
-            // Cross-referencing to FAQ
-            { from: 'pillar_automation', to: 'faq_components', labelKey: 'mindmap_edge_see_faq' },
-            { from: 'pillar_management', to: 'faq_window', labelKey: 'mindmap_edge_see_faq' },
-            { from: 'pillar_setup', to: 'faq_install', labelKey: 'mindmap_edge_see_faq' },
-            { from: 'pillar_advanced', to: 'faq_extending', labelKey: 'mindmap_edge_see_faq' },
-            { from: 'pillar_translation', to: 'faq_editor', labelKey: 'mindmap_edge_see_faq' },
+            // Migration
+            { from: 'tool_migration', to: 'setup_install', labelKey: 'mindmap_edge_relates_to' }, // Often done at start
         ]
     },
 
     /**
-     * Initializes the MindMap module by binding events.
+     * Initializes the MindMap module.
      */
     init() {
         this.populatePresetSelector();
@@ -173,7 +208,7 @@ export const MindMap = {
     },
 
     /**
-     * Populates the preset selector dropdown with options.
+     * Populates the preset selector.
      */
     populatePresetSelector() {
         const selector = document.getElementById('mindmap-preset-selector');
@@ -189,19 +224,11 @@ export const MindMap = {
         }
     },
 
-
-    /**
-     * Wraps a string to a new line if it exceeds a maximum width.
-     * @param {string} str The string to wrap.
-     * @param {number} maxWidth The maximum number of characters per line.
-     * @returns {string} The wrapped string.
-     */
     wordWrap(str, maxWidth = 25) {
         const newLineStr = "\n";
         let res = '';
         while (str.length > maxWidth) {
             let found = false;
-            // Find the last space within the maximum width
             for (let i = maxWidth - 1; i >= 0; i--) {
                 if (/\s/.test(str[i])) {
                     res += str.slice(0, i) + newLineStr;
@@ -210,7 +237,6 @@ export const MindMap = {
                     break;
                 }
             }
-            // If no space is found, hard break the word
             if (!found) {
                 res += str.slice(0, maxWidth) + newLineStr;
                 str = str.slice(maxWidth);
@@ -219,17 +245,12 @@ export const MindMap = {
         return res + str;
     },
 
-    /**
-     * Generates and displays the mind map network based on the current preset.
-     */
     generateAndShow() {
         if (this.network) {
-            // If a network already exists, just update visibility
             this.applyPreset(this.currentPreset);
             return;
         }
 
-        // --- First time generation ---
         DOM.mindmapContainer.innerHTML = '';
         const { nodes, edges } = this.transformData();
 
@@ -241,29 +262,21 @@ export const MindMap = {
 
         this.network = new vis.Network(DOM.mindmapContainer, { nodes: this.fullNodesDataSet, edges: this.fullEdgesDataSet }, options);
         this.bindNetworkEvents();
-        
-        // Apply the current preset after initial generation
         this.applyPreset(this.currentPreset);
     },
-    
-    /**
-     * Applies the selected preset by showing/hiding nodes and edges.
-     * @param {string} presetKey - The key of the preset to apply.
-     */
+
     applyPreset(presetKey) {
         if (!this.network || !this.fullNodesDataSet) return;
 
         const selectedPreset = this.presets[presetKey];
         const visibleNodeIds = selectedPreset?.nodes ? new Set(selectedPreset.nodes) : null;
-        
-        // Update nodes: set hidden property
+
         const nodeUpdates = this.fullNodesDataSet.getIds().map(id => ({
             id,
             hidden: visibleNodeIds ? !visibleNodeIds.has(id) : false
         }));
         this.fullNodesDataSet.update(nodeUpdates);
 
-        // Update edges: set hidden property
         const edgeUpdates = this.fullEdgesDataSet.map(edge => ({
             id: edge.id,
             hidden: visibleNodeIds ? (!visibleNodeIds.has(edge.from) || !visibleNodeIds.has(edge.to)) : false
@@ -271,26 +284,25 @@ export const MindMap = {
         this.fullEdgesDataSet.update(edgeUpdates);
     },
 
-    /**
-     * Transforms the raw mindMapData into a format usable by vis.js,
-     * applying language translations.
-     * @returns {{nodes: Array, edges: Array}} The formatted nodes and edges.
-     */
     transformData() {
         const translations = LanguageHandler.translationsCache[localStorage.getItem('language') || 'en'] || {};
 
         const nodes = this.mindMapData.nodes.map(node => {
             const tempDiv = document.createElement('div');
             let titleKey = node.labelKey;
-            if (!/^(li_|nav_|page_)/.test(titleKey)) {
+            // Clean keys for standard navigation items if not found explicitly
+            if (!translations[titleKey] && !/^(li_|nav_|page_|mindmap_)/.test(titleKey)) {
                 titleKey = titleKey.replace(/^h[1-2]_/, 'nav_');
             }
+
             tempDiv.innerHTML = translations[titleKey] || node.id;
-            const cleanText = tempDiv.textContent.replace(/[\u{1F600}-\u{1F6FF}\u{1F300}-\u{1F5FF}\u{1F1E0}-\u{1F1FF}]/gu, '').trim().replace(/^\d+\.\s*/, '');
+            const cleanText = tempDiv.textContent
+                .replace(/[\u{1F600}-\u{1F6FF}\u{1F300}-\u{1F5FF}\u{1F1E0}-\u{1F1FF}]/gu, '') // Remove emojis
+                .trim()
+                .replace(/^\d+\.\s*/, ''); // Remove numbering (1., 2.)
             return { ...node, label: this.wordWrap(cleanText) };
         });
 
-        // Add IDs to edges and translate labels if they have a key
         const edges = this.mindMapData.edges.map((edge, index) => {
             const newEdge = { ...edge, id: edge.id || `edge-${index}` };
             if (edge.labelKey && translations[edge.labelKey]) {
@@ -302,21 +314,13 @@ export const MindMap = {
         return { nodes, edges };
     },
 
-    /**
-     * Saves the current positions of all nodes to localStorage.
-     */
     savePositions() {
         if (this.network) {
-            this.network.storePositions(); // Use built-in function to save positions
+            this.network.storePositions();
             localStorage.setItem(this.storageKey, JSON.stringify(this.network.getPositions()));
         }
     },
 
-    /**
-     * Loads node positions from localStorage and applies them.
-     * @param {vis.DataSet} nodesDataSet The DataSet to update.
-     * @returns {boolean} True if positions were loaded, false otherwise.
-     */
     loadPositions(nodesDataSet) {
         try {
             const savedPositions = localStorage.getItem(this.storageKey);
@@ -332,32 +336,23 @@ export const MindMap = {
                 return true;
             }
         } catch (e) {
-            console.error("Failed to load mind map positions:", e);
+            console.error("Failed to load positions:", e);
         }
         return false;
     },
 
-    /**
-     * Clears saved positions and regenerates the map with default layout.
-     */
     resetView() {
         localStorage.removeItem(this.storageKey);
-        localStorage.removeItem(this.presetStorageKey); // Also clear saved preset
-        // Destroy and fully regenerate the network
+        localStorage.removeItem(this.presetStorageKey);
         if (this.network) {
             this.network.destroy();
             this.network = null;
             this.fullNodesDataSet = null;
             this.fullEdgesDataSet = null;
         }
-        this.open(); // Re-open to apply default state
+        this.open();
     },
 
-    /**
-     * Gets the configuration options for the vis.js network.
-     * @param {boolean} hasSavedPositions - If true, physics stabilization will be disabled on load.
-     * @returns {object} The options object for vis.js.
-     */
     getOptions(hasSavedPositions = false) {
         const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
 
@@ -384,23 +379,21 @@ export const MindMap = {
             physics: {
                 enabled: !hasSavedPositions,
                 barnesHut: {
-                    gravitationalConstant: -30000,
-                    centralGravity: 0.2,
-                    springLength: 250,
-                    springConstant: 0.02,
-                    damping: 0.2,
-                    avoidOverlap: 0.7
+                    gravitationalConstant: -25000,
+                    centralGravity: 0.25,
+                    springLength: 220,
+                    springConstant: 0.03,
+                    damping: 0.3,
+                    avoidOverlap: 0.6
                 },
                 stabilization: {
                     enabled: !hasSavedPositions,
-                    iterations: 400,
+                    iterations: 500,
                     fit: true,
-                    updateInterval: 20
+                    updateInterval: 25
                 }
             },
-            layout: {
-                hierarchical: false
-            },
+            layout: { hierarchical: false },
             nodes: {
                 shape: 'box',
                 margin: { top: 12, right: 18, bottom: 12, left: 18 },
@@ -418,11 +411,7 @@ export const MindMap = {
                 font: { align: 'top', color: themeColors.level3.font, size: 11 },
                 width: 1,
                 arrows: { to: { enabled: true, scaleFactor: 0.7 } },
-                smooth: {
-                    type: 'cubicBezier',
-                    forceDirection: 'vertical',
-                    roundness: 0.4
-                }
+                smooth: { type: 'cubicBezier', forceDirection: 'vertical', roundness: 0.4 }
             },
             groups: {
                 level0: { color: { background: themeColors.level0.bg, border: themeColors.level0.border }, font: { color: themeColors.level0.font, size: 18, bold: { size: 18 } }, borderWidth: 1.5 },
@@ -433,9 +422,6 @@ export const MindMap = {
         };
     },
 
-    /**
-     * Binds event listeners to the network itself (clicks, drags).
-     */
     bindNetworkEvents() {
         this.network.on('click', (params) => {
             if (params.nodes.length > 0) {
@@ -455,21 +441,13 @@ export const MindMap = {
             this.network.setOptions({ physics: false });
         });
 
-        // When user starts dragging, re-enable physics
-        this.network.on('dragStart', () => {
-            this.network.setOptions({ physics: true });
-        });
-
-        // When user stops dragging, save positions and disable physics again
+        this.network.on('dragStart', () => this.network.setOptions({ physics: true }));
         this.network.on('dragEnd', () => {
             this.savePositions();
             this.network.setOptions({ physics: false });
         });
     },
 
-    /**
-     * Binds event listeners to DOM elements (buttons, overlay).
-     */
     bindEvents() {
         DOM.mindmapToggle.addEventListener('click', () => this.open());
         DOM.mindmapClose.addEventListener('click', () => this.close());
@@ -487,20 +465,16 @@ export const MindMap = {
         if (presetSelector) {
             presetSelector.addEventListener('change', (e) => {
                 this.currentPreset = e.target.value;
-                localStorage.setItem(this.presetStorageKey, this.currentPreset); // Save on change
+                localStorage.setItem(this.presetStorageKey, this.currentPreset);
                 this.applyPreset(this.currentPreset);
             });
         }
     },
 
-    /**
-     * Opens the mind map overlay.
-     */
     open() {
         DOM.mindmapOverlay.classList.add('show');
         document.body.classList.add('mindmap-active');
-        
-        // Load saved preset or default to full_view
+
         this.currentPreset = localStorage.getItem(this.presetStorageKey) || 'full_view';
         const presetSelector = document.getElementById('mindmap-preset-selector');
         if (presetSelector) {
@@ -510,9 +484,6 @@ export const MindMap = {
         setTimeout(() => this.generateAndShow(), 50);
     },
 
-    /**
-     * Closes the mind map overlay.
-     */
     close() {
         DOM.mindmapOverlay.classList.remove('show');
         document.body.classList.remove('mindmap-active');
@@ -526,4 +497,3 @@ export const MindMap = {
         }
     }
 };
-
