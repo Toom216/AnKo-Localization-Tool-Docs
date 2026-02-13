@@ -19,6 +19,12 @@ export const TOC = {
             }
         }
         
+        // Use a selector that can find nested headings (querySelectorAll is depth-first by default in traversal order? No, it's document order)
+        // Since we wrapped sections, H2s are now deeper. querySelectorAll finds all descendants, so it should still work fine.
+        // However, we want to ensure we don't pick up headings from hidden areas if any.
+        // The original code was fine with 'h1[id], h2[id]'.
+        // Let's verify if the order is preserved. Yes, querySelectorAll returns in document order.
+        
         const headings = rootElement.querySelectorAll('h1[id], h2[id]');
         const mainList = document.createElement('ul');
         let currentH1LI = null;
@@ -60,7 +66,7 @@ export const TOC = {
         li.innerHTML = `
             <div class="toc-h1-header">
                 <button class="toc-toggle" aria-label="Toggle submenu"></button>
-                <a href="#${heading.id}" data-key="${navKey}"></a>
+                <a href="#${heading.id}" data-key="${navKey}" data-fallback-key="${originalKey}"></a>
             </div>
             <ul class="toc-submenu"></ul>
         `;
@@ -75,7 +81,7 @@ export const TOC = {
         const navKey = originalKey.replace(/^h2_/, 'nav_');
         const li = document.createElement('li');
         li.className = 'toc-h2';
-        li.innerHTML = `<a href="#${heading.id}" data-key="${navKey}"></a>`;
+        li.innerHTML = `<a href="#${heading.id}" data-key="${navKey}" data-fallback-key="${originalKey}"></a>`;
         return li;
     },
 

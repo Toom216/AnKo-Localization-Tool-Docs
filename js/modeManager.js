@@ -1,53 +1,75 @@
 import { DOM } from './dom.js';
-import { TOC } from './toc.js';
-import { ScrollSpy } from './scrollSpy.js';
-import { LanguageHandler } from './languageHandler.js';
 
-/**
- * Handles mode switching (simple/advanced) and persists the choice
- * in localStorage. Also updates the UI and regenerates the TOC.
- */
 export const ModeManager = {
     init() {
-        const savedMode = localStorage.getItem('mode') || 'advanced';
-        this.apply(savedMode);
-        DOM.modeToggle.addEventListener('click', () => this.toggle());
-    },
-
-    async apply(mode) {
-        // Update body classes
-        document.body.classList.remove('mode-simple', 'mode-advanced');
-        document.body.classList.add(`mode-${mode}`);
+        this.modeToggleBtn = document.getElementById('mode-toggle');
+        this.body = document.body;
         
-        // Update button icon and title based on current mode
-        const bookIcon = `<img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f4d6.svg" class="theme-icon" alt="Simple mode">`;
-        const graduationCapIcon = `<img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f393.svg" class="theme-icon" alt="Advanced mode">`;
+        // Check for saved mode preference
+        const savedMode = localStorage.getItem('viewMode');
         
-        if (mode === 'simple') {
-            DOM.modeToggle.innerHTML = graduationCapIcon;
-            DOM.modeToggle.title = 'Switch to Advanced Mode';
+        // Check hash for direct link to patch notes
+        if (window.location.hash === '#patch-notes') {
+            this.enablePatchNotesMode();
+        } else if (savedMode === 'patch-notes') {
+            this.enablePatchNotesMode();
         } else {
-            DOM.modeToggle.innerHTML = bookIcon;
-            DOM.modeToggle.title = 'Switch to Simple Mode';
+            this.enableDocsMode();
         }
-        
-        // Save mode to localStorage
-        localStorage.setItem('mode', mode);
-        
-        // Regenerate TOC based on the current mode
-        TOC.generate();
-        
-        // Apply translations to the newly created TOC elements
-        const savedLang = localStorage.getItem('language') || 'en';
-        await LanguageHandler.applyTranslationsToContainer(DOM.tocContainer, savedLang);
-        
-        // Re-initialize ScrollSpy
-        ScrollSpy.init();
+
+        if (this.modeToggleBtn) {
+            this.modeToggleBtn.addEventListener('click', () => {
+                this.toggleMode();
+            });
+        }
     },
 
-    async toggle() {
-        const currentMode = document.body.classList.contains('mode-simple') ? 'simple' : 'advanced';
-        const newMode = currentMode === 'simple' ? 'advanced' : 'simple';
-        await this.apply(newMode);
+    toggleMode() {
+        if (this.body.classList.contains('mode-patch-notes')) {
+            this.enableDocsMode();
+        } else {
+            this.enablePatchNotesMode();
+        }
+    },
+
+    enableDocsMode() {
+        this.body.classList.remove('mode-patch-notes');
+        this.body.classList.add('mode-docs');
+        localStorage.setItem('viewMode', 'docs');
+        this.updateButtonState('docs');
+    },
+
+    enablePatchNotesMode() {
+        this.body.classList.remove('mode-docs');
+        this.body.classList.add('mode-patch-notes');
+        localStorage.setItem('viewMode', 'patch-notes');
+        this.updateButtonState('patch-notes');
+    },
+
+    updateButtonState(mode) {
+        if (!this.modeToggleBtn) return;
+        
+        // If we are in docs mode, button should offer to switch to history (clock icon)
+        // If we are in history mode, button should offer to switch to docs (book/article icon)
+        
+        if (mode === 'docs') {
+            this.modeToggleBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 0 24 24" width="22px" fill="currentColor">
+                    <path d="M0 0h24v24H0V0z" fill="none"/>
+                    <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+                </svg>
+            `;
+            this.modeToggleBtn.setAttribute('title', 'Show Version History');
+            this.modeToggleBtn.setAttribute('aria-label', 'Show Version History');
+        } else {
+            this.modeToggleBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 0 24 24" width="22px" fill="currentColor">
+                    <path d="M0 0h24v24H0V0z" fill="none"/>
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+                </svg>
+            `;
+            this.modeToggleBtn.setAttribute('title', 'Show Documentation');
+            this.modeToggleBtn.setAttribute('aria-label', 'Show Documentation');
+        }
     }
 };

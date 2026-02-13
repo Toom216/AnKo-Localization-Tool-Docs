@@ -10,6 +10,7 @@ import { ScrollSpy } from './scrollSpy.js';
 import { OnPageNav } from './onPageNav.js';
 import { NotesManager } from './notes.js';
 import { ModeManager } from './modeManager.js';
+import './patchNotes.js';
 
 /**
  * The main App object that orchestrates the initialization and
@@ -19,7 +20,7 @@ export const App = {
     async init() {
         // Initialize modules that don't depend on language content first
         ThemeManager.init();
-        await ModeManager.init();
+        ModeManager.init();
         SearchHandler.init();
         new Lightbox();
         MindMap.init();

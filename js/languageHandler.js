@@ -181,6 +181,17 @@ export const LanguageHandler = {
                 translation = fallbackTranslations[key];
             }
 
+            // NEW: Second level fallback using data-fallback-key (e.g. nav_ -> h1_)
+            if (translation === undefined && elem.dataset.fallbackKey) {
+                const fallbackKey = elem.dataset.fallbackKey;
+                translation = translations[fallbackKey];
+                
+                // Try EN fallback for the fallback key as well
+                if (translation === undefined && lang !== 'en' && fallbackTranslations) {
+                    translation = fallbackTranslations[fallbackKey];
+                }
+            }
+
             if (translation === undefined) return;
 
             // Use textContent for code blocks to prevent HTML injection and fix highlight.js warnings.

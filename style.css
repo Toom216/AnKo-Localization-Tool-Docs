@@ -3,11 +3,21 @@
    ========================================================================== */
 
 /* View Modes */
-.mode-simple #view-advanced {
+/* Default (Docs Mode) */
+#patch-notes-container {
     display: none;
 }
 
-.mode-advanced #view-simple {
+#view-advanced {
+    display: block;
+}
+
+/* Patch Notes Mode */
+body.mode-patch-notes #patch-notes-container {
+    display: block;
+}
+
+body.mode-patch-notes #view-advanced {
     display: none;
 }
 
@@ -1176,6 +1186,33 @@ h3 {
     vertical-align: -0.2em;
     filter: var(--icon-filter);
     transition: filter 0.3s ease;
+    display: inline-block; /* Явно задаем строчно-блочный тип */
+    margin-top: 0;
+    margin-bottom: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* --- Стили для изображений и видео в контенте --- */
+.content-wrapper img:not(.emoji),
+.content-wrapper video.doc-image {
+    max-width: 100%;
+    height: auto;
+    /* Ограничиваем высоту, чтобы большие элементы не занимали весь экран */
+    /* При этом широкие, но низкие элементы будут масштабироваться только по ширине */
+    max-height: 500px; 
+    object-fit: contain;
+    display: block;
+    margin: 1.5rem auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    transition: transform 0.3s ease;
+}
+
+/* Эффект при наведении */
+.content-wrapper img:not(.emoji):hover,
+.content-wrapper video.doc-image:hover {
+    transform: scale(1.01);
 }
 
 h1:first-child {
@@ -1266,16 +1303,90 @@ pre:hover .copy-code-btn {
     opacity: 1;
 }
 
-.doc-image {
-    width: 100%;
-    height: auto;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    margin: 25px 0;
-    box-shadow: 0 1px 3px var(--shadow-color);
-    display: block;
-    cursor: zoom-in;
+/* ==========================================================================
+   New Layout Styles (Media Object / Grid)
+   ========================================================================== */
+
+.doc-section {
+    margin-bottom: 40px;
+    clear: both; /* Ensure sections don't overlap */
 }
+
+.doc-chapter {
+    clear: both;
+}
+
+/* Reset heading clears as we handle layout per section now */
+h1, h2 {
+    clear: none;
+    margin-top: 0; /* Headings are now inside sections */
+}
+
+/* --- Layout Type 1: Text + Media (Flex Split) --- */
+.section-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.section-text {
+    flex: 1;
+    min-width: 300px; /* Ensure text doesn't get too squashed */
+}
+
+.section-media {
+    flex: 0 0 auto; /* Don't shrink below content size */
+    max-width: 400px; /* Limit image container width */
+}
+
+/* Specific handling for images inside the media container */
+.section-media .doc-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+    display: block;
+    margin: 0; 
+    float: none; 
+}
+
+/* --- Layout Type 2: Mixed Content (Code Blocks + Text + Images) --- */
+/* For sections with code blocks, we avoid the split layout to prevent squeezing. */
+/* Instead, we use a standard flow, but we can still style images nicely. */
+
+.mixed-content .doc-image {
+    display: block;
+    margin: 20px auto; 
+    max-width: 100%; 
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+    float: none; 
+}
+
+/* If the user wants images to float only if there is space, it's tricky with code blocks.
+   The safest professional look for mixed code/text/images is vertical stacking or centered images. */
+
+/* Responsive: Stack on mobile */
+@media (max-width: 768px) {
+    .section-body {
+        flex-direction: column;
+    }
+    
+    .section-media {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .section-text {
+        min-width: 0;
+    }
+}
+
+
+/* Previous styles cleanup */
+/* .doc-image styles below are overridden by specificity or can be removed */
 
 #scrollTopBtn {
     position: fixed;
@@ -1898,6 +2009,19 @@ mark.current-match {
         margin: 0;
     }
 
+    .doc-image {
+        float: none;
+        max-width: 100%;
+        height: auto;
+        max-height: 400px; /* Чуть меньше для мобилок */
+        object-fit: contain;
+        margin: 20px auto;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        box-shadow: 0 1px 3px var(--shadow-color);
+        cursor: zoom-in;
+    }
+
     .main-content h1,
     .main-content h2,
     .main-content h3,
@@ -2234,4 +2358,91 @@ mark.current-match {
     margin-right: 5px;
     font-size: 0.9em;
     opacity: 0.8;
+}
+
+/* ==========================================================================
+   Patch Notes Styles
+   ========================================================================== */
+
+#patch-notes-container {
+    margin-top: 2em;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--content-bg-color);
+    padding: 20px;
+}
+
+.patch-note-item {
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 10px;
+}
+
+.patch-note-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.patch-note-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: var(--main-bg-color);
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.patch-note-header:hover {
+    background-color: var(--active-nav-bg);
+}
+
+.patch-note-header.active {
+    background-color: var(--active-nav-bg);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.patch-version {
+    font-weight: bold;
+    color: var(--link-color);
+    margin-right: 15px;
+    min-width: 60px;
+}
+
+.patch-title {
+    flex-grow: 1;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.patch-toggle-icon {
+    font-size: 12px;
+    color: var(--secondary-text-color);
+    transition: transform 0.3s ease;
+}
+
+.patch-note-header.active .patch-toggle-icon {
+    transform: rotate(180deg);
+}
+
+.patch-note-content {
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--content-bg-color);
+}
+
+.patch-note-content h3 {
+    margin-top: 1.5em;
+    font-size: 1.1em;
+    border-bottom: none;
+    color: var(--text-color);
+}
+
+.patch-note-content ul {
+    padding-left: 20px;
+    margin-bottom: 1em;
+}
+
+.patch-note-content li {
+    margin-bottom: 0.5em;
 }

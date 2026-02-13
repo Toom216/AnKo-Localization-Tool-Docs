@@ -19,7 +19,7 @@
 
     <title data-key="page_title">AnKo Localization Tool Docs</title>
 
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/logo_loc_tool.png" type="image/x-icon">
 
     <link rel="stylesheet" href="style.css">
 
@@ -54,7 +54,8 @@
 <body>
     <div class="notification-banner" id="notificationBanner">
         <div class="banner-content">
-            <span class="banner-text">Documentation version 1.4.7 - Current tool version 1.4.7</span>
+            <span class="banner-text">Documentation version 2.0 - Current tool version 2.0 : DOCUMENTATION IS BEING
+                UPDATED...</span>
         </div>
         <button class="banner-toggle" id="bannerToggle">▲</button>
     </div>
@@ -137,16 +138,25 @@
             <div class="warning-box discord-warning">Join my Discord: <a href="https://discord.gg/vCVh7BD9Ps"
                     target="_blank" rel="noopener noreferrer">https://discord.gg/vCVh7BD9Ps</a> - help, bug reports,
                 suggestions and more.</div>
-            <div class="warning-box ">
-                <h3>With over 100 features and countless combinations </h3>
-                (ranging from AI
-                translation and TTS to TMS sync and Live Updates), this tool has grown into a massive ecosystem. While I
-                maintain extensive unit test coverage, the sheer variety of Unity project setups means I value user
-                feedback immensely. <h4>As a solo developer</h4>I’m committed to rapid bug fixing and improvements. If
-                you find
-                something not working as expected, please let me know via Discord or email.
-            </div>
+
+            <!-- for path notes history -->
+            <div id="patch-notes-container"></div>
+
             <div id="view-advanced" class="view-section">
+
+                <div class="warning-box">
+                    <h3>Scale & Support</h3>
+                    This is a complex system with hundreds of feature combinations.
+                    Since it is impossible to predict every unique Unity project setup, I rely heavily on your feedback.
+                    <br><br>
+                    <strong>I work on this project alone and take personal responsibility for quality.</strong>
+                    Found a bug or have a suggestion? Message me on Discord or Email — I will address it as fast as
+                    possible.
+                </div>
+                <div class="warning-box ">
+                    <h3>DOCUMENTATION IS BEING UPDATED...</h3>
+                </div>
+
                 <!-- 1. Introduction -->
                 <h1 id="introduction"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f680.svg"
                         class="emoji" alt=""><span data-key="h1_introduction"></span></h1>
@@ -169,6 +179,7 @@
                     <li data-key="li_feature_13"></li>
                     <li data-key="li_feature_14"></li>
                     <li data-key="li_feature_15"></li>
+                    <li data-key="li_feature_tool_translation"></li>
                 </ul>
 
                 <!-- 2. Quick Start -->
@@ -187,16 +198,14 @@
                 </ol>
 
                 <h2 id="initial-setup" data-key="h2_initial_setup"></h2>
-                <video src="img/quickstart_vid.mp4" class="doc-image" controls loading="lazy">
-                    Your browser does not support video playback.
-                </video>
                 <ol>
                     <li data-key="li_setup_1"></li>
                     <li data-key="li_setup_2"></li>
                     <li data-key="li_setup_3"></li>
                     <li data-key="li_setup_4"></li>
                     <li data-key="li_setup_5"></li>
-
+                    <video src="img/QuickStart1_Texts.mp4" class="doc-image" controls playsinline></video>
+                    <video src="img/QuickStart2_Assets.mp4" class="doc-image" controls playsinline></video>
                 </ol>
 
                 <!-- 3. Core Components -->
@@ -207,236 +216,492 @@
 
                 <h2 id="localized-text" data-key="h2_localizedtext"></h2>
                 <p data-key="p_localizedtext_1"></p>
-                <img src="img/components_localized_text.jpg" alt="LocalizedText component in the inspector"
-                    class="doc-image" loading="lazy">
-                <img src="img/components_localized_text_demo.gif"
-                    alt="Demonstration of text change on a button when changing language in Live Preview"
-                    class="doc-image" loading="lazy">
                 <ul>
                     <li data-key="li_localizedtext_1"></li>
                     <li data-key="li_localizedtext_2"></li>
                     <li data-key="li_localizedtext_3"></li>
+                    <li data-key="li_localizedtext_key_override"></li>
+                    <li data-key="li_localizedtext_search_key"></li>
                 </ul>
+                <img src="img\Component_LocalizedText.png" alt="LocalizedText component in the inspector"
+                    class="doc-image" loading="lazy">
 
                 <h2 id="localized-asset" data-key="h2_localizedasset"></h2>
                 <p data-key="p_localizedasset_1"></p>
-                <img src="img/components_localized_asset.jpg" alt="LocalizedAsset component in the inspector"
-                    class="doc-image" loading="lazy">
-                <img src="img/components_localized_asset_demo.gif"
-                    alt="Demonstration of changing the flag sprite when changing language" class="doc-image"
-                    loading="lazy">
                 <p data-key="p_localizedasset_2"></p>
+                <img src="img\Component_LocalizedAsset.png" alt="LocalizedAsset component in the inspector"
+                    class="doc-image" loading="lazy">
 
                 <h2 id="localized-prefab" data-key="h2_localizedprefab"></h2>
                 <p data-key="p_localizedprefab_1"></p>
-                <img src="img/components_localized_prefab.gif" alt="Demonstration of LocalizedPrefab functionality"
+                <img src="img\Component_LocalizedPrefab.png" alt="Demonstration of LocalizedPrefab functionality"
                     class="doc-image" loading="lazy">
 
                 <h2 id="uitk-localization" data-key="h2_uitklocalization"></h2>
                 <p data-key="p_uitklocalization_1"></p>
-                <img src="img/components_uitk_localization.jpg" alt="UITKLocalization component in the inspector"
-                    class="doc-image" loading="lazy">
+                <img src="img\Component_UITK.png" alt="UITKLocalization component in the inspector" class="doc-image"
+                    loading="lazy">
 
                 <h2 id="localized-dropdown" data-key="h2_localizeddropdown"></h2>
                 <p data-key="p_localizeddropdown_1"></p>
-                <img src="img/components_localized_dropdown.jpg" alt="LocalizedDropdown component in the inspector"
+                <img src="img\Component_LocalizedDropdown.png" alt="LocalizedDropdown component in the inspector"
                     class="doc-image" loading="lazy">
 
                 <h2 id="localized-behaviour" data-key="h2_localizedbehaviour"></h2>
                 <p data-key="p_localizedbehaviour_1"></p>
-                <img src="img/components_localized_behaviour.jpg" alt="LocalizedBehaviour component in the inspector"
+                <img src="img\Component_LocalizedBehaviour.png" alt="LocalizedBehaviour component in the inspector"
                     class="doc-image" loading="lazy">
-
-                <h2 id="context-menu" data-key="h2_context_menu"></h2>
-                <p data-key="p_context_menu_1"></p>
-                <img src="img/components_context_menu.gif" alt="Analyze for Localization context menu" class="doc-image"
-                    loading="lazy">
 
                 <!-- 4. Tool Window -->
                 <h1 id="localization-tool-window"><img
                         src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f5bc.svg" class="emoji"
                         alt=""><span data-key="h1_loc_tool_window"></span></h1>
 
-                <h2 id="in-editor-preview" data-key="h2_in_editor_preview"></h2>
-                <p data-key="p_preview_1"></p>
-                <img src="img/window_live_preview.gif" alt="Live Preview demonstration" class="doc-image"
-                    loading="lazy">
-
+                <!-- 4.1 Header & Toolbar -->
+                <h2 id="window-header" data-key="h2_window_header"></h2>
+                <p data-key="p_window_header"></p>
+                <img src="img\window-header.png" alt="Global Header and Toolbar with preview and utility buttons"
+                    class="doc-image" loading="lazy">
                 <ul>
-                    <li data-key="li_preview_1"></li>
-                    <li data-key="li_preview_2"></li>
-                    <img src="img/window_placeholder_styles.jpg"
-                        alt="Screenshot showing different placeholder styles (Accents, Brackets)" class="doc-image"
-                        loading="lazy">
-                    <li data-key="li_preview_3"></li>
-                    <li data-key="li_preview_4"></li>
+                    <li data-key="li_header_preview_btn"></li>
+                    <li data-key="li_header_lang_selector"></li>
+                    <li data-key="li_header_toolbar_buttons"></li>
                 </ul>
 
-                <h2 id="settings-tab" data-key="h2_tab_settings"></h2>
-                <p data-key="p_settings_1"></p>
-                <img src="img/window_tab_settings_overview.jpg" alt="Settings tab overview" class="doc-image"
+                <!-- 4.2 Sidebar (Main Menu) -->
+                <h2 id="window-sidebar" data-key="h2_window_sidebar"></h2>
+                <p data-key="p_window_sidebar"></p>
+                <img src="img\window-sidebar.png" alt="Sidebar menu with navigation and search" class="doc-image"
+                    loading="lazy" style="max-width: 300px;">
+                <ul>
+                    <li data-key="li_sidebar_search"></li>
+                    <li data-key="li_sidebar_presets"></li>
+                </ul>
+
+                <!-- 4.3 Tutorials Tab -->
+                <h2 id="tutorials-tab" data-key="h2_tab_tutorials"></h2>
+                <p data-key="p_tutorials_1"></p>
+                <img src="img\tutorials-tab.png" alt="Tutorials tab listing all interactive lessons" class="doc-image"
                     loading="lazy">
                 <ul>
+                    <li data-key="li_tutorials_1"></li>
+                    <li data-key="li_tutorials_size"></li>
                     <li>
-                        <span data-key="li_settings_1"></span>
-                        <img src="img/window_tab_settings_key_gen.jpg" alt="Key Generation Mode setup" class="doc-image"
+                        <span data-key="li_tutorials_2"></span>
+                        <ul>
+                            <li data-key="li_tutorials_quickstart"></li>
+                            <li data-key="li_tutorials_migration"></li>
+                            <li data-key="li_tutorials_editor"></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!-- 4.4 Settings Tab -->
+                <h2 id="settings-tab" data-key="h2_tab_settings"></h2>
+                <p data-key="p_settings_1"></p>
+                <img src="img\settings-tab.png" alt="Settings tab overview" class="doc-image" loading="lazy">
+
+                <!-- 4.4.1 Key Generation -->
+                <h3 id="settings-keygen" data-key="h3_settings_keygen"></h3>
+                <ul>
+                    <li data-key="li_settings_1"></li>
+                    <img src="img\settings-keygen.png" alt="Settings tab overview" class="doc-image" loading="lazy">
+                </ul>
+
+                <!-- 4.4.2 Languages -->
+                <h3 id="settings-languages" data-key="h3_settings_languages"></h3>
+                <ul>
+                    <li data-key="li_settings_2"></li>
+                    <li data-key="li_settings_lang_follow_system"></li>
+                    <li data-key="li_settings_lang_culture_fallback"></li>
+                    <li data-key="li_settings_return_source"></li>
+                    <img src="img\settings-languages.png" alt="Language management" class="doc-image" loading="lazy">
+                </ul>
+
+                <!-- 4.4.3 General Settings -->
+                <h3 id="settings-general" data-key="h3_settings_general"></h3>
+                <ul>
+                    <li data-key="li_settings_3"></li>
+                    <img src="img\settings-general.png" alt="Language management" class="doc-image" loading="lazy">
+                </ul>
+
+                <!-- 4.4.4 Debugging -->
+                <h3 id="settings-debugging" data-key="h3_settings_debugging"></h3>
+                <ul>
+                    <li data-key="li_settings_4"></li>
+                    <img src="img\settings-debugging.png" alt="Debugging & Testing section" class="doc-image"
+                        loading="lazy">
+
+                    <h4 id="in-editor-preview" data-key="h2_in_editor_preview"></h4>
+                    <p data-key="p_preview_1"></p>
+                    <img src="https://placehold.co/600x400?text=GIF:+Live+Preview+Demo" alt="Live Preview demonstration"
+                        class="doc-image" loading="lazy">
+                    <div class="info-box" data-key="li_editor_regex"></div>
+                    <ul>
+                        <li data-key="li_preview_1"></li>
+                        <li data-key="li_preview_2"></li>
+                        <img src="https://placehold.co/600x400?text=PICTURE:+Placeholder+Styles"
+                            alt="Screenshot showing different placeholder styles (Accents, Brackets)" class="doc-image"
                             loading="lazy">
-                    </li>
-                    <li>
-                        <span data-key="li_settings_2"></span>
-                        <img src="img/window_tab_settings_lang_management.jpg" alt="Language management"
-                            class="doc-image" loading="lazy">
-                    </li>
-                    <li>
-                        <span data-key="li_settings_3"></span>
-                        <img src="img/window_tab_settings_general.jpg" alt="General Settings section" class="doc-image"
-                            loading="lazy">
-                    </li>
-                    <li>
-                        <span data-key="li_settings_4"></span>
-                        <img src="img/window_tab_settings_debugging.jpg" alt="Debugging & Testing section"
-                            class="doc-image" loading="lazy">
-                    </li>
+                        <li data-key="li_preview_3"></li>
+                        <li data-key="li_preview_4"></li>
+                    </ul>
+
+                    <!-- Pseudo-Localization -->
+                    <h4 id="pseudo-localization" data-key="h3_settings_pseudo"></h4>
+                    <ul>
+                        <li data-key="li_settings_pseudo_brackets"></li>
+                        <li data-key="li_settings_pseudo_accents"></li>
+                        <li data-key="li_settings_pseudo_expand_length"></li>
+                        <li data-key="li_settings_pseudo_expansion_factor"></li>
+                        <li data-key="li_settings_pseudo_prefix"></li>
+                        <li data-key="li_settings_pseudo_suffix"></li>
+                    </ul>
+                    <img src="https://placehold.co/600x400?text=GIF:+Pseudo-Localization+Visual+Effect"
+                        alt="Visual demonstration of expansion and accents in pseudo-localization" class="doc-image"
+                        loading="lazy">
+
+                    <h4 id="scene-view-overlay" data-key="h2_preview_overlay"></h4>
+                    <p data-key="p_preview_overlay"></p>
+                    <ul>
+                        <li data-key="li_preview_overlay_1"></li>
+                        <li data-key="li_preview_overlay_2"></li>
+                    </ul>
+                    <img src="https://placehold.co/600x400?text=GIF:+Scene+View+Overlay+Demo"
+                        alt="Scene View Overlay Demonstration" class="doc-image" loading="lazy">
+
+                    <li data-key="li_settings_9"></li>
+                    <h4 data-key="h2_visual_debugging_guide"></h4>
+                    <ul>
+                        <li data-key="li_vis_debug_1"></li>
+                        <li data-key="li_vis_debug_2"></li>
+                        <li data-key="li_vis_debug_3"></li>
+                    </ul>
                     <li data-key="li_settings_icons_legend"></li>
+                    <img src="https://placehold.co/600x400?text=PICTURE:+Icons+Legend" alt="Icons Legend"
+                        class="doc-image" loading="lazy">
+                    <img src="https://placehold.co/600x600?text=GIF:+Visual+Debugging+in+Hierarchy+and+Scene"
+                        alt="Hierarchy icons and Scene View labels changing in real-time" class="doc-image"
+                        loading="lazy">
+
+                    <!-- General & Dev Tools -->
+                    <h4 id="settings-tools" data-key="h3_settings_tools"></h4>
+                    <ul>
+                        <li data-key="li_settings_tool_font_manager"></li>
+                        <li data-key="li_settings_tool_migration"></li>
+                        <li data-key="li_settings_tool_clear_prefs"></li>
+                        <li data-key="li_settings_tool_check_deps"></li>
+                        <li data-key="li_settings_tool_test_center"></li>
+                        <li data-key="li_settings_tool_cleanup"></li>
+                    </ul>
+                </ul>
+
+                <!-- 4.4.5 Live Updates -->
+                <h3 id="settings-liveupdates" data-key="h3_settings_liveupdates"></h3>
+                <ul>
+                    <li data-key="li_settings_5"></li>
+                    <img src="img\settings-liveupdates.png" alt="Live Updates section" class="doc-image" loading="lazy">
+                    <div class="note-box" data-key="li_settings_live_updates_security"></div>
+                    <h4 data-key="h2_live_updates_guide"></h4>
+                    <p data-key="p_live_updates_guide"></p>
+                    <ul>
+                        <li data-key="li_live_updates_1"></li>
+                        <li data-key="li_live_updates_2"></li>
+                        <li data-key="li_live_updates_3"></li>
+                        <li data-key="li_live_updates_4"></li>
+                    </ul>
+                </ul>
+
+                <!-- 4.4.6 Runtime API -->
+                <h3 id="settings-runtimeapi" data-key="h3_settings_runtimeapi"></h3>
+                <ul>
+                    <li data-key="li_settings_6"></li>
+                    <img src="img\settings-runtimeapi.png" alt="Runtime API Key section" class="doc-image"
+                        loading="lazy">
+                    <div class="warning-box" data-key="a_faq_runtime_api_key_distinction"></div>
+
+                    <h4 data-key="h2_safety_caps"></h4>
+                    <p data-key="p_safety_caps"></p>
+                    <ul>
+                        <li data-key="li_safety_global_limit"></li>
+                        <li data-key="li_safety_profile_limit"></li>
+                    </ul>
+                </ul>
+
+
+                <!-- 4.5 Content Tab -->
+                <h2 id="content-tab" data-key="h2_tab_content"></h2>
+                <p data-key="p_content_1"></p>
+                <img src="img\content-tab.png" alt="Content tab with settings" class="doc-image" loading="lazy">
+
+                <!-- 4.5.1 Prefab Folders -->
+                <h3 id="content-prefabs" data-key="h3_content_prefabs"></h3>
+                <ul>
+                    <li data-key="li_content_2"></li>
+                    <img src="img\content-prefabs.png" alt="Prefab folders gif" class="doc-image" loading="lazy">
+                </ul>
+
+                <!-- 4.5.2 Scenes to Parse -->
+                <h3 id="content-scenes" data-key="h3_content_scenes"></h3>
+                <ul>
+                    <li data-key="li_content_1"></li>
+                    <img src="img\content-scenes.png" alt="Scenes to parse gif" class="doc-image" loading="lazy">
+                </ul>
+
+                <!-- 4.5.3 Dynamic Texts -->
+                <h3 id="content-dynamic-texts" data-key="h3_content_dynamic_texts"></h3>
+                <ul>
+                    <li data-key="li_content_3"></li>
+                    <li data-key="li_content_dynamic_texts"></li>
+                    <img src="img\content-dynamic-texts.png" alt="Dynamic texts gif" class="doc-image" loading="lazy">
+                </ul>
+
+                <!-- 4.5.4 Dynamic Key Prefixes -->
+                <h3 id="content-dynamic-keys" data-key="h3_content_dynamic_keys"></h3>
+                <ul>
+                    <li data-key="li_content_dynamic_keys"></li>
+                    <img src="img\content-dynamic-keys.png" alt="Dynamic texts gif" class="doc-image" loading="lazy">
+                </ul>
+
+                <!-- 4.5.6 Scripts to Ignore -->
+                <h3 id="content-scripts-ignore" data-key="h3_content_scripts_ignore"></h3>
+                <ul>
+                    <li data-key="li_content_6"></li>
+                    <img src="img\content-scripts-ignore.png" alt="Dynamic texts gif" class="doc-image" loading="lazy">
+                </ul>
+
+                <!-- 4.5.7 Component Types to Ignore -->
+                <h3 id="content-components-ignore" data-key="h3_content_components_ignore"></h3>
+                <ul>
+                    <li data-key="li_content_4"></li>
+                    <img src="img\content-components-ignore.png" alt="Dynamic texts gif" class="doc-image"
+                        loading="lazy">
+                </ul>
+
+                <!-- 4.5.8 Objects to Ignore -->
+                <h3 id="content-objects-ignore" data-key="h3_content_objects_ignore"></h3>
+                <ul>
                     <li>
-                        <span data-key="li_settings_5"></span>
-                        <img src="img/window_tab_settings_live_updates.jpg" alt="Live Updates section" class="doc-image"
-                            loading="lazy">
+                        <span data-key="li_content_5"></span>
+                        <img src="img\content-components-ignore.png"
+                            alt="Animation of pinning an object to the ignore list" class="doc-image" loading="lazy">
                     </li>
-                    <li>
-                        <span data-key="li_settings_6"></span>
-                        <img src="img/window_tab_settings_runtime_api.jpg" alt="Runtime API Key section"
-                            class="doc-image" loading="lazy">
-                    </li>
-                    <li>
-                        <span data-key="li_settings_7"></span>
-                    </li>
-                    <li>
-                        <span data-key="li_settings_8"></span>
-                    </li>
-                    <li>
-                        <span data-key="li_settings_9"></span>
-                    </li>
-                    <li data-key="li_settings_10"></li>
                     <li data-key="li_settings_11"></li>
                 </ul>
 
-                <h2 id="content-tab" data-key="h2_tab_content"></h2>
-                <p data-key="p_content_1"></p>
-                <img src="img/window_tab_content.jpg" alt="Content tab with settings" class="doc-image" loading="lazy">
+                <!-- 4.5.9 Ignored Regex Patterns -->
+                <h3 id="content-regex" data-key="h3_content_regex"></h3>
                 <ul>
-                    <li data-key="li_content_1"></li>
-                    <img src="img/scenes_to_parse.gif" alt="Scenes to parse gif" class="doc-image" loading="lazy">
-                    <li data-key="li_content_2"></li>
-                    <img src="img/prefab_folders.gif" alt="Prefab folders gif" class="doc-image" loading="lazy">
-                    <li data-key="li_content_3"></li>
-                    <img src="img/dynamic_texts.gif" alt="Dynamic texts gif" class="doc-image" loading="lazy">
-                    <li data-key="li_content_4"></li>
-                    <li>
-                        <span data-key="li_content_5"></span>
-                        <img src="img/window_tab_content_pin_ignore.gif"
-                            alt="Animation of pinning an object to the ignore list" class="doc-image" loading="lazy">
-                    </li>
-                    <li data-key="li_content_6"></li>
                     <li data-key="li_content_regex_presets"></li>
-                    <li data-key="li_content_7"></li>
                     <li data-key="li_content_regex_example"></li>
+                    <img src="img\content-regex.png" alt="Dynamic texts gif" class="doc-image" loading="lazy">
                 </ul>
 
+                <!-- 4.5.10 Script Parsing Rules -->
+                <h3 id="content-script-rules" data-key="h3_content_script_rules"></h3>
+                <ul>
+                    <li data-key="li_settings_10"></li>
+                    <li data-key="li_content_scanner"></li>
+                    <ul>
+                        <li data-key="li_content_scanner_details_1"></li>
+                        <li data-key="li_content_scanner_details_2"></li>
+                        <li data-key="li_content_scanner_details_3"></li>
+                        <li data-key="li_content_scanner_details_4"></li>
+                    </ul>
+                    <li data-key="li_content_script_rules_bridges"></li>
+                    <li data-key="li_content_script_rules_bridge_name"></li>
+                    <img src="img\content-script-rules.png" alt="Dynamic texts gif" class="doc-image" loading="lazy">
+                    <li data-key="li_content_script_rules_attributes"></li>
+                    <img src="img\content-attributes.png" alt="Dynamic texts gif" class="doc-image" loading="lazy">
+                </ul>
+
+
+                <!-- 4.6 Actions Tab -->
                 <h2 id="actions-tab" data-key="h2_tab_actions"></h2>
                 <p data-key="p_actions_1"></p>
-                <img src="img/window_tab_actions_overview.jpg" alt="Actions tab overview" class="doc-image"
-                    loading="lazy">
+                <img src="img\actions-tab.png" alt="Actions tab overview" class="doc-image" loading="lazy">
+
+                <!-- 4.6.1 Parsing -->
+                <h3 id="actions-parsing" data-key="h3_actions_parsing"></h3>
                 <ul>
                     <li data-key="li_actions_1"></li>
-                    <img src="img/quickstart_first_parse.gif"
+                    <li data-key="li_settings_11"></li>
+                    <img src="img\actions-parsing.png"
                         alt="Animation of clicking Update Keys and the result as created files" class="doc-image"
                         loading="lazy">
+                </ul>
+
+                <!-- 4.6.2 Translation Editor -->
+                <h3 id="actions-editor" data-key="h3_actions_editor"></h3>
+                <ul>
                     <li data-key="li_actions_2"></li>
-                    <img src="img/open_translation_editor.gif" alt="Open translation editor" class="doc-image"
-                        loading="lazy">
+                    <img src="img\actions-editor.png" alt="Open translation editor" class="doc-image" loading="lazy">
+                    <img src="img\actions-editor2.png" alt="Open translation editor" class="doc-image" loading="lazy">
+                </ul>
+
+                <!-- 4.6.3 Data Management -->
+                <h3 id="actions-data" data-key="h3_actions_data"></h3>
+                <ul>
                     <li>
                         <span data-key="li_actions_3"></span>
-                        <img src="img/window_tab_actions_data_management.jpg" alt="Data Management section"
-                            class="doc-image" loading="lazy">
-                        <img src="img/window_tab_actions_import_export.gif"
-                            alt="Animation of exporting to CSV and importing from Google Sheets" class="doc-image"
-                            loading="lazy">
-                    </li>
-                    <li>
-                        <span data-key="li_actions_4"></span>
-                        <img src="img/window_tab_actions_autotranslate.gif" alt="Automatic translation process"
-                            class="doc-image" loading="lazy">
-                    </li>
-                    <li>
-                        <span data-key="li_actions_5"></span>
-                        <img src="img/window_tab_actions_danger_zone.jpg" alt="Danger Zone section" class="doc-image"
-                            loading="lazy">
+                        <img src="img\actions-data.png" alt="Data Management section" class="doc-image" loading="lazy">
                     </li>
                 </ul>
 
+                <!-- 4.6.4 Auto-Translation -->
+                <h3 id="actions-autotranslate" data-key="h3_actions_autotranslate"></h3>
+                <ul>
+                    <li>
+                        <span data-key="li_actions_4"></span>
+                    </li>
+                    <li data-key="li_settings_8"></li>
+                    <img src="img\actions-autotranslate.png" alt="Automatic translation process" class="doc-image"
+                        loading="lazy">
+                </ul>
+
+                <!-- 4.6.5 External Services (TMS) -->
+                <h3 id="actions-tms-integration" data-key="h3_actions_tms_integration"></h3>
+                <p data-key="p_actions_services">
+                    <img src="img\actions-tms-integration.png" alt="Danger Zone section" class="doc-image"
+                        loading="lazy">
+                </p>
+
+                <!-- 4.6.6 Danger Zone -->
+                <h3 id="actions-danger" data-key="h3_actions_danger"></h3>
+                <ul>
+                    <li data-key="li_actions_5"></li>
+                    <img src="img\actions-danger.png" alt="Danger Zone section" class="doc-image" loading="lazy">
+                </ul>
+
+
+                <!-- 4.7 Assets Tab -->
                 <h2 id="assets-tab" data-key="h2_tab_assets"></h2>
                 <p data-key="p_assets_1"></p>
-                <img src="img/window_tab_assets.gif" alt="Asset workflow process" class="doc-image" loading="lazy">
+                <img src="img\assets-tab.png" alt="Asset workflow process" class="doc-image" loading="lazy">
 
-                <ol>
-                    <li data-key="li_assets_1"></li>
-                    <li data-key="li_assets_2"></li>
+                <!-- 4.7.1 Loading Strategy -->
+                <h3 id="assets-loading" data-key="h3_assets_loading"></h3>
+                <ul>
+                    <li data-key="li_settings_7"></li>
+                    <li data-key="li_assets_6"></li>
+                    <img src="img\assets-loading.png" alt="Asset workflow process" class="doc-image" loading="lazy">
+                </ul>
+
+                <!-- 4.7.2 Storage Configuration -->
+                <h3 id="assets-storage-config" data-key="h3_assets_storage"></h3>
+                <ul>
+                    <li data-key="li_assets_storage_path"></li>
+                    <li data-key="li_assets_auto_folders"></li>
+                    <img src="img\assets-storage-config.png" alt="Asset workflow process" class="doc-image"
+                        loading="lazy">
+                </ul>
+                <ul>
                     <li data-key="li_assets_3"></li>
                     <li data-key="li_assets_4"></li>
-                    <li data-key="li_assets_5"></li>
-                    <li data-key="li_assets_6"></li>
+                    <li data-key="li_settings_asset_folder_rule"></li>
                     <li data-key="li_assets_addressables_naming"></li>
-                    <img src="img/window_tab_assets_folder_gen.jpg"
-                        alt="Screenshot of the generated folder structure for assets" class="doc-image" loading="lazy">
-                </ol>
+                </ul>
+
+                <!-- 4.7.3 Folder Generation -->
+                <h3 id="assets-folder-gen" data-key="h3_assets_folder_gen"></h3>
+                <ul>
+                    <li data-key="li_assets_folder_gen"></li>
+                    <img src="img\assets-folder-gen.png" alt="Asset workflow process" class="doc-image" loading="lazy">
+                </ul>
+
+                <!-- 4.7.4 Asset Categories -->
+                <h3 id="assets-categories" data-key="h3_assets_categories"></h3>
+                <ul>
+                    <li data-key="li_assets_1"></li>
+                    <li data-key="li_assets_2"></li>
+                    <img src="img\assets-categories.png" alt="Asset workflow process" class="doc-image" loading="lazy">
+                </ul>
+
+                <!-- 4.7.5 Automation -->
+                <h3 id="assets-automation" data-key="h3_assets_automation"></h3>
+                <ul>
+                    <li data-key="li_assets_5"></li>
+                    <img src="img\assets-automation.png" alt="Asset workflow process" class="doc-image" loading="lazy">
+                </ul>
 
 
+                <!-- 4.8 Report Tab -->
                 <h2 id="report-tab" data-key="h2_tab_report"></h2>
                 <p data-key="p_report_1"></p>
-                <img src="img/window_tab_report.gif" alt="Report tab with scan results" class="doc-image"
-                    loading="lazy">
+                <img src="img\report-tab.png" alt="Report tab with scan results" class="doc-image" loading="lazy">
+
+                <!-- 4.8.1 All Keys -->
+                <h3 id="report-all-keys" data-key="h3_report_all_keys"></h3>
                 <ul>
                     <li data-key="li_report_1"></li>
                     <li data-key="li_report_2"></li>
+                    <li data-key="li_report_btn_load_last"></li>
+                    <li data-key="li_report_btn_copy_all"></li>
+                    <li data-key="li_report_btn_save"></li>
+                    <li data-key="li_report_btn_clear"></li>
+                    <li data-key="li_report_source_filter"></li>
+                    <img src="img\report-tab2.png" alt="Report tab with scan results" class="doc-image" loading="lazy">
                 </ul>
+
+                <!-- 4.9 Footer -->
+                <h2 id="window-footer" data-key="h2_window_footer"></h2>
+                <p data-key="p_window_footer"></p>
+                <ul>
+                    <li data-key="li_footer_status"></li>
+                    <img src="img\window-footer.png" alt="Report tab with scan results" class="doc-image"
+                        loading="lazy">
+                </ul>
+
+
 
                 <!-- 5. Translation Editor -->
                 <h1 id="translation-editor"><img
                         src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f4dd.svg" class="emoji"
                         alt=""><span data-key="h1_translation_editor"></span></h1>
+
                 <p data-key="p_editor_1"></p>
 
                 <ul>
                     <li>
                         <span data-key="li_editor_1"></span>
-                        <img src="img/editor_smart_grouping.gif" alt="Smart key grouping" class="doc-image"
-                            loading="lazy">
+                        <img src="img\li_editor_1.png" alt="Smart key grouping" class="doc-image" loading="lazy">
                     </li>
+                    <li data-key="li_editor_structure"></li>
                     <li>
                         <span data-key="li_editor_2"></span>
-                        <img src="img/editor_multiline_window.gif"
+                        <img src="img\li_editor_2.png"
                             alt="Animation of the MultiLineEditWindow with placeholder error highlighting"
                             class="doc-image" loading="lazy">
                     </li>
                     <li>
                         <span data-key="li_editor_3"></span>
-                        <img src="img/editor_advanced_selection.gif" alt="Advanced selection modes" class="doc-image"
-                            loading="lazy">
+                        <img src="img\li_editor_3.gif" alt="Advanced selection modes" class="doc-image" loading="lazy">
                     </li>
                     <li>
                         <span data-key="li_editor_4"></span>
-                        <img src="img/editor_mass_actions.gif" alt="Mass actions via context menu" class="doc-image"
+                        <img src="img\li_editor_4.png" alt="Mass actions via context menu" class="doc-image"
                             loading="lazy">
                     </li>
                     <li data-key="li_editor_5"></li>
+                    <li data-key="li_editor_regex"></li>
                     <li>
                         <span data-key="li_editor_6"></span>
-                        <img src="img/has_length_issues.gif" alt="Has Length Issues" class="doc-image" loading="lazy">
-                        <img src="img/editor_backup_manager.gif" alt="Backup manager" class="doc-image" loading="lazy">
+                        <img src="https://placehold.co/600x400?text=GIF:+Length+Issues" alt="Has Length Issues"
+                            class="doc-image" loading="lazy">
+                        <img src="https://placehold.co/600x400?text=GIF:+Backup+Manager" alt="Backup manager"
+                            class="doc-image" loading="lazy">
                     </li>
                     <li data-key="li_editor_7"></li>
                     <li data-key="li_editor_8"></li>
+                    <li data-key="li_editor_layout"></li>
+                    <li data-key="li_editor_ui_test"></li>
+                </ul>
+
+                <h2 id="backup-manager" data-key="h2_backup_manager"></h2>
+                <ul>
+                    <li data-key="li_backup_desc"></li>
+                    <li data-key="li_backup_snapshots"></li>
+                    <li data-key="li_backup_rollback"></li>
                 </ul>
 
                 <!-- 6. AI Profiles -->
@@ -445,19 +710,20 @@
 
                 <h2 id="ai-profiles-overview" data-key="h2_ai_profiles_overview"></h2>
                 <p data-key="p_ai_intro"></p>
-                <img src="img/ai_profiles_inspector.gif" alt="Translation Profile inspector view" class="doc-image"
-                    loading="lazy">
+                <img src="https://placehold.co/600x400?text=GIF:+AI+Profiles+Inspector"
+                    alt="Translation Profile inspector view" class="doc-image" loading="lazy">
                 <ul>
                     <li data-key="li_ai_1"></li>
                     <li data-key="li_ai_2"></li>
                     <li data-key="li_ai_3"></li>
+                    <li data-key="li_ai_provider_settings"></li>
                     <li data-key="li_ai_4"></li>
                 </ul>
 
                 <h2 id="custom-ai" data-key="h2_custom_ai"></h2>
                 <p data-key="p_custom_ai"></p>
-                <img src="img/ai_custom_service.jpg" alt="Custom AI service configuration" class="doc-image"
-                    loading="lazy">
+                <img src="https://placehold.co/600x400?text=PICTURE:+Custom+AI+Service"
+                    alt="Custom AI service configuration" class="doc-image" loading="lazy">
                 <ul>
                     <li data-key="li_custom_ai_1"></li>
                     <li data-key="li_custom_ai_2"></li>
@@ -466,17 +732,22 @@
 
                 <h2 id="ai-context" data-key="h2_ai_context"></h2>
                 <p data-key="p_ai_context"></p>
-                <img src="img/ai_context_settings.jpg" alt="Context settings in profile" class="doc-image"
-                    loading="lazy">
+                <img src="https://placehold.co/600x400?text=PICTURE:+AI+Context+Settings"
+                    alt="Context settings in profile" class="doc-image" loading="lazy">
                 <ul>
                     <li data-key="li_context_1"></li>
                     <li data-key="li_context_2"></li>
                     <li data-key="li_context_3"></li>
+                    <li data-key="li_context_4"></li>
+                    <li data-key="li_context_5"></li>
+                    <li data-key="li_context_glossary"></li>
+                    <li data-key="li_context_optimization"></li>
                 </ul>
 
                 <h2 id="ai-assistant" data-key="h2_ai_assistant"></h2>
                 <p data-key="p_ai_assistant"></p>
-                <img src="img/ai_assistant_menu.jpg" alt="AI Assistant context menu" class="doc-image" loading="lazy">
+                <img src="https://placehold.co/600x400?text=PICTURE:+AI+Assistant+Menu" alt="AI Assistant context menu"
+                    class="doc-image" loading="lazy">
                 <ul>
                     <li data-key="li_assistant_1"></li>
                     <li data-key="li_assistant_2"></li>
@@ -487,12 +758,12 @@
                 <h1 id="ai-audio"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f3a4.svg"
                         class="emoji" alt=""><span data-key="h1_ai_audio"></span></h1>
 
-                <h2 data-key="h2_ai_audio_setup"></h2>
+                <h2 id="ai-audio-setup" data-key="h2_ai_audio_setup"></h2>
                 <ul>
                     <li data-key="li_ai_audio_profile"></li>
                 </ul>
 
-                <h2 data-key="h2_ai_audio_usage"></h2>
+                <h2 id="ai-audio-usage" data-key="h2_ai_audio_usage"></h2>
                 <p data-key="p_ai_audio_economy"></p>
                 <ul>
                     <li data-key="li_ai_audio_generate"></li>
@@ -500,6 +771,8 @@
                     <li data-key="li_ai_audio_hash"></li>
                     <li data-key="li_ai_audio_voice_mapping"></li>
                 </ul>
+                <img src="https://placehold.co/600x400?text=GIF:+AI+Audio+Generation+Workflow"
+                    alt="Workflow for generating and managing AI audio files" class="doc-image" loading="lazy">
 
                 <!-- 8. Usage Examples -->
                 <h1 id="usage-examples"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f4a1.svg"
@@ -510,21 +783,21 @@
                 <ul>
                     <li>
                         <span data-key="li_example_components_1"></span>
-                        <img src="img/examples_language_selector_runtime.gif"
+                        <img src="https://placehold.co/600x400?text=GIF:+Language+Selector+Runtime"
                             alt="Demonstration of the language switcher in a running game" class="doc-image"
                             loading="lazy">
                     </li>
                     <li data-key="li_example_components_2"></li>
                 </ul>
 
-                <h2 data-key="h2_example_components_updated"></h2>
+                <h2 id="example-components-updated" data-key="h2_example_components_updated"></h2>
                 <p data-key="p_example_components_updated"></p>
                 <ul>
                     <li data-key="li_example_components_old"></li>
                     <li data-key="li_example_components_new"></li>
                 </ul>
 
-                <h2 data-key="h2_localizedasset_updated"></h2>
+                <h2 id="localizedasset-updated" data-key="h2_localizedasset_updated"></h2>
                 <p data-key="p_localizedasset_updated"></p>
 
                 <h2 id="localizable-field-attribute" data-key="h2_example_attribute"></h2>
@@ -535,7 +808,7 @@
 
                 <div class="comparison-container">
                     <div class="comparison-column supported">
-                        <h4 data-key="lbl_supported">
+                        <h4>
                             <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2705.svg" class="emoji"
                                 alt="OK">
                             <span data-key="lbl_supported">Fully Supported</span>
@@ -566,57 +839,59 @@
                                     class="emoji" alt="YES">
                                 <span data-key="li_cheat_headers"></span>
                             </li>
+                            <li>
+                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg"
+                                    class="emoji" alt="YES">
+                                <span data-key="li_cheat_properties"></span>
+                            </li>
+                            <li>
+                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg"
+                                    class="emoji" alt="YES">
+                                <span data-key="li_cheat_static"></span>
+                            </li>
+                            <li>
+                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg"
+                                    class="emoji" alt="YES">
+                                <span data-key="li_cheat_structs"></span>
+                            </li>
+                            <li>
+                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg"
+                                    class="emoji" alt="YES">
+                                <span data-key="li_cheat_concatenation"></span>
+                            </li>
+                            <li>
+                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg"
+                                    class="emoji" alt="YES">
+                                <span data-key="li_cheat_non_literals"></span>
+                            </li>
+                            <li>
+                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg"
+                                    class="emoji" alt="YES">
+                                <span data-key="li_cheat_unattached"></span>
+                            </li>
+                            <li>
+                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2714.svg"
+                                    class="emoji" alt="YES">
+                                <span data-key="li_cheat_base_private"></span>
+                            </li>
                         </ul>
                         <pre><code class="language-csharp" style="font-size: 0.85em;">// See the complete code example 
 // in the section above ⬆️</code></pre>
                     </div>
 
                     <div class="comparison-column not-supported">
-                        <h4 data-key="lbl_not_supported">
+                        <h4>
                             <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/274c.svg" class="emoji"
                                 alt="NO">
                             <span data-key="lbl_not_supported">NOT Supported</span>
                         </h4>
                         <ul>
-                            <li>
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg"
-                                    class="emoji" alt="NO">
-                                <span data-key="li_cheat_properties"></span>
-                            </li>
-                            <li>
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg"
-                                    class="emoji" alt="NO">
-                                <span data-key="li_cheat_static"></span>
-                            </li>
-                            <li>
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg"
-                                    class="emoji" alt="NO">
-                                <span data-key="li_cheat_concatenation"></span>
-                            </li>
-                            <li>
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg"
-                                    class="emoji" alt="NO">
-                                <span data-key="li_cheat_non_literals"></span>
-                            </li>
-                            <li>
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg"
-                                    class="emoji" alt="NO">
-                                <span data-key="li_cheat_unattached"></span>
-                            </li>
-                            <li>
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg"
-                                    class="emoji" alt="NO">
-                                <span data-key="li_cheat_base_private"></span>
-                            </li>
+
+
                             <li>
                                 <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg"
                                     class="emoji" alt="NO">
                                 <span data-key="li_cheat_dictionaries"></span>
-                            </li>
-                            <li>
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6ab.svg"
-                                    class="emoji" alt="NO">
-                                <span data-key="li_cheat_scriptable_objects"></span>
                             </li>
                         </ul>
                         <pre><code class="language-csharp" data-key="code_example_attribute_limitations"></code></pre>
@@ -630,12 +905,46 @@
                 <p data-key="p_example_function_1"></p>
                 <pre><code class="language-csharp" data-key="code_example_function"></code></pre>
 
+                <h2 id="bridge-generation" data-key="h2_bridge_generation"></h2>
+                <p data-key="p_bridge_description"></p>
+                <ul>
+                    <li data-key="li_settings_bridge_name"></li>
+                </ul>
+                <img src="https://placehold.co/600x400?text=PICTURE:+Bridge+Class+Generation"
+                    alt="Bridge Class Generator Settings" class="doc-image" loading="lazy">
+                <p><strong data-key="p_bridge_usage_title"></strong></p>
+                <pre><code class="language-csharp" data-key="code_bridge_example"></code></pre>
+
+                <h2 id="script-parsing-rules" data-key="h2_script_parsing_rules"></h2>
+                <p data-key="p_script_parsing_rules_description"></p>
+                <p data-key="p_script_parsing_rules_usage"></p>
+                <img src="https://placehold.co/600x400?text=GIF:+Script+Parsing+with+Regex"
+                    alt="How custom regex rules find keys in non-standard function calls" class="doc-image"
+                    loading="lazy">
+                <pre><code class="language-csharp" data-key="code_script_rule_example"></code></pre>
+
+                <h2 id="custom-attributes" data-key="h2_custom_attributes"></h2>
+                <p data-key="p_custom_attributes_description"></p>
+                <pre><code class="language-csharp" data-key="code_custom_attribute_example"></code></pre>
+
                 <h2 id="plurals-and-gender" data-key="h2_example_plurals"></h2>
                 <p data-key="p_example_plurals_1"></p>
                 <pre><code class="language-csharp" data-key="code_example_plurals"></code></pre>
-                <img src="img/examples_plurals_editor.jpg" alt="Example of plural keys in the editor" class="doc-image"
-                    loading="lazy">
+                <img src="https://placehold.co/600x400?text=PICTURE:+Plural+Keys+Editor"
+                    alt="Example of plural keys in the editor" class="doc-image" loading="lazy">
 
+                <h2 id="runtime-api" data-key="h1_api_snippets"></h2>
+                <p data-key="p_api_snippets_intro"></p>
+                <ul>
+                    <li data-key="li_api_set_lang_method"></li>
+                    <li data-key="li_api_plural_method"></li>
+                    <li data-key="li_api_gender_method"></li>
+                    <li data-key="li_api_async_method"></li>
+                </ul>
+
+                <h3 id="async-api" data-key="h2_async_api"></h3>
+                <p data-key="p_async_api"></p>
+                <pre><code class="language-csharp" data-key="code_async_example"></code></pre>
 
                 <!-- 9. Extending Functionality -->
                 <h1 id="extending-functionality"><img
@@ -648,14 +957,31 @@
                     <li data-key="li_custom_parser_2"></li>
                     <li data-key="li_custom_parser_3"></li>
                 </ol>
+                <img src="https://placehold.co/600x400?text=PICTURE:+Custom+Parser+Registry"
+                    alt="Custom Parser Registration in UI" class="doc-image" loading="lazy">
                 <pre><code class="language-csharp" data-key="code_custom_parser"></code></pre>
+
+                <h2 id="custom-asset-provider" data-key="h2_custom_asset_provider"></h2>
+                <p data-key="p_custom_asset_provider_intro"></p>
+                <p data-key="p_custom_asset_provider_1"></p>
+                <h3 data-key="h3_custom_provider_steps"></h3>
+                <ul>
+                    <li data-key="li_custom_provider_step_1"></li>
+                    <li data-key="li_custom_provider_step_2"></li>
+                    <li data-key="li_custom_provider_step_3"></li>
+                    <li data-key="li_custom_provider_step_4"></li>
+                    <li data-key="li_custom_provider_manual_reg"></li>
+                </ul>
+                <pre><code class="language-csharp" data-key="code_custom_provider_example"></code></pre>
 
                 <!-- 10. External TMS (Moved for grouping tools) -->
                 <h1 id="tms-integration"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f517.svg"
                         class="emoji" alt=""><span data-key="h1_tms"></span></h1>
                 <p data-key="p_tms_intro"></p>
+                <img src="https://placehold.co/600x200?text=PICTURE:+TMS+Provider+Logos+(Crowdin,+Loco,+etc)"
+                    alt="Supported TMS Providers" class="doc-image" loading="lazy">
 
-                <h2 data-key="h2_tms_supported"></h2>
+                <h2 id="tms-supported" data-key="h2_tms_supported"></h2>
                 <ul>
                     <li data-key="li_tms_crowdin"></li>
                     <li data-key="li_tms_loco"></li>
@@ -663,8 +989,14 @@
                     <li data-key="li_tms_transifex"></li>
                 </ul>
 
-                <h2 data-key="h2_tms_setup"></h2>
+                <h2 id="tms-setup" data-key="h2_tms_setup"></h2>
                 <p data-key="p_tms_setup"></p>
+                <ul>
+                    <li data-key="li_settings_tms_timeout"></li>
+                </ul>
+                <img src="https://placehold.co/600x400?text=GIF:+TMS+Push+and+Pull+Operations"
+                    alt="Synchronization flow with external services like Crowdin or Transifex" class="doc-image"
+                    loading="lazy">
                 <div class="warning-box" data-key="warning_tms_overwrite"></div>
 
 
@@ -672,14 +1004,74 @@
                 <h1 id="migration-tool"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6e0.svg"
                         class="emoji" alt=""><span data-key="h1_migration_tool"></span></h1>
                 <p data-key="p_migration_tool_desc"></p>
+                <img src="https://placehold.co/800x450?text=GIF:+Migration+Tool+Main+Workflow"
+                    alt="Migration Tool Workflow Demonstration" class="doc-image" loading="lazy">
                 <p data-key="p_migration_tool_access"></p>
 
-                <h2 data-key="h2_migration_tool_features"></h2>
+                <h2 id="migration-workflow" data-key="h2_migration_workflow"></h2>
+                <div class="info-box">
+                    <p data-key="p_migration_workflow"></p>
+                    <ol>
+                        <li data-key="li_migration_workflow_1"></li>
+                        <li data-key="li_migration_workflow_2"></li>
+                        <li data-key="li_migration_workflow_3"></li>
+                        <li data-key="li_migration_workflow_4"></li>
+                        <li data-key="li_migration_workflow_5"></li>
+                        <li data-key="li_migration_workflow_6"></li>
+                    </ol>
+                </div>
+
+                <h2 id="migration-tool-features" data-key="h2_migration_tool_features"></h2>
                 <ul>
                     <li data-key="li_migration_tool_setup"></li>
+                    <li data-key="li_migration_tool_profiles"></li>
+                    <li data-key="li_migration_tool_fields"></li>
                     <li data-key="li_migration_tool_import"></li>
                     <li data-key="li_migration_tool_converter"></li>
                     <li data-key="li_migration_tool_safemode"></li>
+                    <li data-key="li_migration_profile_details"></li>
+                </ul>
+                <img src="https://placehold.co/600x400?text=PICTURE:+Migration+Profiles+List"
+                    alt="Migration Profiles in Inspector" class="doc-image" loading="lazy">
+
+                <h3 data-key="h2_migration_stubs"></h3>
+                <p data-key="p_migration_stubs"></p>
+                <ul>
+                    <li data-key="li_migration_stubs_1"></li>
+                    <li data-key="li_migration_stubs_2"></li>
+                    <li data-key="li_migration_stubs_3"></li>
+                </ul>
+
+                <h3 data-key="h2_migration_import_formats"></h3>
+                <p data-key="p_migration_import_csv"></p>
+                <ul>
+                    <li data-key="li_migration_csv_req_1"></li>
+                    <li data-key="li_migration_csv_req_2"></li>
+                    <li data-key="li_migration_csv_req_3"></li>
+                    <li data-key="li_migration_csv_details_1"></li>
+                    <li data-key="li_migration_csv_details_2"></li>
+                </ul>
+
+                <h3 data-key="h2_migration_google_sheets"></h3>
+                <p data-key="p_migration_google_sheet"></p>
+                <ul>
+                    <li data-key="li_migration_gs_1"></li>
+                    <li data-key="li_migration_gs_2"></li>
+                </ul>
+
+                <h2 id="migration-custom" data-key="h2_migration_custom"></h2>
+                <p data-key="p_migration_custom"></p>
+                <ul>
+                    <li data-key="li_migration_custom_1"></li>
+                    <li data-key="li_migration_custom_2"></li>
+                    <li data-key="li_migration_rule_fields"></li>
+                </ul>
+
+                <p data-key="p_migration_custom_advanced"></p>
+                <ul>
+                    <li data-key="li_migration_ignored_headers"></li>
+                    <li data-key="li_migration_fallback_keys"></li>
+                    <li data-key="li_migration_legacy_components"></li>
                 </ul>
 
                 <!-- 12. Font Manager -->
@@ -687,33 +1079,20 @@
                         src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f524.svg" class="emoji"
                         alt=""><span data-key="h1_font_glyph_manager"></span></h1>
                 <p data-key="p_font_glyph_manager_access"></p>
+                <img src="https://placehold.co/600x400?text=PICTURE:+Font+Glyph+Analyzer+Window"
+                    alt="Font Glyph Manager UI" class="doc-image" loading="lazy">
 
-                <h2 data-key="h2_font_glyph_manager_features"></h2>
+                <h2 id="font-glyph-manager-features" data-key="h2_font_glyph_manager_features"></h2>
                 <p data-key="li_font_glyph_workflow"></p>
                 <ul>
                     <li data-key="li_font_glyph_analyze"></li>
                     <li data-key="li_font_glyph_missing"></li>
                     <li data-key="li_font_glyph_copy"></li>
+                    <li data-key="li_font_unicode"></li>
+                    <li data-key="li_font_global"></li>
                 </ul>
 
-                <!-- 13. Pseudo Tool -->
-                <h1 id="pseudo-tool"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f9ec.svg"
-                        class="emoji" alt=""><span data-key="h1_pseudo_tool"></span></h1>
-                <p data-key="p_pseudo_tool_desc"></p>
-                <p data-key="p_pseudo_tool_access"></p>
-
-                <h2 data-key="h2_pseudo_tool_features"></h2>
-                <ul>
-                    <li data-key="li_pseudo_tool_setup"></li>
-                </ul>
-
-                <!-- 14. Async API (Moved to end of features) -->
-                <hr>
-                <h2 data-key="h2_async_api"></h2>
-                <p data-key="p_async_api"></p>
-                <pre><code class="language-csharp" data-key="code_async_example"></code></pre>
-
-                <!-- 15. Important Notes (Moved before FAQ) -->
+                <!-- 16. Important Notes (Moved before FAQ) -->
                 <h1 id="important-notes"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/26a0.svg"
                         class="emoji" alt=""><span data-key="h1_important_notes"></span></h1>
                 <div class="warning-box">
@@ -730,7 +1109,7 @@
                     </ul>
                 </div>
 
-                <!-- 16. FAQ (Moved to the very end) -->
+                <!-- 17. FAQ (Moved to the very end) -->
                 <h1 id="faq"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/2753.svg" class="emoji"
                         alt=""><span data-key="h1_faq"></span></h1>
                 <div class="faq-section">
@@ -971,8 +1350,12 @@
                         <summary data-key="q_faq_extending_2"></summary>
                         <p data-key="a_faq_extending_2"></p>
                     </details>
+                    <details>
+                        <summary data-key="q_faq_custom_provider_1"></summary>
+                        <p data-key="a_faq_custom_provider_1"></p>
+                    </details>
 
-                    <h2 data-key="h2_faq_addressables"></h2>
+                    <h2 id="faq-addressables" data-key="h2_faq_addressables"></h2>
                     <details>
                         <summary data-key="q_faq_addressables_1"></summary>
                         <p data-key="a_faq_addressables_1"></p>
@@ -995,7 +1378,7 @@
                         <p data-key="a_faq_tts_voices"></p>
                     </details>
 
-                    <h2 data-key="h2_faq_audio"></h2>
+                    <h2 id="faq-audio" data-key="h2_faq_audio"></h2>
                     <details>
                         <summary data-key="q_faq_audio_smart_update"></summary>
                         <p data-key="a_faq_audio_smart_update"></p>
@@ -1003,493 +1386,6 @@
                 </div>
 
                 <div id="mobile-notes-container"></div>
-            </div>
-            <div id="view-simple" class="view-section">
-                <h1 id="simple-intro">Quick Start Guide</h1>
-
-                <div class="how-to-template">
-                    <h2 class="how-to-title">How to [Action]</h2>
-                    <div class="how-to-content">
-                        <div class="how-to-goal">
-                            <h3>Goal</h3>
-                            <p>[Brief description of what this guide will teach]</p>
-                        </div>
-
-                        <div class="how-to-prerequisites">
-                            <h3>Prerequisites</h3>
-                            <ul>
-                                <li>[Requirement 1]</li>
-                                <li>[Requirement 2]</li>
-                            </ul>
-                        </div>
-
-                        <div class="how-to-steps">
-                            <h3>Steps</h3>
-                            <ol>
-                                <li>[Step 1 description]</li>
-                                <li>[Step 2 description]</li>
-                                <li>[Step 3 description]</li>
-                            </ol>
-                        </div>
-
-                        <div class="how-to-demo">
-                            <h3>Demo</h3>
-                            <img src="img/[placeholder-image].gif" alt="[Description of what the image shows]"
-                                class="doc-image" loading="lazy">
-                        </div>
-                    </div>
-                </div>
-                <div class="how-to-section">
-                    <h2>How to Start (Quick Setup)</h2>
-                    <div class="how-to-content">
-                        <div class="how-to-goal">
-                            <h3>Goal</h3>
-                            <p>Set up the localization tool quickly with one-click component setup and add your first
-                                languages.</p>
-                        </div>
-
-                        <div class="how-to-prerequisites">
-                            <h3>Prerequisites</h3>
-                            <ul>
-                                <li>AnKo Localization Tool installed</li>
-                                <li>Unity project opened</li>
-                            </ul>
-                        </div>
-
-                        <div class="how-to-steps">
-                            <h3>Steps</h3>
-                            <ol>
-                                <li>Install the tool via Package Manager or manual import</li>
-                                <li>Open the Localization Tool Window (Tools > AnKo Localization Tool)</li>
-                                <li>Click "One-Click Component Setup"</li>
-                                <li>Add your first two languages in the Settings tab</li>
-                            </ol>
-                        </div>
-
-                        <div class="how-to-demo">
-                            <h3>Demo</h3>
-                            <img src="img/quickstart_vid.mp4" alt="Quick setup demonstration" class="doc-image"
-                                loading="lazy">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="how-to-section">
-                    <h2>How to Localize Text (UGUI / TMP)</h2>
-                    <div class="how-to-content">
-                        <div class="how-to-goal">
-                            <h3>Goal</h3>
-                            <p>Add localized text to UI elements using UGUI or TextMeshPro components.</p>
-                        </div>
-
-                        <div class="how-to-prerequisites">
-                            <h3>Prerequisites</h3>
-                            <ul>
-                                <li>Localization tool installed and configured</li>
-                                <li>UI element (Button, Text, etc.) in your scene</li>
-                            </ul>
-                        </div>
-
-                        <div class="how-to-steps">
-                            <h3>Steps</h3>
-                            <ol>
-                                <li>Select a UI element with text in your scene</li>
-                                <li>Add the "LocalizedText" component</li>
-                                <li>Create a new key or select an existing one</li>
-                                <li>Enter translations for each language</li>
-                            </ol>
-                        </div>
-
-                        <div class="how-to-demo">
-                            <h3>Demo</h3>
-                            <img src="img/components_localized_text_demo.gif"
-                                alt="Demonstration of text change on a button when changing language" class="doc-image"
-                                loading="lazy">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="how-to-section">
-                    <h2>How to Find Keys (Parsing)</h2>
-                    <div class="how-to-content">
-                        <div class="how-to-goal">
-                            <h3>Goal</h3>
-                            <p>Automatically find and register text elements in your scenes for localization.</p>
-                        </div>
-
-                        <div class="how-to-prerequisites">
-                            <h3>Prerequisites</h3>
-                            <ul>
-                                <li>Scenes with text elements set up</li>
-                                <li>Localization tool window open</li>
-                            </ul>
-                        </div>
-
-                        <div class="how-to-steps">
-                            <h3>Steps</h3>
-                            <ol>
-                                <li>Navigate to the Content tab in the Localization Tool</li>
-                                <li>Select scenes to parse</li>
-                                <li>Click the "Scan" button</li>
-                                <li>Review detected keys in the table</li>
-                            </ol>
-                        </div>
-
-                        <div class="how-to-demo">
-                            <h3>Demo</h3>
-                            <img src="img/quickstart_first_parse.gif"
-                                alt="Animation of clicking Update Keys and the result as created files"
-                                class="doc-image" loading="lazy">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="how-to-section">
-                    <h2>How to Translate (Manual & Auto)</h2>
-                    <div class="how-to-content">
-                        <div class="how-to-goal">
-                            <h3>Goal</h3>
-                            <p>Translate your content manually or automatically using machine translation services.</p>
-                        </div>
-
-                        <div class="how-to-prerequisites">
-                            <h3>Prerequisites</h3>
-                            <ul>
-                                <li>Keys identified through parsing</li>
-                                <li>(For auto-translation) API keys for Google Translate or DeepL</li>
-                            </ul>
-                        </div>
-
-                        <div class="how-to-steps">
-                            <h3>Steps</h3>
-                            <ol>
-                                <li>Open the Translation Editor</li>
-                                <li>Enter translations manually in the table</li>
-                                <li>Or select text and use Machine Translation</li>
-                                <li>Review and refine translations</li>
-                            </ol>
-                        </div>
-
-                        <div class="how-to-demo">
-                            <h3>Demo</h3>
-                            <img src="img/window_tab_actions_autotranslate.gif" alt="Automatic translation process"
-                                class="doc-image" loading="lazy">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="how-to-section">
-                    <h2>How to Preview in Editor</h2>
-                    <div class="how-to-content">
-                        <div class="how-to-goal">
-                            <h3>Goal</h3>
-                            <p>Preview your localized content in the editor without running the game.</p>
-                        </div>
-
-                        <div class="how-to-prerequisites">
-                            <h3>Prerequisites</h3>
-                            <ul>
-                                <li>Translations entered for at least two languages</li>
-                                <li>Localization tool configured</li>
-                            </ul>
-                        </div>
-
-                        <div class="how-to-steps">
-                            <h3>Steps</h3>
-                            <ol>
-                                <li>Open the Live Preview panel</li>
-                                <li>Select a language from the dropdown</li>
-                                <li>Observe text changes in the Game view</li>
-                                <li>Switch between languages to verify translations</li>
-                            </ol>
-                        </div>
-
-                        <div class="how-to-demo">
-                            <h3>Demo</h3>
-                            <img src="img/window_live_preview.gif" alt="Live Preview demonstration" class="doc-image"
-                                loading="lazy">
-                        </div>
-                    </div>
-                </div>
-
-                <h1 class="section-divider">Stage 2: Features (v1.1 - v1.3)</h1>
-                <p>These are the advanced features that make your asset stand out. Users want to know how to use the new
-                    AI and TTS functions.</p>
-
-                <div class="how-to-section">
-                    <h2>How to Setup AI Translation (OpenAI/Gemini)</h2>
-                    <div class="how-to-content">
-                        <div class="how-to-goal">
-                            <h3>Goal</h3>
-                            <p>Configure AI-powered translation using OpenAI or Gemini services.</p>
-                        </div>
-
-                        <div class="how-to-prerequisites">
-                            <h3>Prerequisites</h3>
-                            <ul>
-                                <li>API key from OpenAI or Google Cloud</li>
-                                <li>Localization tool installed</li>
-                            </ul>
-                        </div>
-
-                        <div class="how-to-steps">
-                            <h3>Steps</h3>
-                            <ol>
-                                <li>Create a new Translation Profile in Settings</li>
-                                <li>Enter your API key</li>
-                                <li>Select service provider (OpenAI/Gemini)</li>
-                                <li>Translate text using AI in the editor</li>
-                            </ol>
-                        </div>
-
-                        <div class="how-to-demo">
-                            <h3>Demo</h3>
-                            <img src="img/ai_profiles_inspector.gif" alt="Translation Profile inspector view"
-                                class="doc-image" loading="lazy">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="how-to-section">
-                    <h2>How to Use AI Assistant</h2>
-                    <div class="how-to-content">
-                        <div class="how-to-goal">
-                            <h3>Goal</h3>
-                            <p>Improve your translations using AI-powered assistance features.</p>
-                        </div>
-
-                        <div class="how-to-prerequisites">
-                            <h3>Prerequisites</h3>
-                            <ul>
-                                <li>AI translation profile configured</li>
-                                <li>Text to be improved in the translation table</li>
-                            </ul>
-                        </div>
-
-                        <div class="how-to-steps">
-                            <h3>Steps</h3>
-                            <ol>
-                                <li>Select text in the translation editor</li>
-                                <li>Right-click to open context menu</li>
-                                <li>Choose AI options: "Fix Grammar", "Shorten for UI", "Make Formal"</li>
-                                <li>Review and accept suggested changes</li>
-                            </ol>
-                        </div>
-
-                        <div class="how-to-demo">
-                            <h3>Demo</h3>
-                            <img src="img/ai_assistant_menu.jpg" alt="AI Assistant context menu" class="doc-image"
-                                loading="lazy">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="how-to-section">
-                    <h2>How to Generate Voiceovers (Text-to-Speech)</h2>
-                    <div class="how-to-content">
-                        <div class="how-to-goal">
-                            <h3>Goal</h3>
-                            <p>Create voiceover files for your localized text using Text-to-Speech.</p>
-                        </div>
-
-                        <div class="how-to-prerequisites">
-                            <h3>Prerequisites</h3>
-                            <ul>
-                                <li>v1.3+ of the localization tool</li>
-                                <li>Text translations completed</li>
-                            </ul>
-                        </div>
-
-                        <div class="how-to-steps">
-                            <h3>Steps</h3>
-                            <ol>
-                                <li>Select text in the translation editor</li>
-                                <li>Choose voice settings for each language</li>
-                                <li>Generate audio files from text</li>
-                                <li>Preview and adjust voiceovers</li>
-                            </ol>
-                        </div>
-
-                        <div class="how-to-demo">
-                            <h3>Demo</h3>
-                            <img src="img/[placeholder-tts-demo].gif" alt="Text-to-speech generation demo"
-                                class="doc-image" loading="lazy">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="how-to-section">
-                    <h2>How to Localize Audio & Images</h2>
-                    <div class="how-to-content">
-                        <div class="how-to-goal">
-                            <h3>Goal</h3>
-                            <p>Replace sprites and audio files for different languages.</p>
-                        </div>
-
-                        <div class="how-to-prerequisites">
-                            <h3>Prerequisites</h3>
-                            <ul>
-                                <li>Assets ready for each language (flags, audio files, etc.)</li>
-                                <li>Localization tool configured</li>
-                            </ul>
-                        </div>
-
-                        <div class="how-to-steps">
-                            <h3>Steps</h3>
-                            <ol>
-                                <li>Add LocalizedAsset component to GameObject</li>
-                                <li>Assign different assets for each language</li>
-                                <li>Verify asset swapping in Live Preview</li>
-                            </ol>
-                        </div>
-
-                        <div class="how-to-demo">
-                            <h3>Demo</h3>
-                            <img src="img/components_localized_asset_demo.gif"
-                                alt="Demonstration of changing the flag sprite when changing language" class="doc-image"
-                                loading="lazy">
-                        </div>
-                    </div>
-                </div>
-
-                <h1 class="section-divider">Stage 3: Advanced Data and Integrations</h1>
-                <p>For developers building production pipelines.</p>
-
-                <div class="how-to-section">
-                    <h2>How to Sync with Google Sheets</h2>
-                    <div class="how-to-content">
-                        <div class="how-to-goal">
-                            <h3>Goal</h3>
-                            <p>Synchronize your translations with Google Sheets for team collaboration.</p>
-                        </div>
-
-                        <div class="how-to-prerequisites">
-                            <h3>Prerequisites</h3>
-                            <ul>
-                                <li>Google account with Sheets API access</li>
-                                <li>Spreadsheet prepared with proper format</li>
-                            </ul>
-                        </div>
-
-                        <div class="how-to-steps">
-                            <h3>Steps</h3>
-                            <ol>
-                                <li>Configure Live Updates in Settings</li>
-                                <li>Link your Google Sheet</li>
-                                <li>Export current translations</li>
-                                <li>Import updated translations from team</li>
-                            </ol>
-                        </div>
-
-                        <div class="how-to-demo">
-                            <h3>Demo</h3>
-                            <img src="img/window_tab_actions_import_export.gif"
-                                alt="Animation of exporting to CSV and importing from Google Sheets" class="doc-image"
-                                loading="lazy">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="how-to-section">
-                    <h2>How to Switch Language (Runtime)</h2>
-                    <div class="how-to-content">
-                        <div class="how-to-goal">
-                            <h3>Goal</h3>
-                            <p>Allow players to change languages while playing the game.</p>
-                        </div>
-
-                        <div class="how-to-prerequisites">
-                            <h3>Prerequisites</h3>
-                            <ul>
-                                <li>All translations completed</li>
-                                <li>Language selector UI element</li>
-                            </ul>
-                        </div>
-
-                        <div class="how-to-steps">
-                            <h3>Steps</h3>
-                            <ol>
-                                <li>Add LanguageSelector prefab to your scene</li>
-                                <li>Or implement language switching with a simple script</li>
-                                <li>Test language changes during gameplay</li>
-                            </ol>
-                        </div>
-
-                        <div class="how-to-demo">
-                            <h3>Demo</h3>
-                            <img src="img/examples_language_selector_runtime.gif"
-                                alt="Demonstration of the language switcher in a running game" class="doc-image"
-                                loading="lazy">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="how-to-section">
-                    <h2>How to Handle Plurals</h2>
-                    <div class="how-to-content">
-                        <div class="how-to-goal">
-                            <h3>Goal</h3>
-                            <p>Properly localize text that changes based on quantity (1 item vs 5 items).</p>
-                        </div>
-
-                        <div class="how-to-prerequisites">
-                            <h3>Prerequisites</h3>
-                            <ul>
-                                <li>Text with dynamic quantities</li>
-                                <li>Localization tool configured</li>
-                            </ul>
-                        </div>
-
-                        <div class="how-to-steps">
-                            <h3>Steps</h3>
-                            <ol>
-                                <li>Use Smart Key Grouping for plural forms</li>
-                                <li>Define variations for different quantity rules</li>
-                                <li>Test with various numbers</li>
-                            </ol>
-                        </div>
-
-                        <div class="how-to-demo">
-                            <h3>Demo</h3>
-                            <img src="img/examples_plurals_editor.jpg" alt="Example of plural keys in the editor"
-                                class="doc-image" loading="lazy">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="how-to-section">
-                    <h2>How to use Addressables</h2>
-                    <div class="how-to-content">
-                        <div class="how-to-goal">
-                            <h3>Goal</h3>
-                            <p>Implement asynchronous asset loading for better performance with large localization
-                                projects.</p>
-                        </div>
-
-                        <div class="how-to-prerequisites">
-                            <h3>Prerequisites</h3>
-                            <ul>
-                                <li>v1.3+ of the localization tool</li>
-                                <li>Addressables package installed</li>
-                            </ul>
-                        </div>
-
-                        <div class="how-to-steps">
-                            <h3>Steps</h3>
-                            <ol>
-                                <li>Enable Addressables integration in Settings</li>
-                                <li>Mark localized assets as Addressable</li>
-                                <li>Configure async loading settings</li>
-                            </ol>
-                        </div>
-
-                        <div class="how-to-demo">
-                            <h3>Demo</h3>
-                            <img src="img/[placeholder-addressables-demo].gif" alt="Addressables integration demo"
-                                class="doc-image" loading="lazy">
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </main>

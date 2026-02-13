@@ -20,6 +20,25 @@ export const ScrollManager = {
      * the single IntersectionObserver.
      */
     init() {
+        // Handle scroll restoration manually to prevent jumping due to dynamic content loading
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        
+        // Restore saved position if available
+        // We do this immediately in case the layout is already mostly stable
+        this.restoreState();
+
+        // Also restore after window load to account for images/resources
+        window.addEventListener('load', () => {
+            this.restoreState();
+        });
+
+        // Save position on page unload
+        window.addEventListener('beforeunload', () => {
+            this.saveState();
+        });
+
         this.headings = Array.from(DOM.mainContent.querySelectorAll('h1[id], h2[id], h3[id]'));
         if (this.headings.length === 0) return;
 
@@ -29,6 +48,105 @@ export const ScrollManager = {
         };
         this.observer = new IntersectionObserver(this.updateActiveState.bind(this), options);
         this.headings.forEach(h => this.observer.observe(h));
+    },
+
+    /**
+     * Saves the current scroll position and state (open details, active heading anchor)
+     */
+    saveState() {
+        const state = {
+            scrollY: window.scrollY,
+            openDetails: [],
+            anchor: null
+        };
+
+        // 1. Save open details (using summary data-key as identifier)
+        document.querySelectorAll('details[open]').forEach(detail => {
+            const summary = detail.querySelector('summary');
+            if (summary && summary.dataset.key) {
+                state.openDetails.push(summary.dataset.key);
+            }
+        });
+
+        // 2. Save anchor element (current active heading) to handle layout shifts
+        // We use the current active heading from our tracker, or find the top-most element
+        if (this.activeState.currentHeading) {
+            const heading = this.activeState.currentHeading;
+            const rect = heading.getBoundingClientRect();
+            // Offset is how far down the heading is from the top of the viewport
+            // We want to restore: scrollTo(heading.offsetTop - offset)
+            // Wait, rect.top is distance from viewport top.
+            // If heading is at top of viewport, rect.top is ~0.
+            // If heading is scrolled past (above viewport), rect.top is negative.
+            state.anchor = {
+                id: heading.id,
+                offset: rect.top // This is relative to viewport top
+            };
+        }
+
+        localStorage.setItem('pageState', JSON.stringify(state));
+    },
+
+    /**
+     * Restores the scroll position and state
+     */
+    restoreState() {
+        try {
+            const stateJSON = localStorage.getItem('pageState');
+            if (!stateJSON) return;
+
+            const state = JSON.parse(stateJSON);
+
+            // 1. Restore open details
+            if (state.openDetails && Array.isArray(state.openDetails)) {
+                let layoutChanged = false;
+                state.openDetails.forEach(key => {
+                    const summary = document.querySelector(`summary[data-key="${key}"]`);
+                    if (summary) {
+                        const detail = summary.parentElement;
+                        if (detail && !detail.open) {
+                            detail.open = true;
+                            layoutChanged = true;
+                        }
+                    }
+                });
+            }
+
+            // 2. Restore scroll position
+            // Strategy: Use anchor if valid, fallback to absolute scrollY
+            let targetScrollY = state.scrollY;
+
+            if (state.anchor && state.anchor.id) {
+                const heading = document.getElementById(state.anchor.id);
+                if (heading) {
+                    // Calculate absolute position:
+                    // heading.offsetTop gives position relative to offsetParent (usually body/main)
+                    // We want: heading's new screen position to match old screen position (state.anchor.offset)
+                    // new_screen_y = heading.getBoundingClientRect().top
+                    // We want new_screen_y to be state.anchor.offset.
+                    // scrollY = heading_absolute_top - state.anchor.offset
+                    
+                    // Note: offsetTop is not always absolute if parents are positioned. 
+                    // Better to use window.scrollY + heading.getBoundingClientRect().top to get absolute page pos.
+                    // But we can't trust getBoundingClientRect() before scrolling... 
+                    // Actually, window.scrollY + rect.top IS the absolute page coordinate.
+                    // So: targetScrollY = (heading absolute position) - state.anchor.offset
+                    
+                    const headingTop = heading.getBoundingClientRect().top + window.scrollY;
+                    targetScrollY = headingTop - state.anchor.offset;
+                }
+            }
+
+            if (targetScrollY !== undefined && targetScrollY !== null) {
+                window.scrollTo({
+                    top: targetScrollY,
+                    behavior: 'auto'
+                });
+            }
+
+        } catch (e) {
+            console.error('Failed to restore state:', e);
+        }
     },
 
     /**

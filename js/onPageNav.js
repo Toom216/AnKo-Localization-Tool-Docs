@@ -98,6 +98,7 @@ export const OnPageNav = {
             const a = document.createElement('a');
             a.href = `#${heading.id}`;
             a.dataset.key = navKey;
+            a.dataset.fallbackKey = originalKey;
 
             // Store the calculated number in a data attribute for CSS to display
             if (numberString) {

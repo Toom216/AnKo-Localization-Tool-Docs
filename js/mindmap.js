@@ -121,13 +121,13 @@ export const MindMap = {
             { id: 'code_attr', labelKey: 'nav_example_attribute', href: '#localizable-field-attribute', group: 'level2', level: 2 },
             { id: 'code_func', labelKey: 'nav_example_function', href: '#onlanguagechange-function', group: 'level2', level: 2 },
             { id: 'code_plurals', labelKey: 'nav_example_plurals', href: '#plurals-and-gender', group: 'level2', level: 2 },
-            { id: 'code_async', labelKey: 'mindmap_node_async_code', href: '#h2_async_api', group: 'level2', level: 2 }, // New Label
+            { id: 'code_async', labelKey: 'mindmap_node_async_code', href: '#async-api', group: 'level2', level: 2 }, // New Label
 
             // 7. Tools & Utils
             { id: 'tool_migration', labelKey: 'nav_migration_tool', href: '#migration-tool', group: 'level2', level: 2 },
             { id: 'tool_tms', labelKey: 'mindmap_node_tms_integration', href: '#tms-integration', group: 'level2', level: 2 }, // New Label
             { id: 'tool_fonts', labelKey: 'nav_font_glyph_manager', href: '#font-glyph-manager', group: 'level2', level: 2 },
-            { id: 'tool_pseudo', labelKey: 'mindmap_node_pseudo', href: '#pseudo-tool', group: 'level2', level: 2 }, // New Label
+
 
             // 8. Advanced / FAQ
             { id: 'adv_parser', labelKey: 'nav_custom_parser', href: '#custom-parser', group: 'level2', level: 2 },
@@ -170,7 +170,7 @@ export const MindMap = {
             { from: 'pillar_usage', to: 'code_plurals' }, { from: 'pillar_usage', to: 'code_async' },
 
             { from: 'pillar_tools', to: 'tool_migration' }, { from: 'pillar_tools', to: 'tool_tms' },
-            { from: 'pillar_tools', to: 'tool_fonts' }, { from: 'pillar_tools', to: 'tool_pseudo' },
+            { from: 'pillar_tools', to: 'tool_fonts' },
 
             { from: 'pillar_advanced', to: 'adv_parser' }, { from: 'pillar_advanced', to: 'adv_addressables' },
 
