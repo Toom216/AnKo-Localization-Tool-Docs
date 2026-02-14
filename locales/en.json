@@ -417,7 +417,6 @@
   "li_settings_asset_folder_rule": "<strong>Folder Structure Rule:</strong> Defines how subfolders are structured when generating localized assets (e.g., <code>{lang}/{category}</code>).",
   "li_settings_bridge_name": "<strong>Bridge Class Name:</strong> Allows you to customize the name of the generated static class (default is <code>AnkoLoc</code>).",
   "li_settings_general_safe_mode": "<strong>Safe Mode:</strong> Ensures that critical operations won't proceed if they might cause inconsistent project states.",
-  "li_settings_icons_legend": "<strong>Hierarchy Icons Legend:</strong><br>🟢 (Green Tick): Localized & Key set.<br>🔴 (Red Error): Localized component present, but <strong>Key is missing</strong>.<br>🟡 (Yellow Warn): Text/Image component found, but <strong>no Localization component</strong> attached.<br>🐛 (Bug): Object is <strong>Ignored</strong> by settings.",
   "li_settings_lang_culture_fallback": "<strong>Use Culture Fallback:</strong> If a specific regional dialect (e.g., <code>en-AU</code>) is missing, the tool will attempt to use the base language (<code>en</code>) before falling back to the <strong>Default Language</strong>.",
   "li_settings_lang_follow_system": "<strong>Follow System Language:</strong> Automatically switches the game language to match the player's OS language on the first launch.",
   "li_settings_live_updates_security": "<strong>Security:</strong> runtime API keys are encrypted (AES) in the build to prevent casual extraction. Always use HTTPS.",
