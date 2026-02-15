@@ -22,6 +22,19 @@ export const ModeManager = {
                 this.toggleMode();
             });
         }
+
+        const logoLink = document.getElementById('logo-link');
+        if (logoLink) {
+            logoLink.addEventListener('click', (e) => {
+                // If we are in patch notes mode, switch to docs mode
+                if (this.body.classList.contains('mode-patch-notes')) {
+                    e.preventDefault(); // Prevent default navigation to avoid reload if we just want to switch mode
+                    this.enableDocsMode();
+                }
+                // If we are already in docs mode, the default link behavior (reload/navigate to index.html) will happen
+                // which is fine.
+            });
+        }
     },
 
     toggleMode() {
@@ -32,18 +45,32 @@ export const ModeManager = {
         }
     },
 
+    // Variable to store scroll position
+    lastDocsScrollPosition: 0,
+
     enableDocsMode() {
         this.body.classList.remove('mode-patch-notes');
         this.body.classList.add('mode-docs');
         localStorage.setItem('viewMode', 'docs');
         this.updateButtonState('docs');
+
+        // Restore scroll position
+        if (this.lastDocsScrollPosition > 0) {
+            window.scrollTo(0, this.lastDocsScrollPosition);
+        }
     },
 
     enablePatchNotesMode() {
+        // Save scroll position before switching
+        this.lastDocsScrollPosition = window.scrollY;
+
         this.body.classList.remove('mode-docs');
         this.body.classList.add('mode-patch-notes');
         localStorage.setItem('viewMode', 'patch-notes');
         this.updateButtonState('patch-notes');
+
+        // Scroll to top for patch notes
+        window.scrollTo(0, 0);
     },
 
     updateButtonState(mode) {
