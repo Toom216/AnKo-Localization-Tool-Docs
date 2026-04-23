@@ -1,5 +1,8 @@
 {
   "de": {
+    "Assets_MediaLocalization_HowItWorks": "306c186b446ee33737760b5141c4682d",
+    "Assets_MediaLocalization_Modes": "a46a095e24e785fcbf34015467bc25d9",
+    "Assets_MediaLocalization_Tips": "7504ce1fb1209e91da03e44abd718e75",
     "a_faq_addressables_1": "50d3f12e1390c735b6e59ac4ccbabb9a",
     "a_faq_addressables_2": "b5ae09cceede48055863de0caa8b96dc",
     "a_faq_addressables_3": "1d4d0ed87b74ed48acb32e88c7f303b8",
@@ -744,6 +747,9 @@
     "warning_tms_overwrite": "89947ff1556751c9d2e652fb23819a8e"
   },
   "es": {
+    "Assets_MediaLocalization_HowItWorks": "306c186b446ee33737760b5141c4682d",
+    "Assets_MediaLocalization_Modes": "a46a095e24e785fcbf34015467bc25d9",
+    "Assets_MediaLocalization_Tips": "7504ce1fb1209e91da03e44abd718e75",
     "a_faq_addressables_1": "50d3f12e1390c735b6e59ac4ccbabb9a",
     "a_faq_addressables_2": "b5ae09cceede48055863de0caa8b96dc",
     "a_faq_addressables_3": "1d4d0ed87b74ed48acb32e88c7f303b8",
@@ -1488,6 +1494,9 @@
     "warning_tms_overwrite": "89947ff1556751c9d2e652fb23819a8e"
   },
   "fr": {
+    "Assets_MediaLocalization_HowItWorks": "306c186b446ee33737760b5141c4682d",
+    "Assets_MediaLocalization_Modes": "a46a095e24e785fcbf34015467bc25d9",
+    "Assets_MediaLocalization_Tips": "7504ce1fb1209e91da03e44abd718e75",
     "a_faq_addressables_1": "50d3f12e1390c735b6e59ac4ccbabb9a",
     "a_faq_addressables_2": "b5ae09cceede48055863de0caa8b96dc",
     "a_faq_addressables_3": "1d4d0ed87b74ed48acb32e88c7f303b8",
@@ -2232,6 +2241,9 @@
     "warning_tms_overwrite": "89947ff1556751c9d2e652fb23819a8e"
   },
   "hi": {
+    "Assets_MediaLocalization_HowItWorks": "306c186b446ee33737760b5141c4682d",
+    "Assets_MediaLocalization_Modes": "a46a095e24e785fcbf34015467bc25d9",
+    "Assets_MediaLocalization_Tips": "7504ce1fb1209e91da03e44abd718e75",
     "a_faq_addressables_1": "50d3f12e1390c735b6e59ac4ccbabb9a",
     "a_faq_addressables_2": "b5ae09cceede48055863de0caa8b96dc",
     "a_faq_addressables_3": "1d4d0ed87b74ed48acb32e88c7f303b8",
@@ -2976,6 +2988,9 @@
     "warning_tms_overwrite": "89947ff1556751c9d2e652fb23819a8e"
   },
   "ja": {
+    "Assets_MediaLocalization_HowItWorks": "306c186b446ee33737760b5141c4682d",
+    "Assets_MediaLocalization_Modes": "a46a095e24e785fcbf34015467bc25d9",
+    "Assets_MediaLocalization_Tips": "7504ce1fb1209e91da03e44abd718e75",
     "a_faq_addressables_1": "50d3f12e1390c735b6e59ac4ccbabb9a",
     "a_faq_addressables_2": "b5ae09cceede48055863de0caa8b96dc",
     "a_faq_addressables_3": "1d4d0ed87b74ed48acb32e88c7f303b8",
@@ -3720,6 +3735,9 @@
     "warning_tms_overwrite": "89947ff1556751c9d2e652fb23819a8e"
   },
   "ko": {
+    "Assets_MediaLocalization_HowItWorks": "306c186b446ee33737760b5141c4682d",
+    "Assets_MediaLocalization_Modes": "a46a095e24e785fcbf34015467bc25d9",
+    "Assets_MediaLocalization_Tips": "7504ce1fb1209e91da03e44abd718e75",
     "a_faq_addressables_1": "50d3f12e1390c735b6e59ac4ccbabb9a",
     "a_faq_addressables_2": "b5ae09cceede48055863de0caa8b96dc",
     "a_faq_addressables_3": "1d4d0ed87b74ed48acb32e88c7f303b8",
@@ -4464,6 +4482,9 @@
     "warning_tms_overwrite": "89947ff1556751c9d2e652fb23819a8e"
   },
   "pl": {
+    "Assets_MediaLocalization_HowItWorks": "306c186b446ee33737760b5141c4682d",
+    "Assets_MediaLocalization_Modes": "a46a095e24e785fcbf34015467bc25d9",
+    "Assets_MediaLocalization_Tips": "7504ce1fb1209e91da03e44abd718e75",
     "a_faq_addressables_1": "50d3f12e1390c735b6e59ac4ccbabb9a",
     "a_faq_addressables_2": "b5ae09cceede48055863de0caa8b96dc",
     "a_faq_addressables_3": "1d4d0ed87b74ed48acb32e88c7f303b8",
@@ -4832,6 +4853,12 @@
     "li_localizedtext_3": "cd64ce31da4bc0da548e5d785a8a46ee",
     "li_localizedtext_key_override": "58e1097acd7bce06dc609f64fa4807d6",
     "li_localizedtext_search_key": "f83334a1856e09b9e320c3d4c7c97c50",
+    "li_media_1": "1d5da47978677352cd5977ca1866d759",
+    "li_media_2": "e174a0d9b88729c2b372552469d88abd",
+    "li_media_3": "38eaf371c9b9347ff52d9cafe0952449",
+    "li_media_4": "373489655253e597c04cbb9b936f0db9",
+    "li_media_5": "3c32d4c37cc46549eb01691f6db17280",
+    "li_media_6": "8f015ead026847a22ae9b9f10e8a29f1",
     "li_migration_csv_details_1": "3f8ab05eefb1fc565d675e5f096af391",
     "li_migration_csv_details_2": "e41c0dff4dcd06205a2609e59cf61014",
     "li_migration_csv_req_1": "cbb6fe56b0691067ca572dfa35e508d9",
@@ -4881,7 +4908,7 @@
     "li_preview_overlay_2": "9276c88aaaf555764819803de2cd936c",
     "li_pseudo_tool_settings": "e15ae66ce054c8b159ce13c7d61ca0e0",
     "li_pseudo_tool_setup": "ecb56c1eb0ae98f477d08f7f657c4ebc",
-    "li_report_1": "993c9feec7c1ae06f57e37a835372e27",
+    "li_report_1": "41cb9db0acc035e685f4296fa7cf2aa4",
     "li_report_2": "a4b5a24136454789cf3d0ec67e165a3d",
     "li_report_all_keys": "ca1c00d6e70034b1556669d02e7562c8",
     "li_report_btn_clear": "9b2ee9cde9caf8db0516c4424b8a51c9",
@@ -4931,6 +4958,8 @@
     "li_setup_5": "3a09fef7d1d42c00214d31fb8fccf8ba",
     "li_sidebar_presets": "67dbe4e0c4083f0ab2fc698898175d73",
     "li_sidebar_search": "32d238477822a2ffa58ab84f9e2096c6",
+    "li_stale_1": "6484050f1225acac20d4c931c83ea570",
+    "li_stale_2": "06f1cfc6598f11559ee664909563b0bf",
     "li_test_center_caps": "86ab71ff3dc68871aa59e602585896e2",
     "li_test_center_warning": "f2fd49845c46ac231b141a0b36843f95",
     "li_tms_crowdin": "8f4b036d0bae4f1e8b10b4082e4ad7cb",
@@ -5069,6 +5098,7 @@
     "p_api_snippets_intro": "4fd7d54a58aade1508731fd97d75979c",
     "p_assets_1": "ce6e821f53489c5184cef8d07cd3e517",
     "p_async_api": "9c6e6f0606890eb2356ffef5396f0329",
+    "p_auto_font_baking": "58dd6d7fd6c43de13b2346e188af8143",
     "p_bridge_description": "0703f973ae34401063f81faf6c2aae2b",
     "p_bridge_usage_title": "2bd483800abd671e071aa9a50962aed1",
     "p_components_intro": "44625dd1c926a17c80cea5f9bf77ef54",
@@ -5096,6 +5126,7 @@
     "p_localizeddropdown_1": "cb5fa36a81cbff4db2c8cc9a0a865cc7",
     "p_localizedprefab_1": "7a8cb9ecaecabdae7f061cf366d77f3b",
     "p_localizedtext_1": "77f399cde0a0645e22976d5c669c9580",
+    "p_media_intro": "1dfcb461e2d6d7b7716e443ae0e4e1af",
     "p_migration_custom": "33658370f576255488fd92da5d8f8633",
     "p_migration_custom_advanced": "89ec3355516e26c44068067a46af8336",
     "p_migration_google_sheet": "893f1b771c5ab7a954d736b7b0352ce7",
@@ -5115,6 +5146,7 @@
     "p_script_parsing_rules_description": "401870911509dedf3928bac7be8d8247",
     "p_script_parsing_rules_usage": "04426723a0b6103edcbbd26d3aa6a756",
     "p_settings_1": "706b669d4f0bd0c483bec0261c1d9fd1",
+    "p_stale_status": "2a2a72d54d006de4d2ac98f7e1ce7280",
     "p_test_center": "22e7f5e91170c64bb72f7d280378bfa3",
     "p_tms_intro": "dd79b71d6f143aa05835c6215c970630",
     "p_tms_setup": "e13e5248d95e718c10b468bd55114885",
@@ -5156,6 +5188,11 @@
     "q_faq_installation_3": "c1d56cba36a38c777dcad228e06c5a39",
     "q_faq_installation_4": "48a81cdba56df20c4d6cb40dd9e66404",
     "q_faq_installation_5": "15bf5eedba4eb7a2a117281026c82ff3",
+    "q_faq_media_1": "8ae0e03e97fb3a93d300bbdedb40a49d",
+    "q_faq_media_2": "97d0227640d9f5a4687fdfb915007b21",
+    "q_faq_media_3": "26f6e933b667bdd80d08a5d128036fe8",
+    "q_faq_media_4": "c875082b8af0492312df3406bbe4a900",
+    "q_faq_media_5": "cc43fc3864b1e5e5cf98355d6d9392cf",
     "q_faq_notes_1": "f8544200b787f6f7c210c9732df1c14d",
     "q_faq_notes_2": "7d0bda836b28d448b5e01bcb85e28942",
     "q_faq_notes_3": "410963a2e390644ddf29168a76aec32c",
@@ -5192,6 +5229,9 @@
     "warning_tms_overwrite": "89947ff1556751c9d2e652fb23819a8e"
   },
   "pt": {
+    "Assets_MediaLocalization_HowItWorks": "306c186b446ee33737760b5141c4682d",
+    "Assets_MediaLocalization_Modes": "a46a095e24e785fcbf34015467bc25d9",
+    "Assets_MediaLocalization_Tips": "7504ce1fb1209e91da03e44abd718e75",
     "a_faq_addressables_1": "50d3f12e1390c735b6e59ac4ccbabb9a",
     "a_faq_addressables_2": "b5ae09cceede48055863de0caa8b96dc",
     "a_faq_addressables_3": "1d4d0ed87b74ed48acb32e88c7f303b8",
@@ -5936,6 +5976,9 @@
     "warning_tms_overwrite": "89947ff1556751c9d2e652fb23819a8e"
   },
   "ru": {
+    "Assets_MediaLocalization_HowItWorks": "306c186b446ee33737760b5141c4682d",
+    "Assets_MediaLocalization_Modes": "a46a095e24e785fcbf34015467bc25d9",
+    "Assets_MediaLocalization_Tips": "7504ce1fb1209e91da03e44abd718e75",
     "a_faq_addressables_1": "50d3f12e1390c735b6e59ac4ccbabb9a",
     "a_faq_addressables_2": "b5ae09cceede48055863de0caa8b96dc",
     "a_faq_addressables_3": "1d4d0ed87b74ed48acb32e88c7f303b8",
@@ -6680,6 +6723,9 @@
     "warning_tms_overwrite": "89947ff1556751c9d2e652fb23819a8e"
   },
   "uk": {
+    "Assets_MediaLocalization_HowItWorks": "306c186b446ee33737760b5141c4682d",
+    "Assets_MediaLocalization_Modes": "a46a095e24e785fcbf34015467bc25d9",
+    "Assets_MediaLocalization_Tips": "7504ce1fb1209e91da03e44abd718e75",
     "a_faq_addressables_1": "50d3f12e1390c735b6e59ac4ccbabb9a",
     "a_faq_addressables_2": "b5ae09cceede48055863de0caa8b96dc",
     "a_faq_addressables_3": "1d4d0ed87b74ed48acb32e88c7f303b8",
@@ -7424,6 +7470,9 @@
     "warning_tms_overwrite": "89947ff1556751c9d2e652fb23819a8e"
   },
   "zh": {
+    "Assets_MediaLocalization_HowItWorks": "306c186b446ee33737760b5141c4682d",
+    "Assets_MediaLocalization_Modes": "a46a095e24e785fcbf34015467bc25d9",
+    "Assets_MediaLocalization_Tips": "7504ce1fb1209e91da03e44abd718e75",
     "a_faq_addressables_1": "50d3f12e1390c735b6e59ac4ccbabb9a",
     "a_faq_addressables_2": "b5ae09cceede48055863de0caa8b96dc",
     "a_faq_addressables_3": "1d4d0ed87b74ed48acb32e88c7f303b8",

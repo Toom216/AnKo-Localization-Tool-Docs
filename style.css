@@ -608,6 +608,12 @@ body.mode-patch-notes #view-advanced {
     }
 }
 
+.media-doc-block {
+    white-space: pre-wrap;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
 /* ==========================================================================
    Rest of the Layout Styles
    ========================================================================== */
