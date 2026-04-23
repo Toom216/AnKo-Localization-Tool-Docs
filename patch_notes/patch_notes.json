@@ -1,6 +1,11 @@
 {
     "patch_notes": [
         {
+            "version": "2.1",
+            "title": "Media Localization Patch Notes",
+            "content": "<h3>Added</h3><ul><li><strong>Media Localization Beta</strong>: AI-powered image localization system (Vision AI + Generative AI. img2text, img2img).</li><li><strong>AI Caching</strong>: Persistent caching of asset analysis metadata to save tokens.</li><li><strong>Auto-Font Baking</strong>: Automatic fallback font generation for TMPro based on missing characters.</li><li><strong>Stale Status</strong>: Tracking and filtering of stale translations via Source Hash validation.</li></ul><h3>Fixed</h3><ul><li><strong>Gemini Integration</strong>: Fixed Gemini API request paths.</li><li><strong>Placeholder Handling</strong>: Improved XML/HTML escaping for DeepL, Google, and Microsoft providers.</li><li><strong>Memory Management</strong>: Fixed memory leaks during texture processing and RenderTexture disposal.</li><li><strong>Draft Overwriting</strong>: Unique paths for localized asset drafts to prevent collisions.</li><li><strong>DeepL API</strong>: Dynamic switching between Free and Pro endpoints based on API key.</li></ul><h3>Improved</h3><ul><li><strong>Refined Media UI</strong>: Compact header with collapsible tips and adaptive detail panel.</li><li><strong>CSV Service</strong>: Automatic delimiter detection and intelligent header mapping.</li><li><strong>Scan Logic</strong>: Enhanced key migration logic and preservation of existing user comments.</li></ul>"
+        },
+        {
             "version": "2.0.3",
             "title": "Markdown Export & DeepSeek AI Presets",
             "content": "<h3>New Features</h3><ul><li>Added a Markdown export processor for localization data.</li><li>Added a global translation progress bar for the entire project.</li><li>Added a DeepSeek AI preset for translation profiles.</li></ul><h3>Improvements</h3><ul><li>Implemented a multi-column table for the import preview interface.</li><li>Optimized the import preview window (Migration Tool).</li><li>Converted file processing and import operations to asynchronous execution.</li><li>Added a preset generation button when standard profiles are missing.</li></ul><h3>Bug Fixes</h3><ul><li>Fixed an issue where the source language could be overwritten with empty values during import.</li></ul>"

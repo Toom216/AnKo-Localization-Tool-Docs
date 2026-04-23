@@ -1,0 +1,8 @@
+# Set default behavior to handle line endings automatically.
+* text=auto
+
+# Ensure that certain files always use LF (good for web assets)
+*.html text
+*.css text
+*.js text
+*.json text
